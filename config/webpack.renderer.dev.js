@@ -27,11 +27,17 @@ const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
 
 const APP_ENTRY = helpers.getAppEntry();
 
+const MSKS = {
+    uri: `ws://localhost:8080/peripheral`,
+    namespace: 'peripheral'
+}
+
 const METADATA = webpackMerge(commonConfig({ env: ENV, entry: APP_ENTRY }).metadata, {
     host: HOST,
     port: PORT,
     ENV: ENV,
     HMR: HMR,
+    MSKS: MSKS,
 
     title: packagejson.description,
     baseUrl: helpers.getBaseUrl(),
@@ -197,7 +203,8 @@ module.exports = function (options) {
                     'HMR': METADATA.HMR,
                     'TARGET': helpers.isWebpackDevServer() ? JSON.stringify('web') : JSON.stringify('electron-renderer'),
                 },
-                'API_ROOT': METADATA.API_ROOT
+                'API_ROOT': METADATA.API_ROOT,
+                'MSKS': JSON.stringify(MSKS)
             })
         ],
 

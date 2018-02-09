@@ -7,6 +7,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { AppState } from './app.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * App Component
@@ -15,7 +16,7 @@ import { AppState } from './app.service';
 @Component({
   selector: 'sc2-app',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [],
+  styleUrls: [ './app.component.css' ],
   template: `
     <main>
       <router-outlet></router-outlet>
@@ -25,6 +26,11 @@ import { AppState } from './app.service';
 })
 export class AppComponent {
 
-  constructor() { }
+  constructor(private translate: TranslateService) {
+    this.translate.addLangs(['en-US', 'zh-CN', 'zh-HK']);
+    this.translate.setDefaultLang('en-US');
+    const browserLang: string = this.translate.getBrowserLang();
+    this.translate.use(browserLang.match(/en-US|zh-HK/) ? browserLang : 'en-US');
+   }
 
 }
