@@ -37,6 +37,11 @@ import '../styles/_style.scss';
 
 import './jquery';
 import './electron';
+import { Page1Component } from '../app/scn-gen-001/scn-gen-001.component';
+import { Page2Component } from '../app/scn-gen-002/scn-gen-002.component';
+import { Page5Component } from '../app/scn-gen-005/scn-gen-005.component';
+
+import { TimerComponent } from '../app/shared/sc2-timer'
 
 // import { StepsModule } from './steps/steps.module'
 
@@ -63,6 +68,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
+    Page1Component,
+    Page2Component,
+    Page5Component,
+    TimerComponent,
     NoContentComponent,
   ],
   /**
