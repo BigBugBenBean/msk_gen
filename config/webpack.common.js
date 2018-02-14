@@ -13,6 +13,7 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
 const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = function (options) {
 
@@ -143,17 +144,27 @@ module.exports = function (options) {
                  */
                 {
                     test: /\.html$/,
-                    use: 'raw-loader',
-                    exclude: [helpers.root('src/index.html')]
+                    // use: 'raw-loader',
+                    // exclude: [helpers.root('src/index.html')]
+					use: [
+                        {
+                            loader: 'html-loader',
+                            options: {
+                                ignoreCustomFragments: [/\{\{.*?}}/],
+                                root: path.resolve(__dirname, 'assets'),
+                                attrs: ['img:src', 'link:href', 'input:src', 'source:src']
+                            }
+                        }
+                    ]
                 },
 
                 /**
                  * File loader for supporting images, for example, in CSS files.
                  */
                 {
-                    test: /\.(jpg|png|gif)$/,
+                    test: /\.(jpg|png|gif|mp4)$/,
                     use: 'file-loader',
-                    exclude: [helpers.root('src','icons')]
+                    exclude: [helpers.root('src', 'icons')]
                 },
 
                 /* File loader for supporting fonts, for example, in CSS files.
@@ -198,7 +209,10 @@ module.exports = function (options) {
                 $: 'jquery',
                 jQuery: 'jquery'
             }),
-
+			new CopyWebpackPlugin([{
+                from: 'src/assets',
+                to: 'assets'
+            }]),
         ],
     };
 

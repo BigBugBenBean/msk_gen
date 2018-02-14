@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   NgModule,
   ApplicationRef
@@ -14,6 +14,7 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
+import 'hammerjs';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -29,9 +30,20 @@ import { NoContentComponent } from './no-content';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import '../styles/_style.scss';
 
 import './jquery';
+import './electron';
+import { Page1Component } from '../app/scn-gen-001/scn-gen-001.component';
+import { Page2Component } from '../app/scn-gen-002/scn-gen-002.component';
+import { Page5Component } from '../app/scn-gen-005/scn-gen-005.component';
+
+import { TimerComponent } from '../app/shared/sc2-timer'
+
+// import { StepsModule } from './steps/steps.module'
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -48,11 +60,18 @@ interface StoreType {
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     HomeComponent,
+    Page1Component,
+    Page2Component,
+    Page5Component,
+    TimerComponent,
     NoContentComponent,
   ],
   /**
@@ -61,9 +80,15 @@ interface StoreType {
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
-
+    TranslateModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

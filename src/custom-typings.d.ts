@@ -135,3 +135,10 @@ interface Global extends GlobalEnvironment  {}
 interface JQuery {
   jsonViewer(data: any): JQuery;
 }
+
+declare var MSKS: Msks;
+
+interface Msks {
+  uri: string;
+  namespace: string;
+}

@@ -35,11 +35,13 @@ function resourcePath(oripath, resource){
 }
 
 function getAppEntry(){
-  return isWebpackDevServer()? '': 'devbox';
+  // return isWebpackDevServer()? '': 'devbox';
+  return isWebpackDevServer()? '': 'kgen';
 }
 
 function getBaseUrl(){
-  return isWebpackDevServer()?'/msks':'./';
+  // return isWebpackDevServer()?'/msks':'./';
+  return isWebpackDevServer()?'/': '';
 }
 
 var root = path.join.bind(path, ROOT);
