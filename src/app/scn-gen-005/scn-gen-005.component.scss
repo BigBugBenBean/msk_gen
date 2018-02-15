@@ -6,58 +6,52 @@
 
 .mainBG {
     position: absolute;
-    top: 190px;
+    top: 110px;
     left: 60px;
+    background-color: #DEFAED;
+    width: 1160px;
+    height: 815px;
+    box-shadow: 1px 1px #ACC2B8;
 }
-
 .mainLabel {
     position: absolute;
-    top: 243.5px;
+    top: 133.5px;
     color: #333333;
     font-weight: bold;
     font-size: 44px;
     left: 372px;
 }
 
-.imgButton1 {
+.firstLeft {
     position: absolute;
-    top: 341.5px;
     left: 132px;
 }
 
-.imgButton2 {
+.secondLeft {
     position: absolute;
-    top: 341.5px;
     left: 489px;
 }
 
-.imgButton3 {
+.thirdLeft {
     position: absolute;
-    top: 341.5px;
     left: 847px;
 }
 
-.imgButton4 {
-    position: absolute;
-    top: 587.5px;
-    left: 132px;
+.firstTop {
+    top: 206.5px;
 }
 
-.imgButton5 {
-    position: absolute;
-    top: 587.5px;
-    left: 489px;
+.secondTop {
+    top: 451.5px;
 }
 
-.imgButton6 {
-    position: absolute;
-    top: 587.5px;
-    left: 847px;
+.thirdTop {
+    top: 697.5px;
 }
 
 .backButton {
     position: absolute;
-    top: 885px;
+    top: 940px;
     left: 60px;
 }
 
@@ -65,7 +59,7 @@
 .buttonDiv1 {
     position: absolute;
     left: 142px;
-    top: 371px;
+    top: 256px;
     width: 281px;
     font-size: 26px;
     color: white;
@@ -76,7 +70,7 @@
 .buttonDiv2 {
     position: absolute;
     left: 497px;
-    top: 381px;
+    top: 266px;
     width: 291px;
     font-size: 26px;
     color: white;
@@ -87,7 +81,7 @@
 .buttonDiv3 {
     position: absolute;
     left: 852px;
-    top: 401px;
+    top: 276px;
     width: 291px;
     font-size: 26px;
     color: white;
@@ -99,7 +93,7 @@
 .buttonDiv4 {
     position: absolute;
     left: 142px;
-    top: 611px;
+    top: 481px;
     width: 281px;
     font-size: 26px;
     color: white;
@@ -110,7 +104,7 @@
 .buttonDiv5 {
     position: absolute;
     left: 497px;
-    top: 631px;
+    top: 491px;
     width: 291px;
     font-size: 26px;
     color: white;
@@ -121,7 +115,7 @@
 .buttonDiv6 {
     position: absolute;
     left: 852px;
-    top: 651px;
+    top: 521px;
     width: 291px;
     font-size: 26px;
     color: white;
