@@ -1,0 +1,17 @@
+<div class="mainPanel">
+    <img class="buttonLan" src="../../../assets/images/button_lan_tc .png"/>
+        <sc2-timer class="timer"></sc2-timer>
+    <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
+    <div class="mainBG"></div>
+    <label class="mainLabel"> Please select the service category. </label>
+    <span>
+        <sc2-menu-button *ngFor="let mi of menuitems"
+            index="{{mi.index}}" chiname="{{mi.chiname}}" engname="{{mi.engname}}"
+            menukey="{{mi.menukey}}" iconpath="{{mi.iconpath}}" [app]="mi.app"
+            haschild="{{mi.haschild}}"></sc2-menu-button>
+    </span>
+
+
+    <label class="footerFirst">SCN-GEN-002-1</label>
+
+</div>

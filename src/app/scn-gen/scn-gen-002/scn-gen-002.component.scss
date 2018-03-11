@@ -1,0 +1,51 @@
+.buttonLan {
+    position: absolute;
+    right: 59px;
+    top: 25px;
+}
+
+.mainBG {
+    position: absolute;
+    top: 110px;
+    left: 60px;
+    background-color: #DEFAED;
+    width: 1160px;
+    height: 815px;
+    box-shadow: 1px 1px #ACC2B8;
+}
+
+.mainLabel {
+    position: absolute;
+    top: 133.5px;
+    color: #333333;
+    font-weight: bold;
+    font-size: 44px;
+    left: 302px;
+}
+
+
+
+
+.backButton {
+    position: absolute;
+    top: 940px;
+    left: 60px;
+}
+
+.timer {
+    position:absolute;
+    right: 128.5px;
+    padding: 0;
+    margin: 0;
+}
+
+.buttonDiv1 {
+    position: absolute;
+    left: 142px;
+    top: 256px;
+    width: 281px;
+    font-size: 26px;
+    color: white;
+    line-height: 30px;
+    text-align: center;
+}

@@ -1,0 +1,20 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    appname: "ksck"
+
+  tasks:
+
+    - name: Create .htaccess to remote server
+      template:
+        src: ".htaccess.j2"
+        dest: "{{basedir}}/dist/.htaccess"
+
+    - name: Archive dist artificats
+      archive:
+        path: "{{basedir}}/dist"
+        format: zip
+        dest: "{{basedir}}/dist/{{appname}}.zip"
