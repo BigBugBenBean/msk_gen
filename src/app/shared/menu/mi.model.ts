@@ -1,7 +1,6 @@
 import { MsksApp } from '.';
 
 export class MenuItem {
-    public iconpath: string;
     public chiname: string;
     public engname: string;
 
@@ -10,4 +9,7 @@ export class MenuItem {
     public app?: MsksApp;
     public child?: MenuItem[];
     public service?: string;
+
+    public iconpathen: string;
+    public iconpathchi: string;
 }

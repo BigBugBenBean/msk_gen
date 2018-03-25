@@ -24,7 +24,10 @@ export class MenuButtonComponent implements AfterContentInit {
     public engname: string;
 
     @Input()
-    public iconpath: string;
+    public iconpathen: string;
+
+    @Input()
+    public iconpathchi: string;
 
     @Input()
     public menukey: string;
@@ -48,18 +51,24 @@ export class MenuButtonComponent implements AfterContentInit {
         private msks: MsksService) { }
 
     ngAfterContentInit() {
+        this.type = this.iconpathen || this.iconpathchi ? 'image' : 'text';
+
         if (this.translate.currentLang === 'zh-HK') {
             this.label = this.chiname;
+            if (this.type === 'image') {
+                const image = this.getImage(this.iconpathchi);
+                this.imgsrc = image ? image : require('../../../assets/images/button_6.png');
+            }
         } else {
             this.label = this.engname;
+            if (this.type === 'image') {
+                const image = this.getImage(this.iconpathen);
+                this.imgsrc = image ? image : require('../../../assets/images/button_6.png');
+            }
         }
 
-        this.type = this.iconpath ? 'image' : 'text';
-
-        this.imgsrc = require('../../../assets/images/button_2.png');
-
         console.log('menukey', this.menukey);
-        console.log('iconpath', this.iconpath);
+        console.log('iconpathen', this.iconpathen);
         console.log('app', this.app);
         console.log('haschild', this.haschild);
     }
@@ -156,22 +165,36 @@ export class MenuButtonComponent implements AfterContentInit {
     }
 
     public onClick($event) {
+
+        console.log('mibutton clicked');
+
         if (this.haschild === 'true') {
             this.router.navigate(['/scn-gen/gen002', this.menukey]);
             return;
         } else if (!this.app) {
             console.warn('Miss configuration missing msksapp', this.menukey);
         }
-        console.log(this.app.type === AppType.WEB);
+        console.log(this.app.type, 'isWeb?', this.app.type === AppType.WEB);
         switch (this.app.type) {
             case AppType.APPLICATION:
 
-            this.msks.sendRequest('RR_LAUNCHER', 'launch', {
-                exemode: 'execfile',
-                cmdfile: this.app.path,
-                cwd: this.app.cwd
-            }, 'PGC').subscribe();
-            break;
+                this.msks.sendRequest('RR_LAUNCHER', 'launch', {
+                    exemode: 'execfile',
+                    cmdfile: this.app.path,
+                    cwd: this.app.cwd
+                }, 'PGC').subscribe();
+                break;
+        }
+    }
+
+    private getImage(imgpath: string) {
+        const str = sessionStorage.getItem(imgpath);
+
+        if (str) {
+            const json = JSON.parse(str);
+            return `data:${json['mime-type']};base64,${json['content']}`;
+        } else {
+            return '';
         }
     }
 }

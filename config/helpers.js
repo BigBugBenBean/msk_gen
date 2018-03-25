@@ -35,7 +35,8 @@ function resourcePath(oripath, resource){
 }
 
 function getAppEntry(){
-  return isWebpackDevServer()? '': 'ksck';
+  // return isWebpackDevServer()? '': 'devbox';
+  return isWebpackDevServer()? '': 'kgen';
 }
 
 function getBaseUrl(){

@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import 'rxjs/add/operator/do';
 import { HttpClient } from '@angular/common/http';
 
 import { MsksApp, AppType } from './msksapp.model';
 import { MenuItem } from './mi.model';
-
+import { MsksService } from '../msks';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class MenuService {
@@ -18,7 +20,9 @@ export class MenuService {
     private menuitems: Array<MenuItem>;
     private initaldata: any;
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private msks: MsksService) { }
 
     public getLv1Timeout(): Observable<number> {
         if (this.initilize) {
@@ -67,7 +71,7 @@ export class MenuService {
                 this.menuitems.forEach((mi) => {
                     if (mi.menukey === lv1key) {
                         console.log(mi.child);
-                            child = mi.child;
+                        child = mi.child;
                     }
                 });
                 return Observable.of(child);
@@ -113,7 +117,10 @@ export class MenuService {
 
                 mi.chiname = elm['name_chi'];
                 mi.engname = elm['name_eng'];
-                mi.iconpath = elm['icon_path'];
+
+                mi.iconpathen = elm['icon_path_en'];
+                mi.iconpathchi = elm['icon_path_chi'];
+
                 mi.menukey = elm['lv1_menu_key'];
 
                 if (elm['lv2_menu_service_channel']) {
@@ -127,8 +134,10 @@ export class MenuService {
                         const cmi = new MenuItem();
                         cmi.chiname = lv2['name_chi'];
                         cmi.engname = lv2['name_eng'];
-                        cmi.iconpath = lv2['icon_path'];
                         cmi.menukey = lv2['lv2_menu_key'];
+
+                        cmi.iconpathen = lv2['icon_path_en'];
+                        cmi.iconpathchi = lv2['icon_path_chi'];
 
                         cmi.app = this.appmap.get(lv2['app_key']);
                         child.push(cmi);
@@ -155,20 +164,77 @@ export class MenuService {
             return Observable.of(undefined);
         } else {
             return Observable.create((observer) => {
-                this.http.get(`${API_TERMINAL}/terminal/msksgen`).subscribe((resp) => {
-                    this.initMsksAppMap(resp['msksgen']);
-                    this.initilizeMenuItem(resp['msksgen']);
-                    this.lv1timeout = resp['msksgen']['lvl_timeout'];
-                    this.lv2timeout = resp['msksgen']['lv2_timeout'];
-                    sessionStorage.setItem('MSKS_GEN_DATA', JSON.stringify({
-                        appmap: this.appmap,
-                        menuitems: this.menuitems,
-                        lv1timeout: this.lv1timeout,
-                        lv2timeout: this.lv2timeout
-                    }));
-                    this.initilize = true;
-                    observer.next();
-                });
+                this.http.get(`${API_TERMINAL}/terminal/msksgen`)
+                    .switchMap((resp) => {
+                        this.initMsksAppMap(resp['msksgen']);
+                        this.initilizeMenuItem(resp['msksgen']);
+                        this.lv1timeout = resp['msksgen']['lvl_timeout'];
+                        this.lv2timeout = resp['msksgen']['lv2_timeout'];
+                        sessionStorage.setItem('MSKS_GEN_DATA', JSON.stringify({
+                            appmap: this.appmap,
+                            menuitems: this.menuitems,
+                            lv1timeout: this.lv1timeout,
+                            lv2timeout: this.lv2timeout
+                        }));
+                        this.initilize = true;
+                        return Observable.of(this.menuitems)
+                    })
+                    .switchMap((menuitems: MenuItem[]) => {
+                        const arr = new Array<Observable<any>>();
+                        const paths = new Array<string>();
+
+                        for (const i in menuitems) {
+                            if (menuitems[i]) {
+                                const mi = menuitems[i];
+                                console.log('p1', mi);
+
+                                if (mi.iconpathen && paths.indexOf(mi.iconpathen) === -1) {
+                                    paths.push(mi.iconpathen);
+                                }
+                                if (mi.iconpathchi && paths.indexOf(mi.iconpathchi) === -1) {
+                                    paths.push(mi.iconpathchi);
+                                }
+
+                                if (mi.child) {
+                                    const child = mi.child;
+                                    for (const j in child) {
+                                        if (child[j]) {
+                                            if (child[j].iconpathen && paths.indexOf(child[j].iconpathen) === -1) {
+                                                paths.push(child[j].iconpathen);
+                                            }
+
+                                            if (child[j].iconpathchi && paths.indexOf(child[j].iconpathchi) === -1) {
+                                                paths.push(child[j].iconpathchi);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        for (const i in paths) {
+                            if (paths[i]) {
+                                arr.push(this.msks.sendRequest('RR_FILESYSTEM', 'getResource', {
+                                    'path': paths[i]
+                                }));
+                            }
+                        }
+
+                        return Observable.forkJoin(arr);
+                    })
+                    .do((resources: any[]) => {
+                        for (const i in resources) {
+                            if (resources[i]) {
+                                console.log(resources[i]. path);
+                                if (!resources[i].error) {
+                                    sessionStorage.setItem(resources[i]. path, JSON.stringify(resources[i]));
+                                }
+                            }
+                        }
+                    })
+                    .subscribe((resp) => {
+                        observer.next();
+                    });
             });
         }
     }
