@@ -1,6 +1,6 @@
 <span [ngSwitch]="type">
     <ng-template ngSwitchCase="image">
-        <input type="image" [ngClass]="getBtnClasses()"  [src]="imgsrc" title="{{iconpath}}"
+        <input type="image" [ngClass]="getBtnClasses()"  [src]="imgsrc"
             (click)="onClick($event)"/>
     </ng-template>
     <ng-template ngSwitchCase="text">
