@@ -1,5 +1,5 @@
 import { Component, Input, AfterContentInit, ChangeDetectionStrategy } from '@angular/core';
-import { MsksApp, AppType } from '.';
+import { MsksApp, AppType, MenuService } from '.';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from './mi.model';
 import { Router } from '@angular/router';
@@ -48,7 +48,8 @@ export class MenuButtonComponent implements AfterContentInit {
 
     constructor(private translate: TranslateService,
         private router: Router,
-        private msks: MsksService) { }
+        private msks: MsksService,
+        private menusrv: MenuService) { }
 
     ngAfterContentInit() {
         this.type = this.iconpathen || this.iconpathchi ? 'image' : 'text';
@@ -66,11 +67,6 @@ export class MenuButtonComponent implements AfterContentInit {
                 this.imgsrc = image ? image : require('../../../assets/images/button_6.png');
             }
         }
-
-        console.log('menukey', this.menukey);
-        console.log('iconpathen', this.iconpathen);
-        console.log('app', this.app);
-        console.log('haschild', this.haschild);
     }
 
     getBtnClasses() {
@@ -166,15 +162,16 @@ export class MenuButtonComponent implements AfterContentInit {
 
     public onClick($event) {
 
-        console.log('mibutton clicked');
-
         if (this.haschild === 'true') {
-            this.router.navigate(['/scn-gen/gen002', this.menukey]);
+            if (this.service) {
+                this.router.navigate(['/scn-gen/gen002', this.menukey, this.service]);
+            } else {
+                this.router.navigate(['/scn-gen/gen002', this.menukey]);
+            }
             return;
         } else if (!this.app) {
             console.warn('Miss configuration missing msksapp', this.menukey);
         }
-        console.log(this.app.type, 'isWeb?', this.app.type === AppType.WEB);
         switch (this.app.type) {
             case AppType.APPLICATION:
 

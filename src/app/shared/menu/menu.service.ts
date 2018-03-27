@@ -46,22 +46,18 @@ export class MenuService {
 
     public getMenuItems(lv1key?: string): Observable<MenuItem[]> {
 
-        console.log('initilize', this.initilize);
-
         if (!this.initilize) {
             return this.getData().switchMap(() => {
                 if (lv1key) {
                     let child = [];
                     this.menuitems.forEach((mi) => {
                         if (mi.menukey === lv1key) {
-                            console.log(mi.child);
                             child = mi.child;
                         }
                     });
                     return Observable.of(child);
 
                 } else {
-                    console.log('getMenu', this.menuitems);
                     return Observable.of(this.menuitems);
                 }
             });
@@ -70,7 +66,6 @@ export class MenuService {
                 let child = [];
                 this.menuitems.forEach((mi) => {
                     if (mi.menukey === lv1key) {
-                        console.log(mi.child);
                         child = mi.child;
                     }
                 });
@@ -186,8 +181,6 @@ export class MenuService {
                         for (const i in menuitems) {
                             if (menuitems[i]) {
                                 const mi = menuitems[i];
-                                console.log('p1', mi);
-
                                 if (mi.iconpathen && paths.indexOf(mi.iconpathen) === -1) {
                                     paths.push(mi.iconpathen);
                                 }
@@ -225,7 +218,6 @@ export class MenuService {
                     .do((resources: any[]) => {
                         for (const i in resources) {
                             if (resources[i]) {
-                                console.log(resources[i]. path);
                                 if (!resources[i].error) {
                                     sessionStorage.setItem(resources[i]. path, JSON.stringify(resources[i]));
                                 }

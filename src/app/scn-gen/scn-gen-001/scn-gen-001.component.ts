@@ -14,7 +14,6 @@ export class Page1Component {
 
     nextRoute(locale: string) {
         this.translate.use(locale).subscribe((e) => {
-            console.log('after update locale', e);
             this.router.navigate(['/scn-gen/gen002']);
         });
     }
