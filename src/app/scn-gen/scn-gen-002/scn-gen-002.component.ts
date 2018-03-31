@@ -1,5 +1,5 @@
-import { Component, AfterContentInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, AfterContentInit, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { MenuService } from '../../shared/menu';
@@ -12,9 +12,11 @@ import { MsksService } from '../../shared/msks';
     styleUrls: ['./scn-gen-002.component.scss']
 })
 
-export class Page2Component implements AfterContentInit {
+export class Page2Component implements OnInit {
 
     public menuitems = new Array<any>();
+
+    private paramMap: any;
 
     constructor(private router: Router,
         private menusrv: MenuService,
@@ -26,38 +28,39 @@ export class Page2Component implements AfterContentInit {
         this.router.navigate([next]);
     }
 
-    ngAfterContentInit() {
+    ngOnInit() {
+        this.menuitems.length = 0;
+
+        let param;
+
         this.route.paramMap.switchMap((params) => {
-            this.menuitems.length = 0;
-            if (params.get('id')) {
-                return Observable.forkJoin(Observable.of(params.get('srv')), this.menusrv.getMenuItems(params.get('id')));
+            param = {
+                id: params.get('id'),
+                srv: params.get('srv')
+            };
+            return params.has('id') ? this.menusrv.getMenuItems(params.get('id')) : this.menusrv.getMenuItems();
+        }).switchMap((mi: MenuItem[]) => {
+            if (param.srv) {
+                return this.msks.sendRequest(param.srv, 'getLv2Menu', mi) as Observable<MenuItem[]>;
             } else {
-                return Observable.forkJoin(Observable.of(params.get('srv')), this.menusrv.getMenuItems());
-            }
-        }).switchMap((resp) => {
-            if (resp[0]) {
-                return this.msks.sendRequest(resp[0], 'getLv2Menu', resp[1])
-            } else {
-                return Observable.of(resp[1]);
+                return Observable.of(mi);
             }
         }).subscribe((resp) => {
-            if (Array.isArray(resp) && resp.length) {
-                const menu = resp as MenuItem[];
-                let index = 1;
-                menu.forEach((mi) => {
-                    const obj = {
-                        ...mi
-                    };
-                    obj['index'] = index;
-                    obj['haschild'] = mi.child !== undefined;
-                    obj['menukey'] = mi.menukey;
-                    obj['service'] = mi.service;
-                    this.menuitems.push(obj);
-                    index++;
-                });
-            } else {
-                this.router.navigateByUrl('scn-gen/gen002');
-            }
+            const menu = resp as MenuItem[];
+            let index = 1;
+            menu.forEach((mi) => {
+                const obj = {
+                    ...mi
+                };
+                obj['index'] = index;
+                obj['haschild'] = mi.child !== undefined;
+                obj['menukey'] = mi.menukey;
+                obj['service'] = mi.service;
+                this.menuitems.push(obj);
+                index++;
+            });
+            // console.log(this.menuitems);
         });
     }
+
 }

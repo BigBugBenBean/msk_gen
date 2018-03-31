@@ -1,0 +1,31 @@
+ body {
+     margin: 0px;
+     min-height: 100%;
+     width: 100%;
+ }
+ iframe {
+     width: 100%;
+     min-height: 100%;
+     border: 0px;
+ }
+ #parent_iframeparent {
+     border: solid 1px #000;
+ }
+ #parent_iframeparent>.stick-on-iframe {
+     opacity: 0.3;
+     position: relative;
+     float: right;
+     right: 10px;
+     bottom: 45px;
+     transition: 0.5s;
+ }
+ #parent_iframeparent>.stick-on-iframe {
+     opacity: 1;
+ }
+ #parent_iframeparent>.stick-on-iframe>button {
+     margin-right: 5px;
+ }
+ .stop-scrolling {
+     height: 100%; overflow: hidden;
+ }
+

@@ -181,6 +181,9 @@ export class MenuButtonComponent implements AfterContentInit {
                     cwd: this.app.cwd
                 }, 'PGC').subscribe();
                 break;
+            case AppType.WEB:
+                this.router.navigate(['/scn-gen/iframe', this.app.path]);
+                break;
         }
     }
 
