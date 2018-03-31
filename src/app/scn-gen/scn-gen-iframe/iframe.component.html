@@ -1,7 +1,11 @@
 <div id="parent_iframeparent">
-    <iframe [src]="source" *ngIf="useWebView()"></iframe>
-    <webview [src]="source" *ngIf="useWebView()"></webview>
+
+    <webview [src]="webviewurl" *ngIf="iswebview; else useiframe" id="webview"></webview>
     <div class="stick-on-iframe">
         <button type="button" class="btn" (click)="navHome()">Home</button>
     </div>
 </div>
+
+<ng-template #useiframe>
+    <iframe [src]="iframurl"></iframe>
+</ng-template>

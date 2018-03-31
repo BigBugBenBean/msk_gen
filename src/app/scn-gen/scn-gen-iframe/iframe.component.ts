@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 
@@ -10,7 +10,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class IframeComponent implements OnInit {
 
-    public source: SafeResourceUrl;
+    public iframurl: SafeResourceUrl;
+    public webviewurl: SafeUrl;
+    public iswebview:boolean;
 
     constructor(
         private router: Router,
@@ -21,7 +23,12 @@ export class IframeComponent implements OnInit {
     ngOnInit() {
         this.route.paramMap.subscribe((map) => {
             console.log('map', map);
-            this.source = this.sanitizer.bypassSecurityTrustResourceUrl(map.get('url'));
+            this.iframurl = this.sanitizer.bypassSecurityTrustResourceUrl(map.get('url'));
+            this.webviewurl = map.get('url');
+            this.useWebView().subscribe((e) =>{
+                console.log('use webiew', e);
+                this.iswebview = e;
+            });
         });
     }
 
@@ -42,7 +49,7 @@ export class IframeComponent implements OnInit {
         this.router.navigate(['/scn-gen/gen002']);
     }
 
-    public useWebView() {
+    public useWebView(): Observable<boolean> {
         return Observable.create((observer: Observer<boolean>) =>{
             if (process.env.TARGET === 'electron-renderer') {
                 import('electron').then((electron) => {

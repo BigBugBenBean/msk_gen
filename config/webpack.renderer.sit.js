@@ -37,11 +37,13 @@ const METADATA = webpackMerge(commonConfig({ env: ENV, entry: APP_ENTRY }).metad
     port: PORT,
     ENV: ENV,
     HMR: HMR,
+    MSKS: MSKS,
 
     title: packagejson.description,
     baseUrl: helpers.getBaseUrl(),
     isDevServer: helpers.isWebpackDevServer(),
-    apiroot: '/msksapi'
+    apiroot: '/msksapi',
+    API_TERMINAL: 'http://localhost:8080'
 });
 
 module.exports = function (options) {
@@ -53,7 +55,7 @@ module.exports = function (options) {
             'main': AOT ? './src/main.browser.aot.ts' :
                 './src/main.browser.ts'
         },
-        target: 'web',
+        target: helpers.isWebpackDevServer() ? 'web' : 'electron-renderer',
         output: {
             /**
              * The output directory as absolute path (required).
@@ -61,8 +63,7 @@ module.exports = function (options) {
              * See: http://webpack.github.io/docs/configuration.html#output-path
              */
             path: path.join(helpers.root('dist'), APP_ENTRY),
-            filename: '[name].js',
-            publicPath: helpers.getBaseUrl()
+            filename: '[name].js'
         },
 
         module: {
@@ -201,12 +202,38 @@ module.exports = function (options) {
                     'ENV': JSON.stringify(METADATA.ENV),
                     'NODE_ENV': JSON.stringify(METADATA.ENV),
                     'HMR': METADATA.HMR,
-                    'TARGET': helpers.hasNpmFlag('sit') ? JSON.stringify('web') : JSON.stringify('electron-renderer'),
+                    'TARGET': helpers.isWebpackDevServer() ? JSON.stringify('web') : JSON.stringify('electron-renderer'),
                 },
                 'API_ROOT': METADATA.API_ROOT,
-                'MSKS': JSON.stringify(MSKS)
+                'MSKS': JSON.stringify(MSKS),
+                'API_TERMINAL': JSON.stringify(METADATA.API_TERMINAL)
             })
         ],
+
+        /**
+         * Webpack Development Server configuration
+         * Description: The webpack-dev-server is a little node.js Express server.
+         * The server emits information about the compilation state to the client,
+         * which reacts to those events.
+         *
+         * See: https://webpack.github.io/docs/webpack-dev-server.html
+         */
+        devServer: {
+            port: METADATA.port,
+            host: METADATA.host,
+            historyApiFallback: true,
+            watchOptions: {
+                // if you're using Docker you may need this
+                // aggregateTimeout: 300,
+                // poll: 1000,
+                ignored: /node_modules/
+            },
+            proxy: {
+                "/terminal": {
+                    target: "http://localhost:8080"
+                  }
+            }
+        },
 
         /**
          * Include polyfills or mocks for various node stuff

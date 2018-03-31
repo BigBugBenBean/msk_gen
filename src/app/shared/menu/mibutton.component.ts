@@ -172,6 +172,8 @@ export class MenuButtonComponent implements AfterContentInit {
         } else if (!this.app) {
             console.warn('Miss configuration missing msksapp', this.menukey);
         }
+
+        console.log('app.type', this.app.type, this.app.path);
         switch (this.app.type) {
             case AppType.APPLICATION:
 
