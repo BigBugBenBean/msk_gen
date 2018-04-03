@@ -1,7 +1,12 @@
  body {
      margin: 0px;
-     min-height: 100%;
-     width: 100%;
+     min-height: 100% !important;
+     width: 100% !important;
+     &.stop-scrolling {
+        min-height: 100% !important;
+        width: 100% !important;
+        overflow: hidden;
+     }
  }
  iframe {
      width: 100%;
@@ -17,6 +22,7 @@
 
  #parent_iframeparent {
      border: solid 1px #000;
+     height: 100%;
  }
  #parent_iframeparent>.stick-on-iframe {
      opacity: 0.3;
@@ -32,7 +38,3 @@
  #parent_iframeparent>.stick-on-iframe>button {
      margin-right: 5px;
  }
- .stop-scrolling {
-     height: 100%; overflow: hidden;
- }
-
