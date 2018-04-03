@@ -55,8 +55,6 @@ export class MsksService {
                 console.error(`Error occurred when connect to server ${MSKS.uri}`, e);
                 observer.error(`Error occurred when connect to server ${MSKS.uri}`);
             });
-
-
         });
     }
 
