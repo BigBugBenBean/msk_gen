@@ -6,6 +6,8 @@ import { MenuService } from '../../shared/menu';
 import { MenuItem } from '../../shared/menu/mi.model';
 import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../../shared/msks';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { from } from 'rxjs/observable/from';
 
 @Component({
     templateUrl: './scn-gen-002.component.html',
@@ -41,12 +43,18 @@ export class Page2Component implements OnInit {
             return params.has('id') ? this.menusrv.getMenuItems(params.get('id')) : this.menusrv.getMenuItems();
         }).switchMap((mi: MenuItem[]) => {
             if (param.srv) {
-                return this.msks.sendRequest(param.srv, 'getLv2Menu', mi) as Observable<MenuItem[]>;
+                return forkJoin(Observable.of({ msks: true }), this.msks.sendRequest(param.srv, 'getLv2Menu', mi));
             } else {
-                return Observable.of(mi);
+                return forkJoin(Observable.of({ msks: false }), Observable.of(mi));
             }
         }).subscribe((resp) => {
-            const menu = resp as MenuItem[];
+            const ismsks = resp[0].msks;
+            let menu;
+            if (ismsks) {
+                menu = this.menusrv.convertChildMenu(resp[1]);
+            } else {
+                menu = resp[1] as MenuItem[];
+            }
             let index = 1;
             menu.forEach((mi) => {
                 const obj = {

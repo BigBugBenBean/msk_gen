@@ -76,6 +76,33 @@ export class MenuService {
         }
     }
 
+    public convertChildMenu(lv2mis: Array<any>) {
+        const child = new Array<MenuItem>();
+        const json = sessionStorage.getItem('MSKS_GEN_DATA');
+        if (json) {
+            const gendata = JSON.parse(json);
+            const appmap = this.convertJson2AppMap( gendata['appmap'] as string);
+            // console.log('convertChildMenu appmap', appmap);
+            lv2mis.forEach((lv2) => {
+                const cmi = new MenuItem();
+                cmi.chiname = lv2['name_chi'];
+                cmi.engname = lv2['name_eng'];
+                cmi.menukey = lv2['lv2_menu_key'];
+
+                cmi.iconpathen = lv2['icon_path_en'];
+                cmi.iconpathchi = lv2['icon_path_chi'];
+
+                cmi.app = appmap.get(lv2['app_key']);
+                child.push(cmi);
+            });
+            // console.log(this.appmap);
+            return child;
+        } else {
+            return undefined;
+        }
+
+    }
+
     private initMsksAppMap(data: any) {
         const msks = data['mskapps'];
         this.appmap = new Map<string, MsksApp>();
@@ -95,6 +122,7 @@ export class MenuService {
                         console.error(`Unknow type [${msks[i]['type']}] for: ${msks[i]['app_key']}`);
                         app.type = AppType.UNKNOWN;
                     }
+                    // console.log('appmap %s=> %s1', app.appkey, app);
                     this.appmap.set(app.appkey, app);
                 }
             }
@@ -118,14 +146,18 @@ export class MenuService {
 
                 mi.menukey = elm['lv1_menu_key'];
 
+                if (elm['app_key']) {
+                    mi.app = this.appmap.get(elm['app_key']);
+                }
+
                 if (elm['lv2_menu_service_channel']) {
                     mi.service = elm['lv2_menu_service_channel'];
                 }
 
                 if (elm['lv2_menus']) {
-                    const lv2mi = elm['lv2_menus'] as any[];
                     const child = new Array<MenuItem>();
-                    lv2mi.forEach((lv2) => {
+                    const lv2mis = elm['lv2_menus'];
+                    lv2mis.forEach((lv2) => {
                         const cmi = new MenuItem();
                         cmi.chiname = lv2['name_chi'];
                         cmi.engname = lv2['name_eng'];
@@ -137,7 +169,7 @@ export class MenuService {
                         cmi.app = this.appmap.get(lv2['app_key']);
                         child.push(cmi);
                     });
-
+                    console.log(this.appmap);
                     mi.child = child;
                 }
                 rs.push(mi);
@@ -165,8 +197,9 @@ export class MenuService {
                         this.initilizeMenuItem(resp['msksgen']);
                         this.lv1timeout = resp['msksgen']['lvl_timeout'];
                         this.lv2timeout = resp['msksgen']['lv2_timeout'];
+
                         sessionStorage.setItem('MSKS_GEN_DATA', JSON.stringify({
-                            appmap: this.appmap,
+                            appmap: this.convertAppMap2Json(this.appmap),
                             menuitems: this.menuitems,
                             lv1timeout: this.lv1timeout,
                             lv2timeout: this.lv2timeout
@@ -219,7 +252,8 @@ export class MenuService {
                         for (const i in resources) {
                             if (resources[i]) {
                                 if (!resources[i].error) {
-                                    sessionStorage.setItem(resources[i]. path, JSON.stringify(resources[i]));
+                                    // console.log('%s => %s1',resources[i].path, JSON.stringify(resources[i]));
+                                    sessionStorage.setItem(resources[i].path, JSON.stringify(resources[i]));
                                 }
                             }
                         }
@@ -231,4 +265,21 @@ export class MenuService {
         }
     }
 
+    private convertAppMap2Json(appmap: Map<String, MsksApp>) {
+        return JSON.stringify([...appmap]);
+    }
+
+    private convertJson2AppMap(json: string) {
+        const map = new Map(JSON.parse(json));
+        const appmap = new Map<String, MsksApp>();
+        map.forEach((v, k) =>{
+            const app = new MsksApp();
+            app.appkey = v['appkey'];
+            app.cwd = v['cwd'];
+            app.path = v['path'];
+            app.type = v['type'];
+            appmap.set(k as String, app);
+        });
+        return appmap;
+    }
 }

@@ -97,3 +97,9 @@
     line-height: 30px;
     text-align: center;
 }
+
+label:hover,
+span:hover > *{
+    cursor: pointer;
+}
+

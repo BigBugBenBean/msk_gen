@@ -4,9 +4,9 @@
             (click)="onClick($event)"/>
     </ng-template>
     <ng-template ngSwitchCase="text">
-        <span>
+        <span (click)="onClick($event)" class="">
             <input type="image" [ngClass]="getBtnClasses()" src="../../../assets/images/button_6.png"
-                (click)="onClick($event)"/>
+                />
             <div [ngClass]="getLblClasses()">
                 <label class="label1">{{label}}</label>
             </div>
