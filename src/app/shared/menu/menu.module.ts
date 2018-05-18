@@ -3,6 +3,7 @@ import { MenuService } from '.';
 import { MenuButtonComponent } from './mibutton.component';
 import { CommonModule } from '@angular/common';
 import { MsksModule } from '../msks';
+import {ValidatorFingerprintService} from '../services/validator-services/validator.fingerprint.service';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { MsksModule } from '../msks';
         MenuButtonComponent
     ],
     providers: [
-        MenuService
+        MenuService,
+        ValidatorFingerprintService
     ],
     exports: [
         MenuButtonComponent
