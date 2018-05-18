@@ -5,6 +5,7 @@ import { MenuItem } from './mi.model';
 import { Router } from '@angular/router';
 
 import { MsksService } from '../msks';
+import {ValidatorFingerprintService} from '../services/validator-services/validator.fingerprint.service';
 
 @Component({
     selector: 'sc2-menu-button',
@@ -49,6 +50,7 @@ export class MenuButtonComponent implements AfterContentInit {
     constructor(private translate: TranslateService,
         private router: Router,
         private msks: MsksService,
+        private fingers: ValidatorFingerprintService,
         private menusrv: MenuService) { }
 
     ngAfterContentInit() {
@@ -161,7 +163,8 @@ export class MenuButtonComponent implements AfterContentInit {
     }
 
     public onClick($event) {
-
+        console.log('start call startFingerprintScanner');
+        this.fingers.startFingerprintScanner();
         if (this.haschild === 'true') {
             if (this.service) {
                 this.router.navigate(['/scn-gen/gen002', this.menukey, this.service]);
