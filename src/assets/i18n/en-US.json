@@ -48,7 +48,8 @@
         "INSERT-HKID": "Please insert your HKID card.",
         "TIMMER": "Time Remaining",
         "LANGUAGE": "中文",
-        "NAVIGATION": "Step"
+        "NAVIGATION": "Step",
+        "BACK": "Back"
     },
     "SCN-SRK-002-2": {
         "INSERT-HKID": "Please insert your HKID card.",

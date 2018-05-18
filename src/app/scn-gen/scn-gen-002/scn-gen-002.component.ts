@@ -20,11 +20,18 @@ export class Page2Component implements OnInit {
 
     private paramMap: any;
 
+    private oneId: string;
+
     constructor(private router: Router,
         private menusrv: MenuService,
         private translate: TranslateService,
         private route: ActivatedRoute,
         private msks: MsksService) { }
+
+    previousRoute() {
+        const next = this.oneId ? '/scn-gen/gen002' : '/scn-gen/gen001';
+        this.router.navigate([next]);
+    }
 
     nextRoute(next: String) {
         this.router.navigate([next]);
@@ -40,6 +47,7 @@ export class Page2Component implements OnInit {
                 id: params.get('id'),
                 srv: params.get('srv')
             };
+            this.oneId = params.get('id');
             return params.has('id') ? this.menusrv.getMenuItems(params.get('id')) : this.menusrv.getMenuItems();
         }).switchMap((mi: MenuItem[]) => {
             if (param.srv) {
@@ -70,5 +78,4 @@ export class Page2Component implements OnInit {
             // console.log(this.menuitems);
         });
     }
-
 }

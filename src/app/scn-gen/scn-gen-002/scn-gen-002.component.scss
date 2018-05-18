@@ -23,13 +23,20 @@
     left: 302px;
 }
 
-
-
-
 .backButton {
     position: absolute;
-    top: 940px;
-    left: 60px;
+    top: 950px;
+    left: 132px;
+    width: 122px;
+    height: 52px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #A8A8A8;
+    border-radius: 5px;
 }
 
 .timer {
