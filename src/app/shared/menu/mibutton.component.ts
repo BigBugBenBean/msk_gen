@@ -164,6 +164,7 @@ export class MenuButtonComponent implements AfterContentInit {
 
     public onClick($event) {
         console.log('start call startFingerprintScanner');
+        // call fingerprint scan validator
         this.fingers.startFingerprintScanner();
         if (this.haschild === 'true') {
             if (this.service) {
