@@ -11,6 +11,7 @@ import { Page1Component } from './scn-gen-001/scn-gen-001.component';
 import { Page2Component } from './scn-gen-002/scn-gen-002.component';
 import { Page5Component } from './scn-gen-005/scn-gen-005.component';
 import { IframeComponent } from './scn-gen-iframe/iframe.component';
+import { HKIC2ViewComponent } from './scn-gen-hkic2/scn-gen-view.component';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -19,6 +20,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
     { path: 'gen002', component: Page2Component },
+    { path: 'gen002/hkic2/view', component: HKIC2ViewComponent},
     { path: 'gen002/:id', component: Page2Component },
     { path: 'gen002/:id/:srv', component: Page2Component },
     { path: 'gen005', component: Page5Component },
@@ -32,7 +34,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         Page1Component,
         Page2Component,
         Page5Component,
-        IframeComponent
+        IframeComponent,
+        HKIC2ViewComponent
     ],
     imports: [
         CommonModule,

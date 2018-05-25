@@ -1,7 +1,7 @@
 <span [ngSwitch]="type">
     <ng-template ngSwitchCase="image">
         <input type="image" [ngClass]="getBtnClasses()"  [src]="imgsrc"
-            (click)="onClick($event)"/>
+            (click)="onClick(this.menukey)"/>
     </ng-template>
     <ng-template ngSwitchCase="text">
         <span (click)="onClick($event)" class="">
