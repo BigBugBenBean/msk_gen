@@ -272,7 +272,7 @@ export class MenuService {
     private convertJson2AppMap(json: string) {
         const map = new Map(JSON.parse(json));
         const appmap = new Map<String, MsksApp>();
-        map.forEach((v, k) =>{
+        map.forEach((v, k) => {
             const app = new MsksApp();
             app.appkey = v['appkey'];
             app.cwd = v['cwd'];
