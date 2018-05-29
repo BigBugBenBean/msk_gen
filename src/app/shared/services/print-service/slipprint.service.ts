@@ -14,6 +14,8 @@ export class SlipprintService {
             if (resp.errorcode === '0') {
                 console.log('printslip operate success');
 
+            } else {
+                console.log('call printslip fail!');
             }
         });
     }

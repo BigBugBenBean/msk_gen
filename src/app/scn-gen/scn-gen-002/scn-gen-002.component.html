@@ -2,7 +2,12 @@
     <img class="buttonLan" src="../../../assets/images/button_lan_tc .png"/>
         <sc2-timer class="timer"></sc2-timer>
     <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
-    <div class="mainBG"></div>
+    <div class="mainBG">
+        <input type="image" style="margin-top:340px;margin-left:790px" (click)="demo()"  src="../../../assets/images/button_6.png"/>
+        <div class="buttonDiv3" style=" position: absolute; color: white; margin-top:340px;margin-left:790px; z-index: 9999" >
+            <label (click)="demo()">Demo / 样例</label>
+        </div>
+    </div>
     <label class="mainLabel"> Please select the service category. </label>
     <span>
         <sc2-menu-button *ngFor="let mi of menuitems"
@@ -10,7 +15,9 @@
             menukey="{{mi.menukey}}" iconpathen="{{mi.iconpathen}}" iconpathchi="{{mi.iconpathchi}}"
             [app]="mi.app" service="{{mi.service}}"
             haschild="{{mi.haschild}}"></sc2-menu-button>
+
     </span>
+
 
     <input class="backButton" type="button" value="{{'SCN-SRK-002-1.BACK'|translate}}" (click) = "previousRoute()">
     <label class="footerFirst">SCN-GEN-002-1</label>

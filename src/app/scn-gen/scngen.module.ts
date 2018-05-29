@@ -10,12 +10,20 @@ import { MenuModule } from '../shared/menu';
 import { Page1Component } from './scn-gen-001/scn-gen-001.component';
 import { Page2Component } from './scn-gen-002/scn-gen-002.component';
 import { Page5Component } from './scn-gen-005/scn-gen-005.component';
+
 import { IframeComponent } from './scn-gen-iframe/iframe.component';
 import { HKIC2ViewComponent } from './scn-gen-hkic2/scn-gen-view.component';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import {Page7Component} from './scn-gen-007/scn-gen-007.component';
+import {SlipprintComponent} from './scn-gen-slipprint/scn-gen-slipprint.component';
+import {FingerprintComponent} from './scn-gen-fingerprint/scn-gen-fingerprint.component';
+import {SlipprintTxtComponent} from './scn-gen-slipprint/scn-gen-slipprint-txt/scn-gen-slipprint-txt.component';
+import {SlipprintVspaceComponent} from './scn-gen-slipprint/scn-gen-slipprint-vspace/scn-gen-slipprint-vspace.component';
+import {SlipprintBmpComponent} from './scn-gen-slipprint/scn-gen-slipprint-bmp/scn-gen-slipprint-bmp.component';
+import {SlipprintBarcodeComponent} from './scn-gen-slipprint/scn-gen-slipprint-barcode/scn-gen-slipprint-barcode.componet';
+import {SlipprintCutpaperComponent} from './scn-gen-slipprint/scn-gen-slipprint-cutpaper/scn-gen-slipprint-cutpaper.component';
 const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
@@ -24,6 +32,14 @@ const routes: Routes = [
     { path: 'gen002/:id', component: Page2Component },
     { path: 'gen002/:id/:srv', component: Page2Component },
     { path: 'gen005', component: Page5Component },
+    { path: 'gen007', component: Page7Component },
+    { path: 'slipprint', component: SlipprintComponent },
+    { path: 'slipprintTxt', component: SlipprintTxtComponent },
+    { path: 'slipprintVspace', component: SlipprintVspaceComponent },
+    { path: 'slipprintBarcode', component: SlipprintBarcodeComponent },
+    { path: 'slipprintBmp', component: SlipprintBmpComponent },
+    { path: 'slipprintCutpaper', component: SlipprintCutpaperComponent },
+    { path: 'fingerprint', component: FingerprintComponent },
     { path: 'iframe/:url', component: IframeComponent}
 ];
 export function HttpLoaderFactory(http: HttpClient) {
@@ -34,6 +50,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         Page1Component,
         Page2Component,
         Page5Component,
+        Page7Component,
+        SlipprintComponent,
+        SlipprintTxtComponent,
+        SlipprintVspaceComponent,
+        SlipprintBarcodeComponent,
+        SlipprintBmpComponent,
+        SlipprintCutpaperComponent,
+        FingerprintComponent,
         IframeComponent,
         HKIC2ViewComponent
     ],

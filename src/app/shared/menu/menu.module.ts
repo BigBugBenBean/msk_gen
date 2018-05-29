@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MsksModule } from '../msks';
 import {ValidatorFingerprintService} from '../services/validator-services/validator.fingerprint.service';
 import {SlipprintService} from '../services/print-service/slipprint.service';
+import {FingerprintService} from '../services/fingerprint-service/fingerprint.service';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import {SlipprintService} from '../services/print-service/slipprint.service';
     providers: [
         MenuService,
         ValidatorFingerprintService,
+        FingerprintService,
         SlipprintService
     ],
     exports: [
