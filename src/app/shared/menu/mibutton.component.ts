@@ -172,6 +172,10 @@ export class MenuButtonComponent implements AfterContentInit {
         } else if (!this.app) {
             console.warn('Miss configuration missing msksapp', this.menukey);
         }
+        if (this.menukey === 'LV2HKICCheck') {
+            this.router.navigate(['scn-gen/gen002/hkic2/view']);
+            return;
+        }
 
         // console.log('app.type', this.app.type, this.app.path);
         switch (this.app.type) {

@@ -99,8 +99,27 @@
         "ABORT": "Abort",
         "TIMMER": "Time Remaining",
         "LANGUAGE": "中文",
-        "NAVIGATION": "Step"
+        "NAVIGATION": "Step",
+        "NOT-CONFIRM": "Not Confirm",
+        "INFO-INCORRECT": "Are you sure the information is incorrect?",
+        "YES": "Yes",
+        "NO": "No",
+        "NOT-CONFIRM-MSG": "Please collect your Acknowledgement form/ID card, and go to collection counter.",
+        "NAME-IN-CHINESE": "Name in Chinese",
+        "NAME-IN-ENGLISH": "Name in English",
+        "NAME-IN-CCC": "Name in C.C.C.",
+        "DATE-OF-BIRTH": "Date of Birth",
+        "SYMBOLS": "Symbols",
+        "DATE-OF-ISSUE": "Date of Issue",
+        "OTHER-APPLICATIONS": "Other Applications",
+        "SEX": "Sex",
+        "MONTH-YEAR-REGISTRATION": "Month-Year of 1st Registration",
+        "ID-CARD-NO": "ID Card No.",
+        "COND-STAY": "Condition of Stay",
+        "LENGTH-STAY": "Length of Stay",
+        "CONFIRM-INFO": "Please confirm the information below:"
     },
+
     "SCN-SRK-009-1": {
         "STATEMENT-PURP-HEADER": "Please scroll down and read the Statement of Purpose.  Tick the check box and press “Confirm” button to proceed to next step.",
         "STATEMENT-PURP": "Statement of Purpose",
