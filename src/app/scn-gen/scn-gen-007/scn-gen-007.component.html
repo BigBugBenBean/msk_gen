@@ -12,9 +12,9 @@
     <div class="buttonDiv2">
         <label (click)="fingerprint()"> Fingerprint / 指纹测试</label>
     </div>
-    <input type="image" class="thirdLeft firstTop" (click)="nextRoute('/')" src="../../../assets/images/button_6.png"/>
+    <input type="image" class="thirdLeft firstTop" (click)="readCard()" src="../../../assets/images/button_6.png"/>
     <div class="buttonDiv3">
-        <label (click)="nextRoute('/')">Demo / 样例</label>
+        <label (click)="readCard()">New IC Card/ 二代身份证读卡</label>
     </div>
     <input class="backButton" type="button" value="{{'SCN-SRK-002-1.BACK'|translate}}" (click) = "previousRoute()">
 </div>

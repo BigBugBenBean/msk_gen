@@ -22,4 +22,7 @@ export class Page7Component {
     fingerprint() {
         this.router.navigate(['/scn-gen/fingerprint']);
     }
+    readCard() {
+        this.router.navigate(['/scn-gen/readNewCard']);
+    }
 }
