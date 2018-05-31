@@ -36,9 +36,9 @@ export class Page2Component implements OnInit {
     nextRoute(next: String) {
         this.router.navigate([next]);
     }
-    demo() {
-        this.router.navigate(['/scn-gen/gen007']);
-    }
+    // demo() {
+    //     this.router.navigate(['/scn-gen/gen007']);
+    // }
 
     ngOnInit() {
         this.menuitems.length = 0;
