@@ -19,7 +19,7 @@
   color: #333333;
   font-weight: bold;
   font-size: 44px;
-  left: 372px;
+  left: 250px;
 }
 
 .firstLeft {
@@ -128,4 +128,17 @@
   right: 128.5px;
   padding: 0;
   margin: 0;
+}
+
+.btnClass {
+  position:absolute;
+  left: 60px;
+  top: 25px;
+  font-size: 33px;
+  width: 150px;
+  height: 72px;
+  color: #FFFFFF;
+  background-color: #7d7d7d;
+  border:1px solid;
+  border-color: #DEFAED;
 }

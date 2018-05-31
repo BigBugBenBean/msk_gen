@@ -3,7 +3,7 @@
     <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
     <sc2-timer class="timer"></sc2-timer>
     <div class="mainBG"></div>
-    <label  class="mainLabel"> Please select the service. </label>
+    <label  class="mainLabel"> Fingerprint Scan service / 指纹扫描服务</label>
     <input type="image" class="firstLeft firstTop" (click)="startFingerprintScan()"src="../../../assets/images/button_6.png">
     <div class="buttonDiv1">
         <label (click)="startFingerprintScan()" class="label1"> Start FingerPrint/ 开始指纹扫描</label>
@@ -12,5 +12,5 @@
     <div class="buttonDiv2">
         <label (click)="stopFingerprintScan()"> Stop FingerPrint/ 停止指纹扫描 </label>
     </div>
-    <label (click)="previousRoute()" class="footerFirst">SCN-GEN-fingerprint</label>
+    <input class="backButton" class="btnClass" type="button" value="《返回" (click) = "previousRoute()">
 </div>

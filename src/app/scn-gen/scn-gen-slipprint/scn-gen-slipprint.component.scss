@@ -123,6 +123,20 @@
   text-align: center;
 }
 
+
+.btnClass {
+  position:absolute;
+  left: 60px;
+  top: 25px;
+  font-size: 33px;
+  width: 150px;
+  height: 72px;
+  color: #FFFFFF;
+  background-color: #7d7d7d;
+  border:1px solid;
+  border-color: #DEFAED;
+}
+
 .timer {
   position:absolute;
   right: 128.5px;
