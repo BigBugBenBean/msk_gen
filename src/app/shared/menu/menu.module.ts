@@ -6,6 +6,7 @@ import { MsksModule } from '../msks';
 import {ValidatorFingerprintService} from '../services/validator-services/validator.fingerprint.service';
 import {SlipprintService} from '../services/print-service/slipprint.service';
 import {FingerprintService} from '../services/fingerprint-service/fingerprint.service';
+import {ReadcardService} from '../services/readcard-service/readcard.service';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import {FingerprintService} from '../services/fingerprint-service/fingerprint.se
         MenuService,
         ValidatorFingerprintService,
         FingerprintService,
-        SlipprintService
+        SlipprintService,
+        ReadcardService
     ],
     exports: [
         MenuButtonComponent
