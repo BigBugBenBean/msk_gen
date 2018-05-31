@@ -8,7 +8,7 @@ import {SlipprintService} from '../../../shared/services/print-service/slipprint
 })
 
 export class SlipprintVspaceComponent {
-    printContent = '2';
+    printContent = '100';
     printHeight = '';
     printLeftMargin = '';
     printAttribute = '';
