@@ -25,7 +25,6 @@ export class FingerprintService {
         console.log('call : startFingerprintScanner fun.')
         this.service.sendRequest('RR_FPSCANNERREG', 'takephoto', {'icno': 'A123456'}).subscribe((resp) => {
             if (resp.errorcode === '0') {
-                debugger;
                 alert(resp.fpdata);
                 console.log('fingerprint operate success');
 
