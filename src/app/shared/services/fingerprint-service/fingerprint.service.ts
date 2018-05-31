@@ -11,7 +11,6 @@ export class FingerprintService {
 
     constructor(private service: MsksService) {}
 
-
     /**
      * get fingerprint data fun.
      */

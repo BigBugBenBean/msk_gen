@@ -13,10 +13,10 @@ msksgen:
 
   lv1_menus:
     - lv1_menu_key: LV1ICAPPBOOKING
-      name_eng: IC Appointment Booking
-      name_chi: IC Appointment Booking
-      icon_path_en: "${resource}\msksgen\icbooking.png"
-      icon_path_chi: "${resource}\msksgen\icbooking.png"
+      name_eng: IC Appointment Booking gwm
+      name_chi: IC Appointment Booking gwm
+#      icon_path_en: "${resource}\msksgen\icbooking.png"
+#      icon_path_chi: "${resource}\msksgen\icbooking.png"
       lv2_menus:
         - lv2_menu_key: LV2ICCHECK
           name_eng: Check IC Booking
@@ -43,3 +43,6 @@ msksgen:
           name_eng: HKIC Booking
           name_chi: HKIC Booking
           app_key: APPNNOTEPAD
+   - lv1_menu_key: LV1Equipment
+      name_eng: Equipment testing
+      name_chi: Equipment testing

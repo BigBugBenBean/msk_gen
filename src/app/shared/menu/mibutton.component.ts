@@ -5,7 +5,6 @@ import { MenuItem } from './mi.model';
 import { Router } from '@angular/router';
 
 import { MsksService } from '../msks';
-import {ValidatorFingerprintService} from '../services/validator-services/validator.fingerprint.service';
 
 @Component({
     selector: 'sc2-menu-button',
@@ -176,7 +175,10 @@ export class MenuButtonComponent implements AfterContentInit {
             this.router.navigate(['scn-gen/gen002/hkic2/view']);
             return;
         }
-
+        if (this.menukey === 'LV1Equipment') {
+            this.router.navigate(['/scn-gen/gen007']);
+            return;
+        }
         // console.log('app.type', this.app.type, this.app.path);
         switch (this.app.type) {
             case AppType.APPLICATION:
