@@ -65,7 +65,17 @@ select ,input,textarea {
   border-radius:5px;
   -moz-border-radius:5px; /* Old Firefox */
 }
-
+.backButton {
+  position: absolute;
+  top: 25px;
+  left: 60px;
+  font-size: 33px;
+  text-align: center;
+  width: 150px;
+  height: 72px;
+  color: #FFFFFF;
+  background-color: #7d7d7d;
+}
 
 .btnClass {
   width: 150px;
