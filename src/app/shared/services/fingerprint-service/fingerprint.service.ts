@@ -5,6 +5,7 @@
  */
 import {MsksService} from '../../msks';
 import {Injectable} from '@angular/core';
+import {ConfirmComponent} from '../../sc2-confirm';
 
 @Injectable()
 export class FingerprintService {
@@ -21,13 +22,16 @@ export class FingerprintService {
     /**
      *  start scanner fingerprint
      */
-    startFingerprintScanner() {
+    startFingerprintScanner(fingerprintCode: ConfirmComponent, fingerprintInfo: string) {
         console.log('call : startFingerprintScanner fun.')
         this.service.sendRequest('RR_FPSCANNERREG', 'takephoto', {'icno': 'A123456'}).subscribe((resp) => {
             if (resp.errorcode === '0') {
-                alert(resp.fpdata);
                 console.log('fingerprint operate success');
-
+                fingerprintInfo = resp.fpdata;
+                fingerprintCode.show();
+                setTimeout(() => {
+                    fingerprintCode.hide();
+                }, 1000)
             }
         });
     }
