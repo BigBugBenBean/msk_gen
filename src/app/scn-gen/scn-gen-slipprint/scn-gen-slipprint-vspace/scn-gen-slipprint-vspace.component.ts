@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router'
 import {SlipprintService} from '../../../shared/services/print-service/slipprint.service';
-
 @Component ({
     templateUrl: './scn-gen-slipprint-vspace.component.html',
     styleUrls: ['./scn-gen-slipprint-vspace.component.scss']
 })
 
 export class SlipprintVspaceComponent {
+
     printContent = '100';
     printHeight = '';
     printLeftMargin = '';
@@ -21,6 +21,7 @@ export class SlipprintVspaceComponent {
 
     previousRoute() {
         this.router.navigate(['/scn-gen/slipprint']);
+        return;
     }
 
     slipprint(printType) {
@@ -43,11 +44,35 @@ export class SlipprintVspaceComponent {
      */
     startPrint() {
         console.log('call startPrint');
+        this.disableStatus();
         this.printContent = String($('#printContent').val());
         this.printTxt(this.printContent,
             this.printHeight,
             this.printLeftMargin,
             this.printAttribute);
+        setTimeout(() => {
+            this.restoreStatus()
+        }, 1000);
+    }
+
+    /**
+     *  setting button disable.
+     */
+    disableStatus() {
+        $('#printBtn').removeClass('btnClass');
+        $('#printBtn').addClass('btnClassDisabled');
+        $('#printBtn').attr('disabled', 'true');
+        $('#printBtn').attr('disabled', 'disabled');
+    }
+
+    /**
+     * restore button status.
+     */
+    restoreStatus () {
+        $('#printBtn').removeClass('btnClassDisabled');
+        $('#printBtn').addClass('btnClass');
+        $('#printBtn').attr('disabled', 'false');
+        $('#printBtn').removeAttr('disabled');
     }
 
     /**

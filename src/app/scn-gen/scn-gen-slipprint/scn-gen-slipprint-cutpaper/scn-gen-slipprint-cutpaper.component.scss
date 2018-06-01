@@ -79,6 +79,16 @@ select ,input,textarea {
   -moz-border-radius:8px; /* Old Firefox */
 }
 
+.btnClassDisabled {
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  background-color: #A8A8A8;
+  border:1px solid;
+  border-color: #DEFAED;
+  border-radius:8px;
+  -moz-border-radius:8px; /* Old Firefox */
+}
 
 
 

@@ -2,6 +2,15 @@
     <img class="buttonLan" src="../../../assets/images/button_lan_tc .png"/>
     <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
     <sc2-timer class="timer"></sc2-timer>
+    <sc2-confirm #fingerprintCode>
+        <div class="app-modal-body">
+            <div class="modal-message" style="word-break:break-all;">
+            <p style="word-break;:break-all;">
+                {{fingerprintInfo}}
+            </p>
+            </div>
+        </div>
+    </sc2-confirm>
     <div class="mainBG"></div>
     <label  class="mainLabel"> Fingerprint Scan service / 指纹扫描服务</label>
     <input type="image" class="firstLeft firstTop" (click)="startFingerprintScan()"src="../../../assets/images/button_6.png">

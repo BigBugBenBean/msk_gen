@@ -14,15 +14,19 @@ export class Page7Component {
     }
     previousRoute() {
         this.router.navigate(['/scn-gen/gen002']);
+        return;
     }
 
     slipprint() {
         this.router.navigate(['/scn-gen/slipprint']);
+        return;
     }
     fingerprint() {
         this.router.navigate(['/scn-gen/fingerprint']);
+        return;
     }
     readCard() {
         this.router.navigate(['/scn-gen/readNewCard']);
+        return;
     }
 }

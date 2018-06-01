@@ -1,13 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router'
 import {SlipprintService} from '../../../shared/services/print-service/slipprint.service';
+import {ConfirmComponent} from '../../../shared/sc2-confirm';
 
 @Component ({
     templateUrl: './scn-gen-slipprint-txt.component.html',
     styleUrls: ['./scn-gen-slipprint-txt.component.scss']
 })
 
-export class SlipprintTxtComponent implements OnInit {
+export class SlipprintTxtComponent {
+
+    @ViewChild('modalPrint')
+    public modalPrint: ConfirmComponent;
 
     printContent = 'demo100';
     printHeight = '0';
@@ -17,11 +21,10 @@ export class SlipprintTxtComponent implements OnInit {
     constructor(private router: Router,
                 private printslip: SlipprintService) { }
 
-    ngOnInit(): void {
-    }
 
     nextRoute(next: String) {
         this.router.navigate([next]);
+        return;
     }
 
     previousRoute() {
@@ -60,12 +63,20 @@ export class SlipprintTxtComponent implements OnInit {
                        this.printHeight,
                        this.printLeftMargin,
                        this.printAttribute);
-        setTimeout(this.restoreStatus(), 2000);
+        ;
+        setTimeout(() => {
+            this.restoreStatus()
+        }, 1000);
     }
 
+    /**
+     *  setting button disable.
+     */
     disableStatus() {
         $('#printBtn').removeClass('btnClass');
         $('#printBtn').addClass('btnClassDisabled');
+        $('#printBtn').attr('disabled', 'true');
+        $('#printBtn').attr('disabled', 'disabled');
     }
 
     /**
@@ -74,6 +85,8 @@ export class SlipprintTxtComponent implements OnInit {
     restoreStatus () {
         $('#printBtn').removeClass('btnClassDisabled');
         $('#printBtn').addClass('btnClass');
+        $('#printBtn').attr('disabled', 'false');
+        $('#printBtn').removeAttr('disabled');
     }
 
     /**

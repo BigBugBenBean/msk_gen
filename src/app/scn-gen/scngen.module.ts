@@ -25,6 +25,7 @@ import {SlipprintBmpComponent} from './scn-gen-slipprint/scn-gen-slipprint-bmp/s
 import {SlipprintBarcodeComponent} from './scn-gen-slipprint/scn-gen-slipprint-barcode/scn-gen-slipprint-barcode.componet';
 import {SlipprintCutpaperComponent} from './scn-gen-slipprint/scn-gen-slipprint-cutpaper/scn-gen-slipprint-cutpaper.component';
 import {CardReaderComponent} from './scn-gen-cardreader/scn-gen-cardreader.component';
+import {ConfirmComponent} from '../shared/sc2-confirm';
 const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
@@ -62,6 +63,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         FingerprintComponent,
         CardReaderComponent,
         IframeComponent,
+        ConfirmComponent,
         HKIC2ViewComponent
     ],
     imports: [

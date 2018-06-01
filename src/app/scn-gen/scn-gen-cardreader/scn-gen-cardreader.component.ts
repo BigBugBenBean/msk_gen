@@ -16,6 +16,7 @@ export class CardReaderComponent {
     }
     previousRoute() {
         this.router.navigate(['/scn-gen/gen007']);
+        return;
     }
     scanICCardData() {
         console.log('call scanICCardData');

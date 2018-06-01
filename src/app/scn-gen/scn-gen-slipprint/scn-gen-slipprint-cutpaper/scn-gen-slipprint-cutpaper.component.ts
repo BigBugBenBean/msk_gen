@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router'
 import {QRCodeComponent} from 'angular2-qrcode';
 import {SlipprintService} from '../../../shared/services/print-service/slipprint.service';
@@ -19,10 +19,12 @@ export class SlipprintCutpaperComponent {
 
     nextRoute(next: String) {
         this.router.navigate([next]);
+        return;
     }
 
     previousRoute() {
         this.router.navigate(['/scn-gen/slipprint']);
+        return;
     }
 
     slipprint(printType) {
@@ -42,12 +44,19 @@ export class SlipprintCutpaperComponent {
             this.printHeight,
             this.printLeftMargin,
             this.printAttribute);
-        setTimeout(this.restoreStatus(), 2000);
+        setTimeout(() => {
+            this.restoreStatus()
+        }, 1000);
     }
 
+    /**
+     *  setting button disable.
+     */
     disableStatus() {
         $('#printBtn').removeClass('btnClass');
         $('#printBtn').addClass('btnClassDisabled');
+        $('#printBtn').attr('disabled', 'true');
+        $('#printBtn').attr('disabled', 'disabled');
     }
 
     /**
@@ -56,6 +65,8 @@ export class SlipprintCutpaperComponent {
     restoreStatus () {
         $('#printBtn').removeClass('btnClassDisabled');
         $('#printBtn').addClass('btnClass');
+        $('#printBtn').attr('disabled', 'false');
+        $('#printBtn').removeAttr('disabled');
     }
 
     /**

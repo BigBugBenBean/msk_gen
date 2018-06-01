@@ -14,14 +14,17 @@ export class SlipprintComponent {
 
     nextRoute(next: String) {
         this.router.navigate([next]);
+        return;
     }
 
     previousRoute() {
         this.router.navigate(['/scn-gen/gen007']);
+        return;
     }
 
-    printTxt() {
+    printTxtDemo() {
         this.router.navigate(['/scn-gen/slipprintTxt']);
+        return;
     }
 
     /**
@@ -30,6 +33,7 @@ export class SlipprintComponent {
     printVspace() {
         console.log('printVspace');
         this.router.navigate(['/scn-gen/slipprintVspace']);
+        return;
     }
 
     /**
@@ -38,6 +42,7 @@ export class SlipprintComponent {
     printBarcode() {
         console.log('printBarcode');
         this.router.navigate(['/scn-gen/slipprintBarcode']);
+        return;
     }
 
     /**
@@ -46,6 +51,7 @@ export class SlipprintComponent {
     printBmp() {
         console.log('printBmp');
         this.router.navigate(['/scn-gen/slipprintBmp']);
+        return;
     }
 
     /**
@@ -54,6 +60,7 @@ export class SlipprintComponent {
     printCutpaper() {
         console.log('printCutpaper');
         this.router.navigate(['/scn-gen/slipprintCutpaper']);
+        return;
     }
 
     /**
@@ -61,6 +68,7 @@ export class SlipprintComponent {
      */
     printDemo() {
         this.handlePrint();
+        return;
     }
 
     /**
