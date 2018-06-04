@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MsksModule } from '../shared/msks';
 import { TimerModule } from '../shared/sc2-timer';
+import { PrivacyModule, PrivacyComponent } from '../shared/scn-gen-privacy';
 import { MenuModule } from '../shared/menu';
 
 import { Page1Component } from './scn-gen-001/scn-gen-001.component';
@@ -43,7 +44,8 @@ const routes: Routes = [
     { path: 'slipprintCutpaper', component: SlipprintCutpaperComponent },
     { path: 'fingerprint', component: FingerprintComponent },
     { path: 'readNewCard', component: CardReaderComponent },
-    { path: 'iframe/:url', component: IframeComponent}
+    { path: 'iframe/:url', component: IframeComponent},
+    { path: 'scn-gen/privacy', component: PrivacyComponent}
 ];
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -64,7 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         CardReaderComponent,
         IframeComponent,
         ConfirmComponent,
-        HKIC2ViewComponent
+        HKIC2ViewComponent,
+        PrivacyComponent
     ],
     imports: [
         CommonModule,

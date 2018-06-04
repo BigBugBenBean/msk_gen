@@ -81,4 +81,15 @@ export class Page2Component implements OnInit {
             // console.log(this.menuitems);
         });
     }
+
+    langButton() {
+        // this.router.navigate(['main/sck0012'])
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+          this.translate.use('en-US');
+        } else {
+          this.translate.use('zh-HK');
+        }
+      }
 }

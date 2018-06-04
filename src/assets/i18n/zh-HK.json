@@ -3,7 +3,8 @@
         "GROUP": "團體",
         "START-EN": "Start",
         "START-HK": "開始",
-        "TIMMER": "剩餘時間"
+        "TIMMER": "剩餘時間",
+        "EXIT": "退出"
     },
     "SCN-SRK-001-2": {
         "INDIVIDUAL": "個人",
@@ -49,7 +50,8 @@
         "TIMMER": "剩餘時間",
         "LANGUAGE": "English",
         "NAVIGATION": "步驟",
-        "BACK": "上一頁"
+        "BACK": "上一頁",
+        "SELECT_SERVICE_CATEGORY": "請選擇服務類別."
     },
     "SCN-SRK-002-2": {
         "INSERT-HKID": "請插入你的香港身份證。",

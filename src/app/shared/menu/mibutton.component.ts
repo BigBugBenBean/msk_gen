@@ -53,7 +53,7 @@ export class MenuButtonComponent implements AfterContentInit {
 
     ngAfterContentInit() {
         this.type = this.iconpathen || this.iconpathchi ? 'image' : 'text';
-
+        debugger
         if (this.translate.currentLang === 'zh-HK') {
             this.label = this.chiname;
             if (this.type === 'image') {
@@ -172,7 +172,8 @@ export class MenuButtonComponent implements AfterContentInit {
             console.warn('Miss configuration missing msksapp', this.menukey);
         }
         if (this.menukey === 'LV2HKICCheck') {
-            this.router.navigate(['scn-gen/gen002/hkic2/view']);
+            // this.router.navigate(['scn-gen/gen002/hkic2/view']);
+            this.router.navigate(['scn-gen/scn-gen/privacy']);
             return;
         }
         if (this.menukey === 'LV1Equipment') {

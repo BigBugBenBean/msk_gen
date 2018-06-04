@@ -3,7 +3,8 @@
         "GROUP": "Group",
         "START-EN": "Start",
         "START-HK": "開始",
-        "TIMMER": "Time Remaining"
+        "TIMMER": "Time Remaining",
+        "EXIT": "Exit"
     },
     "SCN-SRK-001-2": {
         "INDIVIDUAL": "Individual",
@@ -49,7 +50,8 @@
         "TIMMER": "Time Remaining",
         "LANGUAGE": "中文",
         "NAVIGATION": "Step",
-        "BACK": "Back"
+        "BACK": "Back",
+        "SELECT_SERVICE_CATEGORY": "Please select the service category."
     },
     "SCN-SRK-002-2": {
         "INSERT-HKID": "Please insert your HKID card.",

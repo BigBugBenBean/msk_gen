@@ -1,10 +1,9 @@
 <div class="mainPanel">
-    <img class="buttonLan" src="../../../assets/images/button_lan_tc .png"/>
+    <input class="chbtn" type="button" value="{{'SCN-SRK-001-3.LANGUAGE' | translate}}" (click) = "langButton()">
         <sc2-timer class="timer"></sc2-timer>
     <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
-    <div class="mainBG">
-    </div>
-    <label class="mainLabel"> Please select the service category. </label>
+    <div class="mainBG"></div>
+    <label class="mainLabel">{{'SCN-SRK-002-1.SELECT_SERVICE_CATEGORY' | translate}}</label>
     <span>
         <sc2-menu-button *ngFor="let mi of menuitems"
             index="{{mi.index}}" chiname="{{mi.chiname}}" engname="{{mi.engname}}"

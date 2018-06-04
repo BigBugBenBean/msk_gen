@@ -36,6 +36,7 @@ import '../styles/_style.scss';
 
 import './jquery';
 import './electron';
+import 'hammerjs';
 
 // import { StepsModule } from './steps/steps.module'
 
