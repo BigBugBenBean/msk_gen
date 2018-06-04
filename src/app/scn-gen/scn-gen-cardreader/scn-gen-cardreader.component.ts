@@ -3,8 +3,8 @@ import {Router} from '@angular/router';
 import {ReadcardService} from '../../shared/services/readcard-service/readcard.service';
 
 @Component ({
-    templateUrl: './scn-gen-cardReader.component.html',
-    styleUrls: ['./scn-gen-cardReader.component.scss']
+    templateUrl: './scn-gen-cardreader.component.html',
+    styleUrls: ['./scn-gen-cardreader.component.scss']
 })
 
 export class CardReaderComponent {
