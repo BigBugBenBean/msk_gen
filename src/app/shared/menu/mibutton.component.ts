@@ -53,7 +53,6 @@ export class MenuButtonComponent implements AfterContentInit {
 
     ngAfterContentInit() {
         this.type = this.iconpathen || this.iconpathchi ? 'image' : 'text';
-        debugger
         if (this.translate.currentLang === 'zh-HK') {
             this.label = this.chiname;
             if (this.type === 'image') {
