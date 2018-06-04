@@ -14,7 +14,7 @@ export class FingerprintComponent {
     public fingerprintCode: ConfirmComponent;
     fingerprintInfo = '1313213213';
 
-    base64EncodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+ /*   base64EncodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
     base64DecodeChars = [
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -23,7 +23,7 @@ export class FingerprintComponent {
         -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
         15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
         -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-        41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1];
+        41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1];*/
     constructor(private router: Router,
                 private service: MsksService,
                 private fingers: FingerprintService) { }
@@ -54,7 +54,8 @@ export class FingerprintComponent {
         this.service.sendRequest('RR_FPSCANNERREG', 'takephoto', {'icno': 'A123456'}).subscribe((resp) => {
             if (resp.errorcode === '0') {
                 console.log('fingerprint operate success');
-                 this.fingerprintInfo = this.base64encode(this.utf16to8(resp.fpdata));
+                 this.fingerprintInfo = resp.fpdata;
+                 // this.fingerprintInfo = this.base64encode(this.utf16to8(resp.fpdata));
                // $('#fingerImge').attr('src', 'data:image/jpeg;' + this.fingerprintInfo);
                 this.fingerprintCode.show();
                 setTimeout(() => {
@@ -64,7 +65,7 @@ export class FingerprintComponent {
         });
     }
 
-     utf16to8(str) {
+   /*  utf16to8(str) {
         let out, i, len, c;
         out = '';
         len = str.length;
@@ -117,7 +118,6 @@ export class FingerprintComponent {
         return out;
     }
 
-
     base64encode(str: string) {
         let out, i, len;
         let c1, c2, c3;
@@ -157,7 +157,7 @@ export class FingerprintComponent {
         i = 0;
         out = '';
         while (i < len) {
-            /* c1 */
+            /!* c1 *!/
             do {
                 c1 = this.base64DecodeChars[str.charCodeAt(i++) & 0xff];
             } while (i < len && c1 === -1) {
@@ -165,7 +165,7 @@ export class FingerprintComponent {
                     break;
                 }
             }
-            /* c2 */
+            /!* c2 *!/
             do {
                 c2 = this.base64DecodeChars[str.charCodeAt(i++) & 0xff];
             } while (i < len && c2 === -1) {
@@ -174,7 +174,7 @@ export class FingerprintComponent {
                 }
                 out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
             }
-            /* c3 */
+            /!* c3 *!/
             do {
                 c3 = str.charCodeAt(i++) & 0xff;
                 if (c3 === 61) {
@@ -186,7 +186,7 @@ export class FingerprintComponent {
                 break;
             }
             out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
-            /* c4 */
+            /!* c4 *!/
             do {
                 c4 = str.charCodeAt(i++) & 0xff;
                 if (c4 === 61) {
@@ -202,6 +202,6 @@ export class FingerprintComponent {
             out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
         }
         return out;
-    }
+    }*/
 
 }

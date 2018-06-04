@@ -39,7 +39,8 @@ export class SlipprintBmpComponent {
         this.submitted = true;
         this.disableStatus();
         const printContentBmp = $('#printContent').val();
-        this.printContent = this.toUtf8(printContentBmp);
+        this.printContent = String(printContentBmp);
+        // this.printContent = this.toUtf8(printContentBmp);
         this.printLeftMargin = String($('#printLeftMargin').val());
         this.handlePrint('bmp',
             this.printContent,
@@ -70,7 +71,7 @@ export class SlipprintBmpComponent {
         $('#printBtn').attr('disabled', 'false');
         $('#printBtn').removeAttr('disabled');
     }
-    toUtf8(str) {
+  /*  toUtf8(str) {
         let out, i, len, c;
         out = '';
         len = str.length;
@@ -88,7 +89,7 @@ export class SlipprintBmpComponent {
             }
         }
         return out;
-    }
+    }*/
     /**
      * call print fun.
      * @param printType print type:	打印项的类型,可用的值

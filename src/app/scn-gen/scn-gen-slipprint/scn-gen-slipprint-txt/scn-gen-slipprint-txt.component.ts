@@ -21,7 +21,6 @@ export class SlipprintTxtComponent {
     constructor(private router: Router,
                 private printslip: SlipprintService) { }
 
-
     nextRoute(next: String) {
         this.router.navigate([next]);
         return;
