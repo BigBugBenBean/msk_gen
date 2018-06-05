@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router'
 import {QRCodeComponent} from 'angular2-qrcode';
 import {SlipprintService} from '../../../shared/services/print-service/slipprint.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component ({
     templateUrl: './scn-gen-slipprint-bmp.component.html',
@@ -15,6 +16,7 @@ export class SlipprintBmpComponent {
     printAttribute = '';
     submitted = false;
     constructor(private router: Router,
+                private translate: TranslateService,
                 private printslip: SlipprintService) { }
 
     nextRoute(next: String) {
@@ -24,6 +26,16 @@ export class SlipprintBmpComponent {
     previousRoute() {
         this.router.navigate(['/scn-gen/slipprint']);
         return;
+    }
+
+    langButton() {
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
     }
 
     slipprint(printType) {

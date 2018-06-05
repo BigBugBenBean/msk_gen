@@ -1,51 +1,52 @@
 <div class="mainPanel">
     <img class="buttonLan" src="../../../../assets/images/button_lan_tc .png"/>
+    <input class="buttonLan"  type="button" value="{{'SCN-GEN-SLIPPRINT.LANGUAGE' | translate}}" (click) = "langButton()"/>
     <sc2-timer class="timer"></sc2-timer>
     <div class="mainBG">
         <div class="contentDiv">
             <table width="100%" style="margin: 0px;padding: 0px">
                 <tr>
                     <td colspan="2" style="height: 100px;vertical-align: middle">
-                        <label class="mainLabel"> Slipprint Text / 打印文本格式. </label>
+                        <label class="mainLabel"> {{'SCN-GEN-SLIPPRINT-TXT.PRINT-EXT-FOMAT' | translate}}  </label>
                     </td>
                 </tr>
                 <tr>
-                    <td class="firstCol" height="400px" style="vertical-align: middle">打印内容：</td>
+                    <td class="firstCol" height="400px" style="vertical-align: middle">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-CONTENT' | translate}} ：</td>
                     <td class="contentCol">
                         <textarea rows="6" id="printContent" style="width: 500px;" name="printContent">{{printContent}}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td class="firstCol">
-                        打印高度：
+                        {{'SCN-GEN-SLIPPRINT-TXT.PRINT-HIGHT' | translate}}：
                     </td>
                     <td class="contentCol">
-                        <input type="number" id="printHeight" name="printHeight" value="{{printHeight}}" style="text-align: right; width: 500px;height: 40px">像素
+                        <input type="number" id="printHeight" name="printHeight" value="{{printHeight}}" style="text-align: right; width: 500px;height: 40px">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-PIXELS' | translate}}
                     </td>
 
                 </tr>
                 <tr>
                     <td class="firstCol">
-                        左边距：
+                        {{'SCN-GEN-SLIPPRINT-TXT.PRINT-LEFT-MARGIN' | translate}}：
                     </td>
                     <td class="contentCol">
-                        <input type="number" id="printLeftMargin" name="printLeftMargin" value="{{printLeftMargin}}" style="text-align: right;width: 500px;height: 40px" >像素
+                        <input type="number" id="printLeftMargin" name="printLeftMargin" value="{{printLeftMargin}}" style="text-align: right;width: 500px;height: 40px" >{{'SCN-GEN-SLIPPRINT-TXT.PRINT-PIXELS' | translate}}
                     </td>
 
                 </tr>
                 <tr>
                     <td class="firstCol">
-                        属性设置：
+                        {{'SCN-GEN-SLIPPRINT-TXT.PRINT-PROPER-SET' | translate}}：
                     </td>
                     <td class="contentCol">
                         <select id="printAttribute" name="printAttribute" style="width: 500px;height: 40px">
-                            <option value="normal">正常打印</option>
-                            <option value="small">打印字体为小号字体</option>
-                            <option value="bold">打印字体加粗</option>
-                            <option value="double_height">加倍高打印</option>
-                            <option value="double_width">加倍宽打印</option>
-                            <option value="underline">加下划线</option>
-                            <option value="reverse">反白模式，文字白色背景黑色</option>
+                            <option value="normal">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-NORMAL' | translate}}</option>
+                            <option value="small">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-SMALL-SIZE' | translate}}</option>
+                            <option value="bold">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-BOLD' | translate}}</option>
+                            <option value="double_height">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-DOUBLE-HIGHT' | translate}}</option>
+                            <option value="double_width">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-DOUBLE-WIDTH' | translate}}</option>
+                            <option value="underline">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-UNDERLINED' | translate}}</option>
+                            <option value="reverse">{{'SCN-GEN-SLIPPRINT-TXT.PRINT-FONT-ANTI-WHITE-MODE' | translate}}</option>
 
                         </select>
                     </td>
@@ -53,12 +54,12 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="padding:10px;">
-                        <input type="button" id="printBtn"  class="btnClass"  value="打印" (click) = "startPrint()">
+                        <input type="button" id="printBtn"  class="btnClass"  value="{{'SCN-GEN-SLIPPRINT-TXT.PRINT-BTN' | translate}}" (click) = "startPrint()">
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <input  class="backButton" type="button" value="《返回" (click) = "previousRoute()">
+    <input  class="backButton" type="button" value="《{{'SCN-GEN-SLIPPRINT.RETURN' | translate}}" (click) = "previousRoute()">
 
 </div>

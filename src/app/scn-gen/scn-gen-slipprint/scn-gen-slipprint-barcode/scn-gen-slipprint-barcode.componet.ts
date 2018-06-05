@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router'
 import {SlipprintService} from '../../../shared/services/print-service/slipprint.service';
 import {ConfirmComponent} from '../../../shared/sc2-confirm';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component ({
     templateUrl: './scn-gen-slipprint-barcode.component.html',
@@ -18,6 +19,7 @@ export class SlipprintBarcodeComponent {
     barcodeFontSize = 'SMALL_FONT';
     submitted = false;
     constructor(private router: Router,
+                private translate: TranslateService,
                 private printslip: SlipprintService) { }
 
     nextRoute(next: String) {
@@ -27,6 +29,16 @@ export class SlipprintBarcodeComponent {
     previousRoute() {
         this.router.navigate(['/scn-gen/slipprint']);
         return;
+    }
+
+    langButton() {
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
     }
 
     slipprint(printType) {

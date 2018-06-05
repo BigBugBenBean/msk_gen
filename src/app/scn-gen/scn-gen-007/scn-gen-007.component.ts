@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'
+import {TranslateService} from '@ngx-translate/core';
 
 @Component ({
     templateUrl: './scn-gen-007.component.html',
@@ -7,7 +8,8 @@ import { Router } from '@angular/router'
 })
 
 export class Page7Component {
-    constructor(private router: Router) { }
+    constructor(private router: Router,
+                private translate: TranslateService) { }
 
     nextRoute(next: String) {
         this.router.navigate([next]);
@@ -28,5 +30,15 @@ export class Page7Component {
     readCard() {
         this.router.navigate(['/scn-gen/readNewCard']);
         return;
+    }
+
+    langButton() {
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
     }
 }

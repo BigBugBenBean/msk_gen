@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'
 import {SlipprintService} from '../../shared/services/print-service/slipprint.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component ({
     templateUrl: './scn-gen-slipprint.component.html',
@@ -9,6 +10,7 @@ import {SlipprintService} from '../../shared/services/print-service/slipprint.se
 
 export class SlipprintComponent {
     constructor(private router: Router,
+                private translate: TranslateService,
                 private printslip: SlipprintService) {
     }
 
@@ -69,6 +71,16 @@ export class SlipprintComponent {
     printDemo() {
         this.handlePrint();
         return;
+    }
+
+    langButton() {
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
     }
 
     /**

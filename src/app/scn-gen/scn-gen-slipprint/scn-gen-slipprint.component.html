@@ -1,32 +1,31 @@
 <div class="mainPanel">
-    <img class="buttonLan" src="../../../assets/images/button_lan_tc .png"/>
-    <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
+    <input class="buttonLan"  type="button" value="{{'SCN-GEN-SLIPPRINT.LANGUAGE' | translate}}" (click) = "langButton()"/>
     <sc2-timer class="timer"></sc2-timer>
     <div class="mainBG"></div>
-    <label  class="mainLabel"> Print Service / 打印服务. </label>
+    <label  class="mainLabel">  {{'SCN-GEN-SLIPPRINT.PRINT-SERVICE' | translate}} </label>
     <input type="image" class="firstLeft firstTop" (click)="printTxtDemo()"src="../../../assets/images/button_6.png">
     <div class="buttonDiv1">
-        <label (click)="printTxtDemo()" class="label1"> print text / 打印文本 </label>
+        <label (click)="printTxtDemo()" class="label1"> {{'SCN-GEN-SLIPPRINT.PRINT-TEXT' | translate}} </label>
     </div>
     <input type="image" class="secondLeft firstTop" (click)="printBarcode()" src="../../../assets/images/button_6.png"/>
     <div class="buttonDiv2">
-        <label (click)="printBarcode()" class="label1"> Print Barcode / 打印一维条码 </label>
+        <label (click)="printBarcode()" class="label1">  {{'SCN-GEN-SLIPPRINT.PRINT-BARCODE' | translate}} </label>
     </div>
     <input type="image" class="thirdLeft firstTop" (click)="printBmp()" src="../../../assets/images/button_6.png"/>
     <div class="buttonDiv3">
-        <label (click)="printBmp()" class="label1">Print bmp / 打印二维条码</label>
+        <label (click)="printBmp()" class="label1"> {{'SCN-GEN-SLIPPRINT.PRINT-BMP' | translate}}</label>
     </div>
     <input type="image" class="firstLeft secondTop" (click)="printVspace()" src="../../../assets/images/button_6.png"/>
     <div class="buttonDiv4">
-        <label (click)="printVspace()" class="label1"> Print Vspace / 垂直方向走纸 </label>
+        <label (click)="printVspace()" class="label1">  {{'SCN-GEN-SLIPPRINT.PRINT-VSPACE' | translate}} </label>
     </div>
-    <input type="image" class="secondLeft secondTop" (click)="printBmp()" src="../../../assets/images/button_6.png"/>
+    <input type="image" class="secondLeft secondTop" (click)="printCutpaper()" src="../../../assets/images/button_6.png"/>
     <div class="buttonDiv5">
-        <label (click)="printCutpaper()" class="label1">Print Cutpaper / 打印切纸</label>
+        <label (click)="printCutpaper()" class="label1"> {{'SCN-GEN-SLIPPRINT.PRINT-CUTPAPER' | translate}}</label>
     </div>
     <input type="image" class="thirdLeft secondTop" (click)="printDemo()" src="../../../assets/images/button_6.png"/>
     <div class="buttonDiv6">
-        <label (click)="printDemo()" class="label1">Print Demo / Demo打印</label>
+        <label (click)="printDemo()" class="label1"> {{'SCN-GEN-SLIPPRINT.PRINT-DEMO' | translate}}</label>
     </div>
-    <input class="backButton" class="btnClass" type="button" value="《返回" (click) = "previousRoute()">
+    <input class="backButton" class="btnClass" type="button" value="《{{'SCN-GEN-SLIPPRINT.RETURN' | translate}}" (click) = "previousRoute()">
 </div>

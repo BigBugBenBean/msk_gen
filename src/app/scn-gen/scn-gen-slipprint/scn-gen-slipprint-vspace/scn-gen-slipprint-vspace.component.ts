@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router'
 import {SlipprintService} from '../../../shared/services/print-service/slipprint.service';
+import {TranslateService} from '@ngx-translate/core';
 @Component ({
     templateUrl: './scn-gen-slipprint-vspace.component.html',
     styleUrls: ['./scn-gen-slipprint-vspace.component.scss']
@@ -13,6 +14,7 @@ export class SlipprintVspaceComponent {
     printLeftMargin = '';
     printAttribute = '';
     constructor(private router: Router,
+                private translate: TranslateService,
                 private printslip: SlipprintService) { }
 
     nextRoute(next: String) {
@@ -22,6 +24,16 @@ export class SlipprintVspaceComponent {
     previousRoute() {
         this.router.navigate(['/scn-gen/slipprint']);
         return;
+    }
+
+    langButton() {
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
     }
 
     slipprint(printType) {

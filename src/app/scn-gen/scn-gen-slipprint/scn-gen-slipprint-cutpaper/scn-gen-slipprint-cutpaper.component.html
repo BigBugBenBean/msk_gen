@@ -1,5 +1,6 @@
 <div class="mainPanel">
     <img class="buttonLan" src="../../../../assets/images/button_lan_tc .png"/>
+    <input class="buttonLan"  type="button" value="{{'SCN-GEN-SLIPPRINT.LANGUAGE' | translate}}" (click) = "langButton()"/>
     <!-- <img class="mainBG" src="../../../../assets/images/bg_1160x640.png"/> -->
     <script src="jquery.qrcode.min.js" type="text/javascript"></script>
     <sc2-timer class="timer"></sc2-timer>
@@ -8,26 +9,26 @@
             <table width="100%" style="margin: 0px;padding: 0px">
                 <tr>
                     <td colspan="2" style="height: 100px;vertical-align: middle">
-                        <label class="mainLabel"> Slipprint Cutpaper / 打印切纸. </label>
+                        <label class="mainLabel"> {{'SCN-GEN-SLIPPRINT-CUTPAPER.PRINT-CUT-PAPER' | translate}}  </label>
                     </td>
                 </tr>
                 <tr>
-                    <td class="firstCol" height="400px" style="vertical-align: middle">切纸选项：</td>
+                    <td class="firstCol" height="400px" style="vertical-align: middle">{{'SCN-GEN-SLIPPRINT-CUTPAPER.PAPER-CUTTING-OPTIONS' | translate}}：</td>
                     <td class="contentCol">
                         <select id="printAttribute" name="printAttribute" style="width: 500px;height: 40px">
-                            <option value="full">全切模式，切完后纸张不粘着</option>
-                            <option value="half">半切模式，切完后纸张有一点还沾着，防止掉落，需要用手扯下</option>
-                            <option value="black">切纸沿着黑标切，没有black则打印到哪就沿着哪切</option>
+                            <option value="full">{{'SCN-GEN-SLIPPRINT-CUTPAPER.OPTION-FULL-CUT-MODE' | translate}}</option>
+                            <option value="half">{{'SCN-GEN-SLIPPRINT-CUTPAPER.OPTION-HALF-CUT-MODE' | translate}}</option>
+                            <option value="black">{{'SCN-GEN-SLIPPRINT-CUTPAPER.OPTION-CUT-ALONG-BLACK-MARK' | translate}}</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="padding:10px;">
-                        <input type="button" id="printBtn" class="btnClass" (click)="startPrint()" value="切纸">
+                        <input type="button" id="printBtn" class="btnClass" (click)="startPrint()" value="{{'SCN-GEN-SLIPPRINT-CUTPAPER.CUT-PAPER' | translate}}">
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <input  class="backButton" type="button" value="《返回" (click) = "previousRoute()">
+    <input  class="backButton" type="button" value="《{{'SCN-GEN-SLIPPRINT-CUTPAPER.RETURN' | translate}}" (click) = "previousRoute()">
 </div>

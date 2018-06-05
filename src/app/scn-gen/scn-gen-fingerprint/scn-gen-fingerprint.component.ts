@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import {FingerprintService} from '../../shared/services/fingerprint-service/fingerprint.service';
 import {ConfirmComponent} from '../../shared/sc2-confirm/sc2-confirm.component';
 import {MsksService} from '../../shared/msks';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component ({
     templateUrl: './scn-gen-fingerprint.component.html',
@@ -26,6 +27,7 @@ export class FingerprintComponent {
         41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1];*/
     constructor(private router: Router,
                 private service: MsksService,
+                private translate: TranslateService,
                 private fingers: FingerprintService) { }
 
     nextRoute(next: String) {
@@ -35,6 +37,16 @@ export class FingerprintComponent {
     previousRoute() {
         this.router.navigate(['/scn-gen/gen007']);
         return;
+    }
+
+    langButton() {
+        const browserLang = this.translate.currentLang;
+        console.log(browserLang);
+        if (browserLang === 'zh-HK') {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
     }
 
     startFingerprintScan() {
