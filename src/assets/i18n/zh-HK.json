@@ -165,5 +165,100 @@
         "TIMMER": "剩餘時間",
         "LANGUAGE": "English",
         "NAVIGATION": "步驟"
+    },
+    "SCN-GEN-007": {
+        "EQUIPMENT-SERVICE":"請選擇設備服務",
+        "EQUIPMENT-SERVICE-SLIPPRINT": "打印服務",
+        "EQUIPMENT-SERVICE-FINGERPRINT": "指紋掃描服務",
+        "EQUIPMENT-SERVICE-CARDREADER": "IC讀卡服務"
+    },
+    "SCN-GEN-SLIPPRINT": {
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "PRINT-SERVICE": "選擇打印服務",
+        "PRINT-TEXT": "打印文本",
+        "PRINT-BARCODE": "打印一維碼",
+        "PRINT-BMP": "打印二維碼",
+        "PRINT-VSPACE": "垂直走紙",
+        "PRINT-CUTPAPER": "打印切紙",
+        "PRINT-DEMO": "Demo打印"
+    },
+    "SCN-GEN-SLIPPRINT-TXT": {
+        "PRINT-BTN": "打印",
+        "PRINT-PIXELS": "像素",
+        "PRINT-EXT-FOMAT": "打印文本格式",
+        "PRINT-CONTENT": "打印內容",
+        "PRINT-HIGHT": "打印高度",
+        "PRINT-LEFT-MARGIN": "左邊距",
+        "PRINT-PROPER-SET": "屬性設置",
+        "PRINT-FONT-NORMAL": "正常打印",
+        "PRINT-FONT-SMALL-SIZE": "打印字體為小字號",
+        "PRINT-FONT-BOLD": "字體加粗",
+        "PRINT-FONT-DOUBLE-HIGHT": "字體加倍高",
+        "PRINT-FONT-DOUBLE-WIDTH": "字體加倍寬",
+        "PRINT-FONT-UNDERLINED": "字體加下劃線",
+        "PRINT-FONT-ANTI-WHITE-MODE": "反白模式"
+    },
+    "SCN-GEN-SLIPPRINT-BARCODE": {
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "PRINT-BTN": "打印",
+        "PRINT-PIXELS": "像素",
+        "PRINT-BARCODE": "打印一維碼",
+        "PRINT-HIGHT": "打印高度",
+        "PRINT-LEFT-MARGIN": "左邊距",
+        "BARCODE-TYPE": "條碼類型",
+        "BARCODE-DATA": "一維碼數據",
+        "TEXT-CONTENT-LOCATION": "文字內容位置",
+        "FONT-SIZE": "字體大小",
+        "FONT-SIZE-SMALL": "小字體",
+        "FONT-SIZE-NORMAL": "正常字體",
+        "DO-NOT-PRINT-CORRESPONDING-TEXT": "不打印對應文字",
+        "TEXT-BELOW-BARCODE": "文字位于條碼下方",
+        "TEXT-ABOVE-BARCODE": "文字位于條碼上方"
+
+
+
+    },
+    "SCN-GEN-SLIPPRINT-BMP": {
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "PRINT-BTN": "打印",
+        "QR-CODE-PRINT": "二維碼打印",
+        "PRINT-PIXELS": "像素",
+        "PRINT-CONTENT": "打印內容",
+        "PRINT-LEFT-MARGIN": "左邊距"
+    },
+    "SCN-GEN-SLIPPRINT-VSPACE": {
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "PRINT-BTN": "走紙",
+        "FEED-PAPER-VERTICALLY": "垂直方向走纸",
+        "PIXELS-FOR-PAPER-FEED-VERTICAL-DIRECTION": "垂直方向走纸的像素点数",
+        "PRINT-PIXELS": "像素"
+    },
+    "SCN-GEN-SLIPPRINT-CUTPAPER": {
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "PRINT-CUT-PAPER": "打印切紙",
+        "CUT-PAPER": "切紙",
+        "PAPER-CUTTING-OPTIONS": "切紙選項",
+        "OPTION-FULL-CUT-MODE": "全切模式",
+        "OPTION-HALF-CUT-MODE": "半切模式",
+        "OPTION-CUT-ALONG-BLACK-MARK": "切纸沿着黑标"
+    },
+    "SCN-GEN-FINGERPRINT-SCAN": {
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "FINGERPRINT-SCAN-SERVICE": "指紋掃描服務",
+        "START-FINGERPRINT-SCAN": "開始指紋掃描",
+        "STOP-FINGERPRINT-SCAN": "停止指紋掃描"
+    },
+    "SCN-GEN-CARDREADER": {
+        "EQUIPMENT-SERVICE":"請選擇設備服務",
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "SCAN-ID-CARD": "掃描身份證",
+        "READ-ID-CHIP": "讀取芯片信息"
     }
 }

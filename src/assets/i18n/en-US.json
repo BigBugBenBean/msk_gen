@@ -168,5 +168,97 @@
         "TIMMER": "Time Remaining",
         "LANGUAGE": "中文",
         "NAVIGATION": "Step"
+    },
+    "SCN-GEN-007": {
+        "EQUIPMENT-SERVICE":"Please select the Equipment Service.",
+        "EQUIPMENT-SERVICE-SLIPPRINT": "Print Service",
+        "EQUIPMENT-SERVICE-FINGERPRINT": "Fingerprint Scaner Service",
+        "EQUIPMENT-SERVICE-CARDREADER": "IC Read Card Service"
+    },
+    "SCN-GEN-SLIPPRINT": {
+        "LANGUAGE": "中文",
+        "RETURN": "Return",
+        "PRINT-SERVICE": "Please select the print service.",
+        "PRINT-TEXT": "Print Text",
+        "PRINT-BARCODE": "Print Barcode,",
+        "PRINT-BMP": "Print BMP",
+        "PRINT-VSPACE": "Print Vspace",
+        "PRINT-CUTPAPER": "Print CutPaper",
+        "PRINT-DEMO": "Demo Print"
+    },
+    "SCN-GEN-SLIPPRINT-TXT": {
+        "PRINT-BTN": "Print",
+        "PRINT-PIXELS": "Pixels",
+        "PRINT-EXT-FOMAT": "Print Text Format",
+        "PRINT-CONTENT": "Print Content",
+        "PRINT-HIGHT": "Print Hight",
+        "PRINT-LEFT-MARGIN": "Left margin",
+        "PRINT-PROPER-SET": "Setting Proper",
+        "PRINT-FONT-NORMAL": "Normal Print",
+        "PRINT-FONT-SMALL-SIZE": "Print small font",
+        "PRINT-FONT-BOLD": "Print Bold",
+        "PRINT-FONT-DOUBLE-HIGHT": "Print Double Hight",
+        "PRINT-FONT-DOUBLE-WIDTH": "Print Double Width",
+        "PRINT-FONT-UNDERLINED": "Print Underlinded",
+        "PRINT-FONT-ANTI-WHITE-MODE": "Print Anit-White Mode"
+    },
+    "SCN-GEN-SLIPPRINT-BARCODE": {
+        "LANGUAGE": "中文",
+        "RETURN": "Return",
+        "PRINT-BTN": "Print",
+        "PRINT-PIXELS": "Pixels",
+        "PRINT-BARCODE": "Print Barcode",
+        "PRINT-HIGHT": "Print Hight",
+        "PRINT-LEFT-MARGIN": "Left margin",
+        "BARCODE-TYPE": "Barcode Type",
+        "BARCODE-DATA": "Barcode Data",
+        "TEXT-CONTENT-LOCATION": "Text ontent location",
+        "FONT-SIZE": "Font size",
+        "FONT-SIZE-SMALL": "Small font",
+        "FONT-SIZE-NORMAL": "Normal font",
+        "DO-NOT-PRINT-CORRESPONDING-TEXT": "Do not print the corresponding font",
+        "TEXT-BELOW-BARCODE": "Text is below the bar code",
+        "TEXT-ABOVE-BARCODE": "Text above bar code"
+    },
+    "SCN-GEN-SLIPPRINT-BMP": {
+        "LANGUAGE": "中文",
+        "RETURN": "Return",
+        "PRINT-BTN": "Print",
+        "PRINT-PIXELS": "Pixels",
+        "QR-CODE-PRINT": "QR code printing",
+        "PRINT-CONTENT": "Print Content",
+        "PRINT-LEFT-MARGIN": "Left margin"
+    },
+    "SCN-GEN-SLIPPRINT-VSPACE": {
+        "LANGUAGE": "中文",
+        "RETURN": "Return",
+        "PRINT-BTN": "Paper moving",
+        "PRINT-PIXELS": "Pixels",
+        "FEED-PAPER-VERTICALLY": "Feed paper vertically",
+        "PIXELS-FOR-PAPER-FEED-VERTICAL-DIRECTION": "Pixels for paper feed in the vertical direction"
+    },
+    "SCN-GEN-SLIPPRINT-CUTPAPER": {
+        "LANGUAGE": "中文",
+        "RETURN": "Return",
+        "PRINT-CUT-PAPER": "Print Cut Paper",
+        "CUT-PAPER": "Cut Paper",
+        "PAPER-CUTTING-OPTIONS": "Paper cutting options",
+        "OPTION-FULL-CUT-MODE": "Full cut mode",
+        "OPTION-HALF-CUT-MODE": "Half cut mode",
+        "OPTION-CUT-ALONG-BLACK-MARK": "Cut paper along the black mark"
+    },
+    "SCN-GEN-FINGERPRINT-SCAN": {
+        "LANGUAGE": "中文",
+        "RETURN": "Return",
+        "FINGERPRINT-SCAN-SERVICE": "Fingerprint scanning service",
+        "START-FINGERPRINT-SCAN": "Start fingerprint scanning",
+        "STOP-FINGERPRINT-SCAN": "Stop fingerprint scanning"
+    },
+    "SCN-GEN-CARDREADER": {
+        "EQUIPMENT-SERVICE":"Please select the service",
+        "LANGUAGE": "English",
+        "RETURN": "返回",
+        "SCAN-ID-CARD": "Scan ID card",
+        "READ-ID-CHIP": "Read ID chip"
     }
 }
