@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MsksModule } from '../shared/msks';
 import { TimerModule } from '../shared/sc2-timer';
-import { PrivacyModule, PrivacyComponent } from '../shared/scn-gen-privacy';
 import { MenuModule } from '../shared/menu';
 
 import { Page1Component } from './scn-gen-001/scn-gen-001.component';
@@ -63,8 +62,8 @@ const routes: Routes = [
             { path: 'step-003-01' , component: GenStep00301Component },
             { path: 'step-004-01' , component: GenStep00401Component }
         ]},
-    { path: 'iframe/:url', component: IframeComponent},
-    { path: 'scn-gen/privacy', component: PrivacyComponent}
+    { path: 'iframe/:url', component: IframeComponent}
+
 ];
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -92,9 +91,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         GenStep00301Component,
         GenStep00401Component,
         IframeComponent,
-        ConfirmComponent,
-        HKIC2ViewComponent,
-        PrivacyComponent
+        HKIC2ViewComponent
     ],
     imports: [
         CommonModule,

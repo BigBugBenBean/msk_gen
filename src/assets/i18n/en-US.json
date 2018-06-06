@@ -1,4 +1,4 @@
-﻿{
+{
     "SCN-SRK-001-1": {
         "GROUP": "Group",
         "START-EN": "Start",
@@ -276,6 +276,15 @@
         "CONDITION-OF-STAY": "Condition of Stay：",
         "LIMIT-OF-STAY": "Limit of Stay(DD-MM-YYYY)：",
         "PROCESSING-READ": "Processing..."
-
+    },
+    "SCN-GEN-VIEWCARD": {
+        "LANGUAGE": "中文",
+        "ABORT": "Abort",
+        "ABORT_CONFIRM": "Are you sure you want to abort?",
+        "NAVIGATION": "View personal data in chip",
+        "INDICATE-CARD-TYPE": "Please indicate the type of HKID card you are holding:",
+        "INSERT-HKID": "Please insert your HKID card.",
+        "YES": "Yes",
+        "NO": "No"
     }
 }

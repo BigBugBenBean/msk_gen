@@ -1,4 +1,4 @@
-﻿{
+{
     "SCN-SRK-001-1": {
         "GROUP": "團體",
         "START-EN": "Start",
@@ -276,7 +276,15 @@
         "CONDITION-OF-STAY": "逗留條件：",
         "LIMIT-OF-STAY": "逗留限制(DD-MM-YYYY)：",
         "PROCESSING-READ": "正在讀卡，請稍等..."
-
-
+    },
+    "SCN-GEN-VIEWCARD": {
+        "LANGUAGE": "English",
+        "ABORT": "退出",
+        "ABORT_CONFIRM": "你確定要中止？",
+        "NAVIGATION": "查看芯片中的個人數據",
+        "INDICATE-CARD-TYPE": "請指出您持有的香港身份證的類型:",
+        "INSERT-HKID": "請插入您的香港身份證.",
+        "YES": "是",
+        "NO": "否"
     }
 }
