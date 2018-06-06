@@ -260,5 +260,21 @@
         "RETURN": "返回",
         "SCAN-ID-CARD": "Scan ID card",
         "READ-ID-CHIP": "Read ID chip"
+    },
+    "SCN-GEN-STEPS": {
+        "INSERT-HKID": "Please insert your current HKID card.",
+        "PLACE-RIGHT-FP": "Please place your right enrolled\nfinger on the fingerprint scanner.",
+        "PLACE-LEFT-FP": "Please place your left enrolled\nfinger on the fingerprint scanner.",
+        "ABORT": "Abort",
+        "TIMMER": "Time Remaining",
+        "LANGUAGE": "中文",
+        "NAVIGATION": "Step",
+        "UPDATE-CONDITION-STAY": "Update Condition of Stay and Limit of Stay in chip",
+        "TYPE-OF-HKID-CARD": "Please indicate the type of HKID card you are holding:",
+        "COLLECT-HKID-CARD": "Please collect your HKID card.",
+        "UPDATE-STAY-CONDITION-INFO": "The updated Condition of Stay and Limit of Stay is  as follow：",
+        "CONDITION-OF-STAY": "Condition of Stay：",
+        "LIMIT-OF-STAY": "Limit of Stay(DD-MM-YYYY)："
+
     }
 }

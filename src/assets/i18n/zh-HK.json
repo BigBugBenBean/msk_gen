@@ -260,5 +260,22 @@
         "RETURN": "返回",
         "SCAN-ID-CARD": "掃描身份證",
         "READ-ID-CHIP": "讀取芯片信息"
+    },
+    "SCN-GEN-STEPS": {
+        "INSERT-HKID": "請插入你現有的香港身份證。",
+        "PLACE-RIGHT-FP": "請將你已登記的右手指紋放\n於掃描器上。",
+        "PLACE-LEFT-FP": "請將你已登記的左手指紋放於\n掃描器上。",
+        "ABORT": "退出",
+        "TIMMER": "剩餘時間",
+        "LANGUAGE": "English",
+        "NAVIGATION": "步驟",
+        "UPDATE-CONDITION-STAY": "更新芯片中的逗留條件入逗留限制",
+        "TYPE-OF-HKID-CARD": "請注明您持有的香港身份的證類型",
+        "COLLECT-HKID-CARD": "請取回你的香港身份證卡.",
+        "UPDATE-STAY-CONDITION-INFO": "更新逗留條件和逗留限制信息如下：",
+        "CONDITION-OF-STAY": "逗留條件：",
+        "LIMIT-OF-STAY": "逗留限制(DD-MM-YYYY)："
+
+
     }
 }
