@@ -28,6 +28,12 @@ export class GenStep00101Component {
     backRoute() {
     }
 
+    timeExpire() {
+        setTimeout(() => {
+            this.router.navigate(['/scn-gen/gen002']);
+        }, 500);
+    }
+
     langButton() {
         const browserLang = this.translate.currentLang;
         console.log(browserLang);

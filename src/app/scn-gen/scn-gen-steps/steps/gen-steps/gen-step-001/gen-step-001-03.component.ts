@@ -18,6 +18,12 @@ export class GenStep00103Component {
         return;
     }
 
+    timeExpire() {
+        setTimeout(() => {
+            this.router.navigate(['/scn-gen/gen002']);
+        }, 500);
+    }
+
     pass() {
         this.router.navigate(['/scn-gen/steps/step-002-01']);
         return;

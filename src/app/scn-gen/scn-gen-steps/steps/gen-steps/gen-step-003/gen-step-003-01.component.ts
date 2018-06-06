@@ -20,6 +20,12 @@ export class GenStep00301Component {
         return;
     }
 
+    timeExpire() {
+        setTimeout(() => {
+            this.router.navigate(['/scn-gen/gen002']);
+        }, 500);
+    }
+
     /**
      * backPage.
      */
