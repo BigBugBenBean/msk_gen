@@ -274,7 +274,8 @@
         "COLLECT-HKID-CARD": "請取回你的香港身份證卡.",
         "UPDATE-STAY-CONDITION-INFO": "更新逗留條件和逗留限制信息如下：",
         "CONDITION-OF-STAY": "逗留條件：",
-        "LIMIT-OF-STAY": "逗留限制(DD-MM-YYYY)："
+        "LIMIT-OF-STAY": "逗留限制(DD-MM-YYYY)：",
+        "PROCESSING-READ": "正在讀卡，請稍等..."
 
 
     }

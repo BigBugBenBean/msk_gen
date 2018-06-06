@@ -274,7 +274,8 @@
         "COLLECT-HKID-CARD": "Please collect your HKID card.",
         "UPDATE-STAY-CONDITION-INFO": "The updated Condition of Stay and Limit of Stay is  as follow：",
         "CONDITION-OF-STAY": "Condition of Stay：",
-        "LIMIT-OF-STAY": "Limit of Stay(DD-MM-YYYY)："
+        "LIMIT-OF-STAY": "Limit of Stay(DD-MM-YYYY)：",
+        "PROCESSING-READ": "Processing..."
 
     }
 }
