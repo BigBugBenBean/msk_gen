@@ -27,6 +27,14 @@ import {SlipprintBarcodeComponent} from './scn-gen-slipprint/scn-gen-slipprint-b
 import {SlipprintCutpaperComponent} from './scn-gen-slipprint/scn-gen-slipprint-cutpaper/scn-gen-slipprint-cutpaper.component';
 import {CardReaderComponent} from './scn-gen-cardreader/scn-gen-cardreader.component';
 import {ConfirmComponent} from '../shared/sc2-confirm';
+import {GenStep00101Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-01.component';
+import {GenStepsComponent} from './scn-gen-steps/steps/gen-steps.componoent';
+import {GenStep00201Component} from './scn-gen-steps/steps/gen-steps/gen-step-002/gen-step-002-01.component';
+import {GenStep00102Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-02.component';
+import {GenStep00202Component} from './scn-gen-steps/steps/gen-steps/gen-step-002/gen-step-002-02.component';
+import {GenStep00103Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-03.component';
+import {GenStep00401Component} from './scn-gen-steps/steps/gen-steps/gen-step-004/gen-step-004-01.component';
+import {GenStep00301Component} from './scn-gen-steps/steps/gen-steps/gen-step-003/gen-step-003-01.component';
 const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
@@ -44,6 +52,17 @@ const routes: Routes = [
     { path: 'slipprintCutpaper', component: SlipprintCutpaperComponent },
     { path: 'fingerprint', component: FingerprintComponent },
     { path: 'readNewCard', component: CardReaderComponent },
+    // { path: 'step-001' , component: GenStep001Component },
+    { path: 'steps', component: GenStepsComponent,
+        children: [
+            { path: 'step-001-01' , component: GenStep00101Component },
+            { path: 'step-001-02' , component: GenStep00102Component },
+            { path: 'step-001-03' , component: GenStep00103Component },
+            { path: 'step-002-01' , component: GenStep00201Component },
+            { path: 'step-002-02' , component: GenStep00202Component },
+            { path: 'step-003-01' , component: GenStep00301Component },
+            { path: 'step-004-01' , component: GenStep00401Component }
+        ]},
     { path: 'iframe/:url', component: IframeComponent},
     { path: 'scn-gen/privacy', component: PrivacyComponent}
 ];
@@ -64,6 +83,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         SlipprintCutpaperComponent,
         FingerprintComponent,
         CardReaderComponent,
+        GenStepsComponent,
+        GenStep00101Component,
+        GenStep00102Component,
+        GenStep00103Component,
+        GenStep00201Component,
+        GenStep00202Component,
+        GenStep00301Component,
+        GenStep00401Component,
         IframeComponent,
         ConfirmComponent,
         HKIC2ViewComponent,

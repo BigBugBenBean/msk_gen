@@ -1,0 +1,18 @@
+<div class="mainPanel">
+    <sc2-timer (timerExpired)="timeExpire()" class="timer"></sc2-timer>
+    <input class="buttonTC" type="button" value="{{'SCN-GEN-STEPS.LANGUAGE' | translate}}" (click) = "langButton()">
+    <img src="../../../../../../assets/images/menubar_2.png" class="sideimg" />
+    <p class="steps-div">{{'SCN-GEN-STEPS.NAVIGATION' | translate}}</p>
+
+    <label class="labelStay" >{{'SCN-GEN-STEPS.UPDATE-CONDITION-STAY' | translate}}</label>
+    <label class="label1" >{{'SCN-GEN-STEPS.PLACE-RIGHT-FP' | translate}}</label>
+    <video class="rightimage" autoplay loop>
+        <source src="../../../../../../assets/videos/insert-right-fingerprint.mp4" type="video/mp4">
+    </video>
+    <!--   (click)="nextRoute()" -->
+    <img src="../../../../../../assets/images/image11.png" class="main-image" (click)="nextRoute()"/>
+    <input #imgNext type="hidden" (click)="nextRoute()">
+    <input type="image" src="../../../../../../assets/images/button_Abort.png" class="exitButton" (click)="backRoute()" />
+    <input class="exitButton" type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "backRoute()">
+    <label class="footerSteps">scn-gen-step-001</label>
+</div>

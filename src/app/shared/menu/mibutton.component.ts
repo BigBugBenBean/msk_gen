@@ -179,6 +179,10 @@ export class MenuButtonComponent implements AfterContentInit {
             this.router.navigate(['/scn-gen/gen007']);
             return;
         }
+        if (this.menukey === 'LV2HKICBOOKINB') {
+            this.router.navigate(['/scn-gen/steps/step-001-01']);
+            return;
+        }
         // console.log('app.type', this.app.type, this.app.path);
         switch (this.app.type) {
             case AppType.APPLICATION:
