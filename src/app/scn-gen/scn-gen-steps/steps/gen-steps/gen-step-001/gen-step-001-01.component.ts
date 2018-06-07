@@ -24,9 +24,19 @@ export class GenStep00101Component implements OnInit {
         return;
     }
 
-    insertCard() {
+    /**
+     * new HKID card.
+     */
+    insertNewCard() {
         this.router.navigate(['/scn-gen/steps/step-001-02']);
         return;
+    }
+
+    /**
+     * old HKId Card.
+     */
+    insertOldCard() {
+        console.log('call insertOldCard');
     }
 
     /**
