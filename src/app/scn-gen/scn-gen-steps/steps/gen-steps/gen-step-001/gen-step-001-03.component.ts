@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -6,10 +6,16 @@ import {TranslateService} from '@ngx-translate/core';
     templateUrl: './gen-step-001-03.component.html',
     styleUrls: ['./gen-step-001-03.component.scss']
 })
-export class GenStep00103Component {
-
+export class GenStep00103Component implements OnInit {
+    messageAbort= 'SCN-GEN-STEPS.ABORT_CONFIRM';
     constructor(private router: Router,
                 private translate: TranslateService) {}
+    public ngOnInit() {
+        console.log('call ngOnInit');
+        $('#processDiv').show();
+        setTimeout(() => { $('#processDiv').hide();
+        this.nextRoute()}, 500);
+    }
     /**
      * nextPage.
      */
@@ -33,6 +39,7 @@ export class GenStep00103Component {
      * backPage.
      */
     backRoute() {
+        this.router.navigate(['/scn-gen/gen002/LV1HKIC']);
     }
 
     langButton() {

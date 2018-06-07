@@ -6,9 +6,13 @@ import {TranslateService} from '@ngx-translate/core';
     templateUrl: './gen-step-002-01.component.html',
     styleUrls: ['./gen-step-002-01.component.scss']
 })
-export class GenStep00201Component {
+export class GenStep00201Component implements OnInit {
+    messageAbort= 'SCN-GEN-STEPS.ABORT_CONFIRM';
     constructor(private router: Router,
                 private translate: TranslateService) {}
+    public ngOnInit() {
+        console.log('call ngOnInit');
+    }
 
     /**
      * nextPage.
@@ -28,6 +32,7 @@ export class GenStep00201Component {
      * backPage.
      */
     backRoute() {
+        this.router.navigate(['/scn-gen/gen002/LV1HKIC']);
     }
 
     langButton() {

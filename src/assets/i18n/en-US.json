@@ -275,7 +275,12 @@
         "UPDATE-STAY-CONDITION-INFO": "The updated Condition of Stay and Limit of Stay is  as follow：",
         "CONDITION-OF-STAY": "Condition of Stay：",
         "LIMIT-OF-STAY": "Limit of Stay(DD-MM-YYYY)：",
-        "PROCESSING-READ": "Processing..."
+        "PROCESSING-READ": "Processing...",
+        "ABORT_CONFIRM": "Are you sure you want to abort?",
+        "YES": "Yes",
+        "NO": "No",
+        "PROCESSING": "Processing, please wait."
+
     },
     "SCN-GEN-VIEWCARD": {
         "LANGUAGE": "中文",
