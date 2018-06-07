@@ -37,7 +37,6 @@ const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
     { path: 'gen002', component: Page2Component },
-    { path: 'gen002/hkic2/view', component: HKIC2ViewComponent},
     { path: 'gen002/:id', component: Page2Component },
     { path: 'gen002/:id/:srv', component: Page2Component },
     { path: 'gen005', component: Page5Component },
