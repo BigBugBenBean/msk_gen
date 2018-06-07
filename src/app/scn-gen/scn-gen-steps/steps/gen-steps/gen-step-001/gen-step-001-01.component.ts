@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -7,7 +8,6 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./gen-step-001-01.component.scss']
 })
 export class GenStep00101Component implements OnInit {
-
      messageAbort= 'SCN-GEN-STEPS.ABORT_CONFIRM';
 
     constructor(private router: Router,
@@ -26,6 +26,7 @@ export class GenStep00101Component implements OnInit {
 
     insertCard() {
         this.router.navigate(['/scn-gen/steps/step-001-02']);
+        return;
     }
 
     /**
@@ -33,11 +34,13 @@ export class GenStep00101Component implements OnInit {
      */
     backRoute() {
         this.router.navigate(['/scn-gen/gen002/LV1HKIC']);
+        return;
     }
 
     timeExpire() {
         setTimeout(() => {
-            this.router.navigate(['/scn-gen/gen002']);
+            this.router.navigate(['/scn-gen/gen002/LV1HKIC']);
+            return;
         }, 500);
     }
 

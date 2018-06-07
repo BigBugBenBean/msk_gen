@@ -19,10 +19,10 @@
 
     <!--   (click)="nextRoute()" -->
     <video class="main-image" autoplay loop (click) = "nextRoute()">
-        <source src="../../../../../..//assets/videos/collect-new-hkid.mp4" type="video/mp4" >
+        <source src="../../../../../../assets/videos/collect-new-hkid.mp4" type="video/mp4" >
     </video>
     <input #imgNext type="hidden" (click)="nextRoute()">
-    <input type="image" src="../../../../../../assets/images/button_Abort.png" class="exitButton" (click)="modal1.show()" />
-    <input class="exitButton" type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "modal1.show()">
+    <input type="image" src="../../../../../../assets/images/button_Abort.png" class="exitButton" (click)="backRoute()" />
+    <input class="exitButton" type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "backRoute()">
     <label class="footerSteps">scn-gen-step-001</label>
 </div>
