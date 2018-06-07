@@ -60,7 +60,7 @@ export class IndicateComponent implements OnInit {
 
     nextRoute() {
         // bypassing loading screen page
-        this.router.navigate(['/main/sck004']);
+        // this.router.navigate(['/main/sck004']);
         // this.router.navigate(['/main/sck005']);
     }
 

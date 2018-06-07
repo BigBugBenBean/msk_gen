@@ -279,7 +279,9 @@
         "ABORT_CONFIRM": "Are you sure you want to abort?",
         "YES": "Yes",
         "NO": "No",
-        "PROCESSING": "Processing, please wait."
+        "PROCESSING": "Processing, please wait.",
+        "OLD-HKID-CARD-LABLE": "Select Old HKID Card",
+        "NEW-HKID-CARD-LABLE": "Select New HKID Card"
 
     },
     "SCN-GEN-VIEWCARD": {

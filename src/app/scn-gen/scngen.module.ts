@@ -34,6 +34,7 @@ import {GenStep00103Component} from './scn-gen-steps/steps/gen-steps/gen-step-00
 import {GenStep00401Component} from './scn-gen-steps/steps/gen-steps/gen-step-004/gen-step-004-01.component';
 import {GenStep00301Component} from './scn-gen-steps/steps/gen-steps/gen-step-003/gen-step-003-01.component';
 import {GenStepPrivacyComponent} from './scn-gen-steps/steps/gen-steps/gen-step-privacy/gen-step-privacy.component';
+import {GenStep00104Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-04.component';
 const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
@@ -57,6 +58,7 @@ const routes: Routes = [
             { path: 'step-001-01' , component: GenStep00101Component },
             { path: 'step-001-02' , component: GenStep00102Component },
             { path: 'step-001-03' , component: GenStep00103Component },
+            { path: 'step-001-04' , component: GenStep00104Component },
             { path: 'step-002-01' , component: GenStep00201Component },
             { path: 'step-002-02' , component: GenStep00202Component },
             { path: 'step-003-01' , component: GenStep00301Component },
@@ -87,6 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         GenStep00101Component,
         GenStep00102Component,
         GenStep00103Component,
+        GenStep00104Component,
         GenStep00201Component,
         GenStep00202Component,
         GenStep00301Component,

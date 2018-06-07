@@ -12,11 +12,12 @@
   border: 2px;
   border-color:   #979797;
   border-style:solid;
-  color: #333333;
-  font-size: 25px;
+  color: #6B6B6B;
+  font-size: 23px;
   overflow-y: hidden;
   max-height: 550px;
   box-shadow: 2px 2px 2px #979797;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -28,7 +29,8 @@
   position: absolute;
   left:61px;
   top: 151px;
-  font-size: 25px;
+  font-size: 23px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   width: 1141px;
   color: #333333;
   line-height: 32px;
@@ -50,7 +52,8 @@
   text-align: center;
   vertical-align: middle;
   line-height: 75px;
-  font-size: 34px;
+  font-size: 23px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-weight: bold;
   color: #FFFFFF;
   background-color: #3BABA5;
@@ -66,7 +69,8 @@
   text-align: center;
   vertical-align: middle;
   line-height: 75px;
-  font-size: 25px;
+  font-size: 23px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-weight: bold;
   color: #FFFFFF;
   background-color: #3BABA5;
@@ -85,7 +89,8 @@
   position:absolute;
   left: 119px;
   top: 816px;
-  font-size:28px;
+  font-size:23px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   color: #333333;
 }
 
@@ -94,7 +99,8 @@
   position:absolute;
   left: 119px;
   top: 849px;
-  font-size:28px;
+  font-size:23px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   color: #333333;
 }
 
@@ -154,6 +160,7 @@
   color: #FFFFFF;
   background-color: #6B6B6B;
   border-radius: 5px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
 }
 
 .long-text {

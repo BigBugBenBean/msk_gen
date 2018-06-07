@@ -1,7 +1,6 @@
 //@import '../../../../../shared/sc2-confirm/sc2-confirm.components.scss';
 body {
   font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
-  font-size: 30px;
 }
 .buttonTC {
   // position: absolute;
@@ -18,7 +17,6 @@ body {
   text-align: center;
   vertical-align: middle;
   line-height: 60px;
-  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-size: 30px;
   font-weight: bold;
   color: #FFFFFF;
@@ -41,9 +39,9 @@ body {
   position: absolute;
   top: 203px;
   left: 291px;
-  color: #6B6B6B;
   font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-size: 30px;
+  color: #6B6B6B;
   white-space: pre-wrap;
 }
 
@@ -70,6 +68,7 @@ body {
   text-align: center;
   vertical-align: middle;
   line-height: 40px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-size: 30px;
   font-weight: bold;
   color: #FFFFFF;
@@ -100,8 +99,39 @@ body {
   // width: 230px;
   // height: 78px;
 }
-.rightimage {
+
+
+.image {
+  -webkit-animation:spin 4s linear infinite;
+  -moz-animation:spin 4s linear infinite;
+  animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform:rotate(360deg);
+  }
+}
+
+.procLabel {
+  color: #333333;
+  font-size: 44px;
+}
+
+.centerAll {
   position: absolute;
-  right: 60px;
-  top: 103px;
+  top: 305px;
+  left: 291px;
+  text-align: center;
 }

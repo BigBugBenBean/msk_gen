@@ -18,7 +18,7 @@ export class GenStep00102Component implements OnInit {
      * nextPage.
      */
     nextRoute() {
-        this.router.navigate(['/scn-gen/steps/step-001-03']);
+        this.router.navigate(['/scn-gen/steps/step-001-04']);
         return;
     }
 
