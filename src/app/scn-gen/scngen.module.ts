@@ -12,7 +12,6 @@ import { Page2Component } from './scn-gen-002/scn-gen-002.component';
 import { Page5Component } from './scn-gen-005/scn-gen-005.component';
 
 import { IframeComponent } from './scn-gen-iframe/iframe.component';
-import { HKIC2ViewComponent } from './scn-gen-hkic2/scn-gen-view.component';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -90,8 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         GenStep00202Component,
         GenStep00301Component,
         GenStep00401Component,
-        IframeComponent,
-        HKIC2ViewComponent
+        IframeComponent
     ],
     imports: [
         CommonModule,
