@@ -1,4 +1,7 @@
-@import '../../../../../shared/sc2-confirm/sc2-confirm.components.scss';
+//@import '../../../../../shared/sc2-confirm/sc2-confirm.components.scss';
+body {
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
+}
 .buttonTC {
   // position: absolute;
   // top: 27px;
@@ -14,6 +17,7 @@
   text-align: center;
   vertical-align: middle;
   line-height: 60px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-size: 30px;
   font-weight: bold;
   color: #FFFFFF;
@@ -26,7 +30,8 @@
   top: 27px;
   left: 291px;
   width: 400px;
-  font-size: 35px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
+  font-size: 30px;
   color: cornflowerblue;
   white-space: pre-wrap;
 }
@@ -35,8 +40,9 @@
   position: absolute;
   top: 203px;
   left: 291px;
-  font-size: 36px;
-  color: #333333;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
+  font-size: 30px;
+  color: #6B6B6B;
   white-space: pre-wrap;
 }
 
@@ -63,6 +69,7 @@
   text-align: center;
   vertical-align: middle;
   line-height: 40px;
+  font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
   font-size: 30px;
   font-weight: bold;
   color: #FFFFFF;

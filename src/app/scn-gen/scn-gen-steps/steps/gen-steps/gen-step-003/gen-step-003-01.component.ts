@@ -25,7 +25,7 @@ export class GenStep00301Component implements OnInit {
 
     timeExpire() {
         setTimeout(() => {
-            this.router.navigate(['/scn-gen/gen002']);
+            this.router.navigate(['/scn-gen/gen002/LV1HKIC']);
         }, 500);
     }
 

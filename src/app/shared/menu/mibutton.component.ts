@@ -179,7 +179,7 @@ export class MenuButtonComponent implements AfterContentInit {
             return;
         }
         if (this.menukey === 'LV2HKICBOOKINB') {
-            this.router.navigate(['/scn-gen/steps/step-001-01']);
+            this.router.navigate(['/scn-gen/steps/step-privacy']);
             return;
         }
         // console.log('app.type', this.app.type, this.app.path);

@@ -279,7 +279,9 @@
         "ABORT_CONFIRM": "你確定要中止？",
         "YES": "是",
         "NO": "否",
-        "PROCESSING": "處理中，請稍候。"
+        "PROCESSING": "處理中，請稍候。",
+        "OLD-HKID-CARD-LABLE": "選擇舊卡",
+        "NEW-HKID-CARD-LABLE": "選擇新卡"
 
 
     },
