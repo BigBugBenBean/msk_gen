@@ -1,14 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ConfirmModule, ConfirmComponent, TimerModule } from '../../../shared';
 import { MsksService } from '../../../shared/msks';
-import { READ_ROP140_RETRY, TIMEOUT_MILLIS, TIMEOUT_PAYLOAD, ABORT_I18N_KEY, ABORT_YES_I18N_KEY } from '../../../shared/var-setting';
+import { READ_ROP140_RETRY, TIMEOUT_MILLIS, TIMEOUT_PAYLOAD, ABORT_I18N_KEY, ABORT_YES_I18N_KEY,
+         CHANNEL_ID_RR_NOTICELIGHT, CHANNEL_ID_RR_CARDREADER, CHANNEL_ID_RR_ICCOLLECT } from '../../../shared/var-setting';
 import { TranslateService } from '@ngx-translate/core';
-
-import { AppStatus } from '../../../shared/services/app-status';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
 
 @Component({
-    selector: 'sc2-sck-003',
     templateUrl: './gen-viewcard-insertcard.component.html',
     styleUrls: ['./gen-viewcard-insertcard.component.scss'],
 })
@@ -37,20 +37,51 @@ export class InsertcardComponent implements OnInit {
 
     constructor(private router: Router,
         private service: MsksService,
+        private route: ActivatedRoute,
         private translate: TranslateService) { }
 
     public ngOnInit() {
         // this.ReadHKID();
         // re activate when hardware is ready
-        this.messageAbort = ABORT_I18N_KEY;
-        this.isAbort = false;
-        const browserLang = this.translate.currentLang;
-        if (browserLang === 'zh-HK') {
-            this.isEN = false;
-        } else {
-            this.isEN = true;
-        }
-        this.flashDevice();
+      this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
+          if ('new' === cardType) {
+              this.processNewCard();
+          }else if ('old' === cardType) {
+              this.processOldCard();
+          }
+      });
+
+        // this.service.sendRequest(CHANNEL_ID_RR_CARDREADER,
+        //                          'opencard', {'date_of_registration': '19800531', 'hkic_no': 'M002981(0)'})
+        // .startWith(this.service.sendRequest(CHANNEL_ID_RR_NOTICELIGHT, 'flash', {'device': '03'}))
+        // .subscribe((resp1) => {
+        //     this.service.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp) => {
+        //     });
+        // });
+
+        // this.messageAbort = ABORT_I18N_KEY;
+        // this.isAbort = false;
+        // const browserLang = this.translate.currentLang;
+        // if (browserLang === 'zh-HK') {
+        //     this.isEN = false;
+        // } else {
+        //     this.isEN = true;
+        // }
+        // this.flashDevice();
+    }
+
+    processNewCard() {
+        this.service.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opengate', {'timeout': TIMEOUT_PAYLOAD })
+        .startWith(this.doFlashLight()).subscribe((resp) => {
+            this.router.navigate(['/scn-gen/viewcard/processing', 'new'] );
+        });
+    }
+
+    processOldCard() {
+        this.service.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opengate', {'timeout': TIMEOUT_PAYLOAD })
+        .startWith(this.doFlashLight()).subscribe((resp) => {
+            this.router.navigate(['/scn-gen/viewcard/processing', 'old'] );
+        });
     }
 
     ReadHKID() {
@@ -80,6 +111,10 @@ export class InsertcardComponent implements OnInit {
                 this.ReadHKID();
             });
         }
+    }
+
+    doFlashLight(): Observable<any> {
+        return this.service.sendRequest('CHANNEL_ID_RR_NOTICELIGHT', 'flash', {'device': '03'});
     }
 
     MALocalChecking() {

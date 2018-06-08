@@ -12,11 +12,16 @@ import { IndicateComponent } from './scn-gen-004/gen-viewcard-indicate.component
 import { InsertcardComponent } from './scn-gen-005/gen-viewcard-insertcard.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ViewcardProcessingComponent } from './scn-gen-006/gen-viewcard-processing.component';
+import { SideNavBarModule } from '../../shared/side-navbar';
+
+import { ProcessingModule } from '../../shared/processing-component';
 
 export const routes: Routes = [
    { path: '', component: PrivacyComponent},
    { path: 'indicate', component: IndicateComponent},
-   { path: 'insertcard', component: InsertcardComponent}
+   { path: 'insertcard/:cardType', component: InsertcardComponent},
+   { path: 'processing/:cardType', component: ViewcardProcessingComponent}
   ];
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -25,7 +30,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     declarations: [
         PrivacyComponent,
         IndicateComponent,
-        InsertcardComponent
+        InsertcardComponent,
+        ViewcardProcessingComponent
     ],
     imports: [
         CommonModule,
@@ -34,6 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         TimerModule,
         ConfirmModule,
         MenuModule,
+        SideNavBarModule,
+        ProcessingModule,
         TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,

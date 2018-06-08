@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppStatus } from '../../../shared/services/app-status';
 
 @Component({
-    selector: 'sc2-sck-003',
     templateUrl: './gen-viewcard-indicate.component.html',
     styleUrls: ['./gen-viewcard-indicate.component.scss'],
 })
@@ -91,10 +90,10 @@ export class IndicateComponent implements OnInit {
         }
     }
 
-    nextOne() {
-        this.router.navigate(['/scn-gen/viewcard/insertcard']);
+    nextOld() {
+        this.router.navigate(['/scn-gen/viewcard/insertcard', 'old']);
     }
-    nextTwo() {
-        this.router.navigate(['/scn-gen/viewcard/insertcard']);
+    nextNew() {
+        this.router.navigate(['/scn-gen/viewcard/insertcard', 'new']);
     }
 }

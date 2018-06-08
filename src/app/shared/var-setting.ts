@@ -24,3 +24,7 @@ verification when collecting new smart identity card.`;
 
 export const ABORT_I18N_KEY = 'SCN-SCK-002-1.ABORT_CONFIRM';
 export const ABORT_YES_I18N_KEY = 'SCN-SCK-002-1.ABORT_CONFIRM_YES';
+
+export const CHANNEL_ID_RR_NOTICELIGHT = 'RR_NOTICELIGHT';
+export const CHANNEL_ID_RR_CARDREADER = 'RR_cardreader';
+export const CHANNEL_ID_RR_ICCOLLECT = 'RR_ICCOLLECT';
