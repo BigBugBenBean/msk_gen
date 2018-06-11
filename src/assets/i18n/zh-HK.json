@@ -293,6 +293,31 @@
         "INDICATE-CARD-TYPE": "請指出您持有的香港身份證的類型:",
         "INSERT-HKID": "請插入您的香港身份證.",
         "YES": "是",
-        "NO": "否"
+        "NO": "否",
+        "PROCESSING": "處理中，請稍候。",
+
+        "NOT-CONFIRM": "不確認",
+        "INFO-INCORRECT": "你確定這些資料是不正確？",
+        "YES": "是",
+        "NO": "否",
+        "NEXT": "下一步",
+        "NOT-CONFIRM-MSG": "請取回你的申請表格/現有身份證，並前往取卡處查詢。",
+        "NAME-IN-CHINESE": "中文姓名",
+        "NAME-IN-ENGLISH": "英文姓名",
+        "NAME-IN-CCC": "中文姓名電碼",
+        "DATE-OF-BIRTH": "出生日期",
+        "SYMBOLS": "符號標記",
+        "DATE-OF-ISSUE": "簽發日期",
+        "OTHER-APPLICATIONS": "其他申請",
+        "SEX": "性別",
+        "MONTH-YEAR-REGISTRATION": "首次登記日期",
+        "ID-CARD-NO": "身份證號碼",
+        "COND-STAY": "逗留條件",
+        "LENGTH-STAY": "逗留期限",
+        "TIMMER": "剩餘時間",
+        "LANGUAGE": "English",
+        "NAVIGATION": "步驟",
+        "CONFIRM-INFO": "你的芯片卡上的信息如下：",
+        "CONFIRM": "確認"
     }
 }

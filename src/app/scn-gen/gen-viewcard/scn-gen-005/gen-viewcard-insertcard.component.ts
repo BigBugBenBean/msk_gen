@@ -68,6 +68,11 @@ export class InsertcardComponent implements OnInit {
         //     this.isEN = true;
         // }
         // this.flashDevice();
+// 07   舊卡燈
+// 08 光學閱讀器
+// 12  blue
+// 13  red
+// 14  green
     }
 
     processNewCard() {

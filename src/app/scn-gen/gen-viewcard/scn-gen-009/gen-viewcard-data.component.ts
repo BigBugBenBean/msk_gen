@@ -1,9 +1,11 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, ParamMap } from '@angular/router';
 import { TimerComponent } from '../shared/sc2-timer/sc2-timer.component';
 import { ConfirmComponent } from '../../../shared';
-import { TIMEOUT_MILLIS } from '../../../shared/var-setting';
 import { TranslateService } from '@ngx-translate/core';
+import { MsksService } from '../../../shared/msks';
+import { READ_ROP140_RETRY, TIMEOUT_MILLIS, TIMEOUT_PAYLOAD, ABORT_I18N_KEY,
+         ABORT_YES_I18N_KEY, CHANNEL_ID_RR_ICCOLLECT, CHANNEL_ID_RR_CARDREADER } from '../../../shared/var-setting';
 
 @Component({
   templateUrl: './gen-viewcard-data.component.html',
@@ -51,9 +53,24 @@ export class ViewcardDataComponent implements OnInit {
     buttonNum: Number = 2;
     // message: String = 'Are you sure the information is incorrect?';
 
+    carddata: any = {};
+
+        // "hkic_number": "C668668(E)",
+        // "date_of_ic_registration": "20170101",
+        // "date_of_first_registration": "200701",
+        // "date_of_birth": "19800101",
+        // "name_chinese": "李智能",
+        // "name_english": "LEE, Chi Nan",
+        // "name_ccc": "2621-2535-5174",
+        // "gender": "F",
+        // "indicators": "***",
+        // "residential_status": "",
+        // "card_type": ""
+
     constructor(private router: Router,
         private elRef: ElementRef,
         private route: ActivatedRoute,
+        private msksService: MsksService,
         private translate: TranslateService
     ) {}
 
@@ -65,6 +82,43 @@ export class ViewcardDataComponent implements OnInit {
       } else {
           this.isEN = true;
       }
+
+      this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
+          if ('v2' === cardType) {
+              this.processNewCard();
+          }else if ('v1' === cardType) {
+              this.processOldCard();
+          }
+      });
+    }
+
+    processNewCard() {
+        this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opencard', {'contactless_passwd': {
+              'date_of_registration': '20180531',
+              'hkic_no': 'M002981(0)'}}).subscribe((resp) => { // readhkicv2citizen
+            this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp1) => {
+                console.log(resp1);
+                this.carddata = {...resp1};
+                this.showdata = true;
+                this.doCloseCard();
+            });
+        });
+    }
+
+    processOldCard() {
+        this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opencard').subscribe((resp) => {
+            this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp1) => {
+                this.carddata = {...resp1};
+                this.showdata = true;
+                this.doCloseCard();
+            });
+        });
+    }
+
+    doCloseCard() {
+        this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe((resp) => {
+            this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').subscribe(() => {});
+        });
     }
 
     onGridReady(params) {
@@ -89,7 +143,7 @@ export class ViewcardDataComponent implements OnInit {
 
     nextRoute() {
         // this.router.navigate(['/main/sck0091']);
-        this.router.navigate(['/main/sck010']);
+        // this.router.navigate(['/main/sck010']);
     }
 
     timerExpire() {

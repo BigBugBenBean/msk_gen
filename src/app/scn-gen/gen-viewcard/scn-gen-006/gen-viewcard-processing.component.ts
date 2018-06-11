@@ -18,42 +18,15 @@ export class ViewcardProcessingComponent implements OnInit {
         $('#processDiv').show();
         // setTimeout(() => { $('#processDiv').hide();
         // this.nextRoute()}, 500);
-        this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
-          if ('new' === cardType) {
-              this.processNewCard();
-          }else if ('old' === cardType) {
-              this.processOldCard();
-          }
-      });
+      //   this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
+      //     if ('new' === cardType) {
+      //         this.processNewCard();
+      //     }else if ('old' === cardType) {
+      //         this.processOldCard();
+      //     }
+      // });
     }
 
-    processNewCard() {
-        this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opencard', {'contactless_passwd': {
-              'date_of_registration': '20180531',
-              'hkic_no': 'M002981(0)'}}).subscribe((resp) => {
-            this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp1) => {
-                console.log(resp1);
-                this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe((resp2) => {
-                    this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').subscribe(() => {});
-                })
-            });
-        });
-    }
-
-    processOldCard() {
-        this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opencard').subscribe((resp) => {
-            this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp1) => {
-                console.log(resp1);
-                this.doCloseCard();
-            });
-        });
-    }
-
-    doCloseCard() {
-        this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe((resp) => {
-            this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').subscribe(() => {});
-        });
-    }
     /**
      * nextPage.
      */
