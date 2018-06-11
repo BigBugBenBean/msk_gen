@@ -1,0 +1,106 @@
+<div class="scn-srk-009">
+    <div class="mainPanel">
+        <img class="imgMenu" src='../../../../assets/images/menubar_4.png'>
+        <sc2-confirm #modalFail>
+            <div class="app-modal-body">
+                <div class="modal-message">
+                    {{messageFail}}
+                </div>
+            </div>
+        </sc2-confirm>
+        <!-- <sc2-timer class="timer" (timerExpired)="timerExpire()" class="timer"></sc2-timer> -->
+        <!-- <input type="image" src="../../../../assets/images/button_lan_tc.png" (click)="langButton()" class="buttonTC" /> -->
+        <input class="buttonTC" type="button" value="{{'SCN-SCK-001-2.LANGUAGE' | translate}}" (click) = "langButton()">
+        <sc2-confirm-bottom #modal1 class="confirmExitModal">
+            <div class="app-modal-body">
+                <div class="modal-message">
+                    {{'SCN-SCK-008-1.INFO-INCORRECT' | translate}}
+                </div>
+                <div class="buttonDiv" *ngIf="buttonNum > 1">
+                    <button type="button" class="btnModal confirm" (click)="confirmIncorrect()"><span>{{'SCN-SCK-008-1.YES' | translate}}</span></button>
+                    <button type="button" class="btnModal cancel" (click)="modal1.hide()"><span>{{'SCN-SCK-008-1.NO' | translate}}</span></button>
+                </div>
+                <!-- <div class="buttonDiv" *ngIf="buttonNum == 1">
+                    <button type="button" class="btnModal btn-primary" (click)="confirm()">Ok</button>
+                </div> -->
+            </div>
+        </sc2-confirm-bottom>
+        <sc2-process-comp [hidden]="showdata"></sc2-process-comp>
+        <label class="confirmInfo" [hidden]="!showdata">{{'SCN-SCK-008-1.CONFIRM-INFO' | translate}}</label>
+        <div class="information" [hidden]="!showdata">
+            <div class="row1 col1">
+                <label>{{'SCN-SCK-008-1.NAME-IN-CHINESE' | translate}}</label>
+                <p>{{nameChi}}</p>
+            </div>
+            <div class="row1 col2">
+                <label>{{'SCN-SCK-008-1.NAME-IN-ENGLISH' | translate}}</label>
+                <p>{{nameEng}}</p>
+            </div>
+            <div class="row1 col3">
+                <label>{{'SCN-SCK-008-1.ID-CARD-NO' | translate}}</label>
+                <p>{{idNo}}</p>
+            </div>
+            <div class="row2 col1">
+                <!-- <label>{{'SCN-SCK-008-1.NAME-IN-CCC' | translate}}</label>
+                <p>{{nameCcc}}</p> -->
+            </div>
+            <div class="row2 col2">
+                <label>{{'SCN-SCK-008-1.NAME-IN-CCC' | translate}}</label>
+                <p>{{nameCcc}}</p>
+            </div>
+            <div class="row2 col3">
+                <label>{{'SCN-SCK-008-1.DATE-OF-BIRTH' | translate}}</label>
+                <p>{{birthdate}}</p>
+            </div>
+            <div class="row3 col1">
+                <label></label>
+                <p></p>
+            </div>
+            <div class="row3 col2">
+                <label>{{'SCN-SCK-008-1.SEX' | translate}}</label>
+                <p>{{sex}}</p>
+            </div>
+            <div class="row3 col3">
+                <label>{{'SCN-SCK-008-1.SYMBOLS' | translate}}</label>
+                <p>{{symbol}}</p>
+            </div>
+            <div class="image">
+                <!-- <p class="imgPlaceholder" *ngIf="!img || img!=''">Image</p> -->
+                <!-- <img src="{{img}}" *ngIf="img" alt=""> -->
+                <img src='../../../../assets/images/img_sample1.png' class="photo-image">
+            </div>
+            <div class="row4 col2">
+                <label>{{'SCN-SCK-008-1.MONTH-YEAR-REGISTRATION' | translate}}</label>
+                <p>{{registration}}</p>
+            </div>
+            <div class="row4 col3"> <!--registration-->
+                <label>{{'SCN-SCK-008-1.COND-STAY' | translate}}</label>
+                <p>{{condStay}}</p>
+            </div>
+            <div class="row5 col2">
+                <label>{{'SCN-SCK-008-1.DATE-OF-ISSUE' | translate}}</label>
+                <p>{{issueDate}}</p>
+            </div>
+            <div class="row5 col3">
+                <label>{{'SCN-SCK-008-1.LENGTH-STAY' | translate}}</label>
+                <p>{{lenStay}}</p>
+            </div>
+        </div>
+        <audio *ngIf="isEN"  autoplay>
+            <source src="../../../../assets/audio/confirminfo_EN.mp3" type="audio/mp3">
+            Your browser does not support the audio tag.
+        </audio>
+        <audio *ngIf="!isEN"  autoplay>
+            <source src="../../../../assets/audio/confirminfo_HK.mp3" type="audio/mp3">
+            Your browser does not support the audio tag.
+        </audio>
+        <!-- <input type="image" class="exitButton" src="../../../../assets/images/button_Not_Confirm.png" (click)="modal1.show()">
+        <input type="image" class="confirmButton" src="../../../../assets/images/button_NotConfirm.png" (click)="nextRoute()"> -->
+        <input type="button" class="exitButton" value="{{'SCN-SCK-008-1.NOT-CONFIRM' | translate}}">
+        <!-- (click)="modal1.show()" -->
+        <input type="button" class="confirmButton" value="{{'SCN-SCK-001-2.CONFIRM' | translate}}" (click)="nextRoute()">
+        <span class="pageName">SCN-SCK-008-1</span>
+    </div>
+</div>
+    
+    

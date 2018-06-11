@@ -91,9 +91,9 @@ export class IndicateComponent implements OnInit {
     }
 
     nextOld() {
-        this.router.navigate(['/scn-gen/viewcard/insertcard', 'old']);
+        this.router.navigate(['/scn-gen/viewcard/insertcard', 'v1']);
     }
     nextNew() {
-        this.router.navigate(['/scn-gen/viewcard/insertcard', 'new']);
+        this.router.navigate(['/scn-gen/viewcard/insertcard', 'v2']);
     }
 }

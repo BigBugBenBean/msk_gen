@@ -44,9 +44,9 @@ export class InsertcardComponent implements OnInit {
         // this.ReadHKID();
         // re activate when hardware is ready
       this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
-          if ('new' === cardType) {
+          if ('v2' === cardType) {
               this.processNewCard();
-          }else if ('old' === cardType) {
+          }else if ('v1' === cardType) {
               this.processOldCard();
           }
       });
@@ -73,14 +73,14 @@ export class InsertcardComponent implements OnInit {
     processNewCard() {
         this.service.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opengate', {'timeout': TIMEOUT_PAYLOAD })
         .startWith(this.doFlashLight()).subscribe((resp) => {
-            this.router.navigate(['/scn-gen/viewcard/processing', 'new'] );
+            this.router.navigate(['/scn-gen/viewcard/data', 'v2'] );
         });
     }
 
     processOldCard() {
         this.service.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opengate', {'timeout': TIMEOUT_PAYLOAD })
         .startWith(this.doFlashLight()).subscribe((resp) => {
-            this.router.navigate(['/scn-gen/viewcard/processing', 'old'] );
+            this.router.navigate(['/scn-gen/viewcard/data', 'v1'] );
         });
     }
 

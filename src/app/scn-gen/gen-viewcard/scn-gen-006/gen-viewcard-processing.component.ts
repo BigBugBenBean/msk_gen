@@ -15,7 +15,6 @@ export class ViewcardProcessingComponent implements OnInit {
                 private msksService: MsksService,
                 private translate: TranslateService) {}
     public ngOnInit() {
-        console.log('call ngOnInit');
         $('#processDiv').show();
         // setTimeout(() => { $('#processDiv').hide();
         // this.nextRoute()}, 500);
