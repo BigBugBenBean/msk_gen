@@ -45,9 +45,13 @@ export class InsertcardComponent implements OnInit {
         // re activate when hardware is ready
       this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
           if ('v2' === cardType) {
+              this.doFlashLight('08');
               this.processNewCard();
+              this.doLightoff('08');
           }else if ('v1' === cardType) {
+              this.doFlashLight('07');
               this.processOldCard();
+              this.doLightoff('07');
           }
       });
 
@@ -76,15 +80,18 @@ export class InsertcardComponent implements OnInit {
     }
 
     processNewCard() {
-        this.service.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opengate', {'timeout': TIMEOUT_PAYLOAD })
-        .startWith(this.doFlashLight()).subscribe((resp) => {
-            this.router.navigate(['/scn-gen/viewcard/data', 'v2'] );
+        this.service.sendRequest('RR_CIDOCR', 'scandata', {'timeout': '10'}).subscribe((resp) => {
+            if (resp.errorcode === '0') {
+                setTimeout(() => {
+                    this.router.navigate(['/scn-gen/viewcard/data', 'v2', resp.icno, resp.dor] );
+                },1000);
+            }
         });
     }
 
     processOldCard() {
         this.service.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opengate', {'timeout': TIMEOUT_PAYLOAD })
-        .startWith(this.doFlashLight()).subscribe((resp) => {
+        .subscribe((resp) => {
             this.router.navigate(['/scn-gen/viewcard/data', 'v1'] );
         });
     }
@@ -118,8 +125,14 @@ export class InsertcardComponent implements OnInit {
         }
     }
 
-    doFlashLight(): Observable<any> {
-        return this.service.sendRequest('CHANNEL_ID_RR_NOTICELIGHT', 'flash', {'device': '03'});
+    doFlashLight(deviceCode: string) {
+        this.service.sendRequest('CHANNEL_ID_RR_NOTICELIGHT', 'flash', {'device': deviceCode}).subscribe((resp) => {
+        });
+    }
+
+    doLightoff(deviceCode: string) {
+        this.service.sendRequest('CHANNEL_ID_RR_NOTICELIGHT', 'lightoff', {'device': deviceCode}).subscribe((resp) => {
+        });
     }
 
     MALocalChecking() {

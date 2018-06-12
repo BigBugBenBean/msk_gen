@@ -4,6 +4,7 @@ import { TimerComponent } from '../shared/sc2-timer/sc2-timer.component';
 import { ConfirmComponent } from '../../../shared';
 import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../../../shared/msks';
+import { Request, Response } from '@angular/http';
 import { READ_ROP140_RETRY, TIMEOUT_MILLIS, TIMEOUT_PAYLOAD, ABORT_I18N_KEY,
          ABORT_YES_I18N_KEY, CHANNEL_ID_RR_ICCOLLECT, CHANNEL_ID_RR_CARDREADER } from '../../../shared/var-setting';
 
@@ -83,19 +84,19 @@ export class ViewcardDataComponent implements OnInit {
           this.isEN = true;
       }
 
-      this.route.paramMap.map((params) => params.get('cardType')).subscribe((cardType) => {
-          if ('v2' === cardType) {
-              this.processNewCard();
-          }else if ('v1' === cardType) {
+      this.route.paramMap.map((paramsMap : any) => paramsMap.params).subscribe((params) => {
+          if ('v2' === params.cardType) {
+              this.processNewCard(params.icno,params.dor);
+          }else if ('v1' === params.cardType) {
               this.processOldCard();
           }
       });
     }
 
-    processNewCard() {
-        this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opencard', {'contactless_passwd': {
-              'date_of_registration': '20180531',
-              'hkic_no': 'M002981(0)'}}).subscribe((resp) => { // readhkicv2citizen
+    processNewCard(icno, dor) {
+        this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'opencard', {'contactless_passwd': {
+              'date_of_registration': dor,
+              'hkic_no': icno}}).subscribe((resp) => { // readhkicv2citizen
             this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp1) => {
                 console.log(resp1);
                 this.carddata = {...resp1};
@@ -106,7 +107,7 @@ export class ViewcardDataComponent implements OnInit {
     }
 
     processOldCard() {
-        this.msksService.sendRequest(CHANNEL_ID_RR_ICCOLLECT, 'opencard').subscribe((resp) => {
+        this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'opencard').subscribe((resp) => {
             this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'readhkicv2citizen').subscribe((resp1) => {
                 this.carddata = {...resp1};
                 this.showdata = true;

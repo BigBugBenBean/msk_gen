@@ -22,7 +22,8 @@ export const routes: Routes = [
    { path: '', component: PrivacyComponent},
    { path: 'indicate', component: IndicateComponent},
    { path: 'insertcard/:cardType', component: InsertcardComponent},
-   { path: 'data/:cardType', component: ViewcardDataComponent}
+   { path: 'data/:cardType', component: ViewcardDataComponent},
+   { path: 'data/:cardType/:icno/:dor', component: ViewcardDataComponent}
   ];
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
