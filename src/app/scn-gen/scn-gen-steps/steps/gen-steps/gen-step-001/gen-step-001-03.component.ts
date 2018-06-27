@@ -9,12 +9,15 @@ import {MsksService} from '../../../../../shared/msks';
 })
 export class GenStep00103Component implements OnInit {
     messageAbort= 'SCN-GEN-STEPS.ABORT_CONFIRM';
+    carddata: any = {};
     constructor(private router: Router,
                 private service: MsksService,
                 private translate: TranslateService) {}
 
     public ngOnInit() {
         console.log('call ngOnInit');
+        // this.nextRoute();
+        this.validateAuthority();
     }
     /**
      * nextPage.
@@ -53,11 +56,26 @@ export class GenStep00103Component implements OnInit {
     readCardFromChip() {
         console.log('call : readCardFromChip fun.')
         this.service.sendRequest('RR_cardreader', 'readhkicv2citizen', {}).subscribe((resp) => {
-            if (resp.errorcode === '0') {
-                console.log('readCardFromChip operate success');
-                alert(resp);
-
+            if (resp) {
+                const card_type = resp.card_type;
+                const date_of_birth = resp.date_of_birth;
+                const hkic_number = resp.hkic_number;
+                const name_english = resp.name_english;
+                console.log('readCardFromChip operate success,:resp=' + resp);
+                this.carddata = {...resp};
+               // alert('card_type: ' + card_type + ';hkic_number:' + hkic_number + '; name_english:' + name_english);
+                this.closeCard();
             }
+        });
+    }
+
+    /**
+     *  close card.
+     */
+    closeCard() {
+        console.log('call closecard fun');
+        this.service.sendRequest('RR_cardreader', 'closecard', {}).subscribe((resp) => {
+            this.nextRoute();
         });
     }
 
@@ -71,7 +89,7 @@ export class GenStep00103Component implements OnInit {
             'hkic_no': null
         }
         this.service.sendRequest('RR_cardreader', 'opencard', {'contactless_password': param}).subscribe((resp) => {
-            if (resp.errorcode === '0') {
+            if (resp.result === true) {
                 console.log('call validateAuthority operate success');
                 this.readCardFromChip();
 

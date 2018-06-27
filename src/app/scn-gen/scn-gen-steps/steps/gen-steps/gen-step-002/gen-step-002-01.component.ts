@@ -11,6 +11,7 @@ import {MsksService} from '../../../../../shared/msks';
 export class GenStep00201Component implements OnInit {
     messageAbort= 'SCN-GEN-STEPS.ABORT_CONFIRM';
     fingerprintInfo = '1313213213';
+    carddata: any = {};
     constructor(private router: Router,
                 private service: MsksService,
                 private fingers: FingerprintService,
@@ -59,16 +60,54 @@ export class GenStep00201Component implements OnInit {
      *  start scanner fingerprint
      */
     startFingerprintScanner() {
+        debugger;
         console.log('call : startFingerprintScanner fun.')
-        this.service.sendRequest('RR_FPSCANNERREG', 'takephoto', {'icno': 'A123456'}).subscribe((resp) => {
-            if (resp.errorcode === '0') {
+        // this.service.sendRequest('RR_FPSCANNERREG', 'takephoto', {'icno': 'A123456'}).subscribe((resp) => {
+        this.service.sendRequest('RR_fptool', 'scanfp', {'arn': '', 'fp_img_format': 'bmp'}).subscribe((resp) => {
+            if (resp.fp_img_in_base64) {
                 console.log('fingerprint operate success');
-                this.fingerprintInfo = resp.fpdata;
-                console.log('fpdata:' +  resp.fpdata)
-                this.nextRoute();
-                // this.fingerprintInfo = this.base64encode(this.utf16to8(resp.fpdata));
-                // $('#fingerImge').attr('src', 'data:image/jpeg;' + this.fingerprintInfo);
+                this.fingerprintInfo = resp.fp_img_in_base64;
+                console.log('fpdata:' +  resp.fp_img_in_base64)
+                this.extractimgtmpl(resp.fp_img_in_base64);
+                // this.verifytempl(this.fingerprintInfo);
+               // this.nextRoute();
             }
         });
     }
+
+    /**
+     *  data type change to Morpho_CFV
+     * @param fpdata
+     */
+    extractimgtmpl (fpdata) {
+        this.service.sendRequest('RR_fptool', 'extractimgtmpl ',
+            {'finger_num': 0, 'fp_tmpl_format': 'Morpho_CFV', 'fp_img_in_base64': fpdata}).subscribe((resp) => {
+            if (resp) {
+                debugger;
+                console.log(resp);
+                this.verifytempl(resp.fp_tmpl_in_base64);
+            }
+        });
+    }
+
+    /**
+     * fingerprint compare fun
+     * @param fpdata
+     */
+    verifytempl(fpdata) {
+        console.log('call verifytempl');
+        this.service.sendRequest('RR_fptool', 'verifytmpl',
+            {'fp_tmpl_format': 'Morpho_CFV', 'fp_tmpl1_in_base64': fpdata, 'fp_tmpl2_in_base64': fpdata}).subscribe((resp) => {
+            if (resp.match_score) {
+                console.log(resp);
+                if (resp.match_score > 5000) {
+                    console.log('compare scuess,pass');
+                    this.nextRoute();
+                } else {
+                    console.log('compare ');
+                }
+            }
+        });
+    }
+
 }

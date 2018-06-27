@@ -35,6 +35,8 @@ import {GenStep00401Component} from './scn-gen-steps/steps/gen-steps/gen-step-00
 import {GenStep00301Component} from './scn-gen-steps/steps/gen-steps/gen-step-003/gen-step-003-01.component';
 import {GenStepPrivacyComponent} from './scn-gen-steps/steps/gen-steps/gen-step-privacy/gen-step-privacy.component';
 import {GenStep00104Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-04.component';
+import {AppointmentBookingComponent} from './appointment-booking/appointment-booking.component';
+import {OwpPrefillFormComponent} from './owp-prefill-form/owp-prefill-form.component';
 const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
@@ -51,6 +53,8 @@ const routes: Routes = [
     { path: 'slipprintCutpaper', component: SlipprintCutpaperComponent },
     { path: 'fingerprint', component: FingerprintComponent },
     { path: 'readNewCard', component: CardReaderComponent },
+    { path: 'appoinmentBooking', component: AppointmentBookingComponent },
+    { path: 'owpPrefillForm', component: OwpPrefillFormComponent },
     // { path: 'step-001' , component: GenStep001Component },
     { path: 'steps', component: GenStepsComponent,
         children: [
@@ -94,7 +98,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         GenStep00202Component,
         GenStep00301Component,
         GenStep00401Component,
-        IframeComponent
+        AppointmentBookingComponent,
+        OwpPrefillFormComponent,
+        IframeComponent,
     ],
     imports: [
         CommonModule,

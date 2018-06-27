@@ -65,8 +65,6 @@ export class GenStep00202Component implements OnInit {
                 this.fingerprintInfo = resp.fpdata;
                 console.log('fpdata:' +  resp.fpdata)
                 this.nextRoute();
-                // this.fingerprintInfo = this.base64encode(this.utf16to8(resp.fpdata));
-                // $('#fingerImge').attr('src', 'data:image/jpeg;' + this.fingerprintInfo);
             }
         });
     }

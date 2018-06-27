@@ -160,6 +160,7 @@ export class MenuButtonComponent implements AfterContentInit {
     }
 
     public onClick($event) {
+        debugger;
         if (this.haschild === 'true') {
             if (this.service) {
                 this.router.navigate(['/scn-gen/gen002', this.menukey, this.service]);
@@ -178,8 +179,14 @@ export class MenuButtonComponent implements AfterContentInit {
             this.router.navigate(['/scn-gen/gen007']);
             return;
         }
-        if (this.menukey === 'LV2HKICBOOKINB') {
-            this.router.navigate(['/scn-gen/steps/step-privacy']);
+        // appoinmentBooking
+        if (this.menukey === 'LV2_ROP_APPOINTMENT_BOOKING') {
+            this.router.navigate(['/scn-gen/appoinmentBooking']);
+            return;
+        }
+        // owpPrefillForm
+        if (this.menukey === 'LV2_OWP_FORM_PRE-FILL') {
+            this.router.navigate(['/scn-gen/owpPrefillForm']);
             return;
         }
         // console.log('app.type', this.app.type, this.app.path);
