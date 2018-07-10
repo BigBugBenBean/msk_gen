@@ -160,7 +160,6 @@ export class MenuButtonComponent implements AfterContentInit {
     }
 
     public onClick($event) {
-        debugger;
         if (this.haschild === 'true') {
             if (this.service) {
                 this.router.navigate(['/scn-gen/gen002', this.menukey, this.service]);
