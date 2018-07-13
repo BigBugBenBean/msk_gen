@@ -317,5 +317,8 @@
         "NAVIGATION": "Step",
         "CONFIRM-INFO": "Below are the details inside your new HKID card:",
         "CONFIRM": "Confirm"
+    },
+    "SCN-GEN-COUNTDOWN": {
+        "TIMEOUT-NO-RESPONSE":"No response received, the service is terminated."
     }
 }

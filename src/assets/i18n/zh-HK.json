@@ -319,5 +319,8 @@
         "NAVIGATION": "步驟",
         "CONFIRM-INFO": "你的芯片卡上的信息如下：",
         "CONFIRM": "確認"
+    },
+    "SCN-GEN-COUNTDOWN": {
+        "TIMEOUT-NO-RESPONSE":"沒有收到響應，服務終止。"
     }
 }
