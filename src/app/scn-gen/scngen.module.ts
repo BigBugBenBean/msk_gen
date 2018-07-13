@@ -24,7 +24,7 @@ import {SlipprintBmpComponent} from './scn-gen-slipprint/scn-gen-slipprint-bmp/s
 import {SlipprintBarcodeComponent} from './scn-gen-slipprint/scn-gen-slipprint-barcode/scn-gen-slipprint-barcode.componet';
 import {SlipprintCutpaperComponent} from './scn-gen-slipprint/scn-gen-slipprint-cutpaper/scn-gen-slipprint-cutpaper.component';
 import {CardReaderComponent} from './scn-gen-cardreader/scn-gen-cardreader.component';
-import {ConfirmComponent} from '../shared/sc2-confirm';
+import {ConfirmModule} from '../shared/sc2-confirm';
 import {GenStep00101Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-01.component';
 import {GenStepsComponent} from './scn-gen-steps/steps/gen-steps.componoent';
 import {GenStep00201Component} from './scn-gen-steps/steps/gen-steps/gen-step-002/gen-step-002-01.component';
@@ -107,6 +107,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ReactiveFormsModule,
         MsksModule,
         TimerModule,
+        ConfirmModule,
         MenuModule,
         TranslateModule.forRoot({
             loader: {

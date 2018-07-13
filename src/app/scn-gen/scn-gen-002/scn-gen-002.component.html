@@ -1,6 +1,13 @@
 <div class="mainPanel">
     <input class="chbtn" type="button" value="{{'SCN-SRK-001-3.LANGUAGE' | translate}}" (click) = "langButton()">
-        <sc2-timer class="timer"></sc2-timer>
+    <sc2-timer class="timer" (timerExpired)="timeExpire()"></sc2-timer>
+    <sc2-confirm #modalNoROP>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{'SCN-GEN-VIEWCARD.TIMEOUT-NO-RESPONSE' | translate}}
+            </div>
+        </div>
+    </sc2-confirm>
     <!-- <img class="mainBG" src="../../../assets/images/bg_1160x640.png"/> -->
     <div class="mainBG"></div>
     <label class="mainLabel">{{'SCN-SRK-002-1.SELECT_SERVICE_CATEGORY' | translate}}</label>

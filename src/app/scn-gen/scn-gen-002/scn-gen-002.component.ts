@@ -1,7 +1,7 @@
-import { Component, AfterContentInit, OnInit } from '@angular/core';
+import { Component, AfterContentInit, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
+import { ConfirmComponent } from '../../shared/sc2-confirm';
 import { MenuService } from '../../shared/menu';
 import { MenuItem } from '../../shared/menu/mi.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +21,9 @@ export class Page2Component implements OnInit {
     private paramMap: any;
 
     private oneId: string;
+
+    @ViewChild('modalNoROP')
+    private modalNoROP: ConfirmComponent;
 
     constructor(private router: Router,
         private menusrv: MenuService,
@@ -92,4 +95,12 @@ export class Page2Component implements OnInit {
           this.translate.use('zh-HK');
         }
       }
+
+      timeExpire() {
+        this.modalNoROP.show();
+        setTimeout(() => {
+            // this.router.navigate(['/sck001']);
+            this.router.navigate(['/scn-gen/gen001']);
+        }, 5000);
+    }
 }
