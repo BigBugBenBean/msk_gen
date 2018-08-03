@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, OnInit, ViewChild } from '@angular/core';
+import {Component, AfterContentInit, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ConfirmComponent } from '../../shared/sc2-confirm';
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../../shared/msks';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { from } from 'rxjs/observable/from';
+import {MenuButtonComponent} from '../../shared/menu/mibutton.component';
 
 @Component({
     templateUrl: './scn-gen-002.component.html',
@@ -21,6 +22,9 @@ export class Page2Component implements OnInit {
     private paramMap: any;
 
     private oneId: string;
+
+    @ViewChildren(MenuButtonComponent)
+    private children;
 
     @ViewChild('modalNoROP')
     private modalNoROP: ConfirmComponent;
@@ -94,6 +98,7 @@ export class Page2Component implements OnInit {
         } else {
           this.translate.use('zh-HK');
         }
+        this.ngOnInit();
       }
 
       timeExpire() {
