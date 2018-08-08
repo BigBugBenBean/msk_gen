@@ -37,6 +37,7 @@ import {GenStepPrivacyComponent} from './scn-gen-steps/steps/gen-steps/gen-step-
 import {GenStep00104Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-04.component';
 import {AppointmentBookingComponent} from './appointment-booking/appointment-booking.component';
 import {OwpPrefillFormComponent} from './owp-prefill-form/owp-prefill-form.component';
+import {ProcessingModule} from '../shared/processing-component';
 const routes: Routes = [
     { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
@@ -109,6 +110,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         TimerModule,
         ConfirmModule,
         MenuModule,
+        ProcessingModule,
         TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,

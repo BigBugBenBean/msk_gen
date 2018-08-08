@@ -7,9 +7,8 @@ import { MenuItem } from '../../shared/menu/mi.model';
 import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../../shared/msks';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { from } from 'rxjs/observable/from';
 import {MenuButtonComponent} from '../../shared/menu/mibutton.component';
-
+import {ProcessingComponent} from '../../shared/processing-component';
 @Component({
     templateUrl: './scn-gen-002.component.html',
     styleUrls: ['./scn-gen-002.component.scss']
@@ -29,6 +28,9 @@ export class Page2Component implements OnInit {
     @ViewChild('modalNoROP')
     private modalNoROP: ConfirmComponent;
 
+    @ViewChild('processing')
+    public processing: ProcessingComponent;
+
     constructor(private router: Router,
         private menusrv: MenuService,
         private translate: TranslateService,
@@ -43,15 +45,23 @@ export class Page2Component implements OnInit {
     nextRoute(next: String) {
         this.router.navigate([next]);
     }
-    // demo() {
-    //     this.router.navigate(['/scn-gen/gen007']);
-    // }
 
     ngOnInit() {
+        if (this.menuitems.length < 1) {
+            this.processing.show();
+        }
+        this.initPage();
+        if (this.menuitems.length < 1) {
+            setTimeout(() => {
+                this.initPage();
+            }, 500);
+        }
+
+    }
+    initPage() {
         this.menuitems.length = 0;
-
+        const ss = this.menusrv.getMenuItems();
         let param;
-
         this.route.paramMap.switchMap((params) => {
             param = {
                 id: params.get('id'),
@@ -59,6 +69,7 @@ export class Page2Component implements OnInit {
             };
             this.oneId = params.get('id');
             return params.has('id') ? this.menusrv.getMenuItems(params.get('id')) : this.menusrv.getMenuItems();
+            // return  this.menusrv.getMenuItems();
         }).switchMap((mi: MenuItem[]) => {
             if (param.srv) {
                 return forkJoin(Observable.of({ msks: true }), this.msks.sendRequest(param.srv, 'getLv2Menu', mi));
@@ -85,7 +96,7 @@ export class Page2Component implements OnInit {
                 this.menuitems.push(obj);
                 index++;
             });
-            // console.log(this.menuitems);
+            this.processing.hide();
         });
     }
 
@@ -102,7 +113,7 @@ export class Page2Component implements OnInit {
       }
 
       timeExpire() {
-        this.modalNoROP.show();
+        // this.modalNoROP.show();
         setTimeout(() => {
             // this.router.navigate(['/sck001']);
             this.router.navigate(['/scn-gen/gen001']);
