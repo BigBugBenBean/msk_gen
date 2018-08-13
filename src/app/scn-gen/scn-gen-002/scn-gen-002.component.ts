@@ -54,7 +54,7 @@ export class Page2Component implements OnInit {
         if (this.menuitems.length < 1) {
             setTimeout(() => {
                 this.initPage();
-            }, 500);
+            }, 100);
         }
 
     }
@@ -109,7 +109,10 @@ export class Page2Component implements OnInit {
         } else {
           this.translate.use('zh-HK');
         }
-        this.ngOnInit();
+        // this.ngOnInit();
+        setTimeout(() => {
+            this.ngOnInit();
+        }, 100);
       }
 
       timeExpire() {
