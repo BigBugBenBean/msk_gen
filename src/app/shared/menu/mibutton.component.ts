@@ -191,7 +191,6 @@ export class MenuButtonComponent implements AfterContentInit {
         // console.log('app.type', this.app.type, this.app.path);
         switch (this.app.type) {
             case AppType.APPLICATION:
-
                 this.msks.sendRequest('RR_LAUNCHER', 'launch', {
                     exemode: 'execfile',
                     cmdfile: this.app.path,

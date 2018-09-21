@@ -38,9 +38,12 @@ import {GenStep00104Component} from './scn-gen-steps/steps/gen-steps/gen-step-00
 import {AppointmentBookingComponent} from './appointment-booking/appointment-booking.component';
 import {OwpPrefillFormComponent} from './owp-prefill-form/owp-prefill-form.component';
 import {ProcessingModule} from '../shared/processing-component';
+import {KioskHomeComponent} from './kiosk/kiosk-home.component';
 const routes: Routes = [
-    { path: '', redirectTo: 'gen001', pathMatch: 'full' },
+    // { path: '', redirectTo: 'gen001', pathMatch: 'full' },
+    { path: '', redirectTo: 'kioskHome', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
+    { path: 'kioskHome', component: KioskHomeComponent },
     { path: 'gen002', component: Page2Component },
     { path: 'gen002/:id', component: Page2Component },
     { path: 'gen002/:id/:srv', component: Page2Component },
@@ -77,6 +80,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   }
 @NgModule({
     declarations: [
+        KioskHomeComponent,
         Page1Component,
         Page2Component,
         Page5Component,
