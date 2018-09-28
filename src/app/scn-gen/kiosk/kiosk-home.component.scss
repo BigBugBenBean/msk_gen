@@ -1,0 +1,122 @@
+@import '../../shared/sc2-confirm/sc2-confirm.components.scss';
+body { TEXT-ALIGN: center; }
+.mainDiv {
+  width: 1280px;
+  height: 1024px;
+  background-image: url(../../../assets/images/home/image_bg.png);
+  //text-align: center; /*让div内部文字居中*/
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
+  padding-top:0px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.headDiv {
+  width: 1280px;
+  //background-color: #d9534f;
+  height: 240px;
+  margin: 0px;
+  border-width: 0px;
+}
+.contentDiv {
+  margin: 0px;
+  width: 1280px;
+  height: 784px;
+  padding-top: 150px;
+  border-width: 0px;
+  //background-color: #673ab7;
+  border-width: 0px;
+}
+
+.textSelf-serviceGeneraChinese {
+  color: #FFFFFF;
+  width: 100%;
+  height: 120px;
+  font-face: 'MicrosoftJhengHeiBold';
+  font-size: 68px;
+  character: 1px;
+  //background-color: #673ab7;
+  text-align: center ;
+  margin: 0px;
+  padding-top: 38px;
+}
+.textSelf-serviceGeneralEnglish {
+  margin: 0px;
+  padding-top: 5px;
+  color: #FFFFFF;
+  width: 100%;
+  height: 120px;
+  font-face: Arial-Bold;
+  font-size: 55px;
+  character: 0.3px;
+  text-align: center;
+}
+
+.viewPersonDataInChipBtn {
+  margin-left: 50px;
+  padding-top: 66px;
+  background-image: url(../../../assets/images/home/image_button.png);
+  width: 584px;
+  height: 474px;
+  float: left;
+  text-align: center;
+}
+
+.viewBtnImage {
+  margin-left:200px;
+  margin-rigt:204px;
+  background-image: url(../../../assets/images/home/icon_view_chip.png);
+  width: 180px;
+  height: 180px;
+}
+
+.updateCosLosInChipBtn {
+  padding-top: 66px;
+  background-image: url(../../../assets/images/home/image_button.png);
+  float: left;
+  margin-left: 16px;
+  margin-right: 46px;
+  width: 584px;
+  height: 474px;
+}
+
+.updateBtnImage {
+  margin-left:200px;
+  margin-rigt:204px;
+  background-image: url(../../../assets/images/home/icon_update_chip.png);
+  width: 180px;
+  height: 180px;
+}
+
+
+
+.textButtonChinese {
+  color: #FFFFFF;
+  width: 100%;
+  font-face: 'MicrosoftJhengHeiRegular';
+  font-size: 30px;
+  line-height: 40px;
+  max-width: 460px;
+  text-align: center;
+  margin-left: 60px;
+
+}
+.textButtonEnglish {
+  color: #FFFFFF;
+  width: 100%;
+  font-face: 'Arial-Regular';
+  text-align: center;
+  font-size: 28px;
+  line-height: 40px;
+  max-width: 460px;
+  margin-left: 60px;
+  margin-top: 10px;
+}
+
