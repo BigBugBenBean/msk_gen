@@ -1,0 +1,23 @@
+msksgen:
+  lv1_timeout: 30
+  lv2_timeout: 30
+
+  mskapps:
+    - app_key: APP_VIEW_CARD
+      type: 2
+      path: C:/Program Files/Smartics2 MSKS GEN View Card/Smartics2 MSKS GEN View Card.exe
+      cwd: C:/Program Files/Smartics2 MSKS GEN View Card/
+    - app_key: APP_UPDCSLS
+      type: 2
+      path: C:/Program Files/Smartics2 MSKS GEN UPDCSLS/Smartics2 MSKS GEN UPDCSLS.exe
+      cwd: C:/Program Files/Smartics2 MSKS GEN UPDCSLS/
+  lv1_menus:
+    - lv1_menu_key: LV2HKICCheck
+      name_eng: View personal data in chip
+      name_chi: 查看芯片中的個人數據
+      app_key: APP_VIEW_CARD
+    - lv1_menu_key: LV2HKICBOOKINB
+      name_eng: Update Condition of Stay and Limited of Stay
+      name_chi: 更新逗留條件和逗留期限
+      app_key: APP_UPDCSLS
+     
