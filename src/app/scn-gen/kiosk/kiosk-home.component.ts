@@ -7,6 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../../shared/msks';
 
 import {MenuButtonComponent} from '../../shared/menu/mibutton.component';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/operator/merge';
+import { of } from 'rxjs/observable/of';
 @Component({
     templateUrl: './kiosk-home.component.html',
     styleUrls: ['./kiosk-home.component.scss']
@@ -44,15 +47,33 @@ export class KioskHomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        const that = this;
-        $('#viewPerson').click(
-            function(){
-                that.viewPersonData();
-            });
-        $('#updateCoslos').click(
-            function(){
-                that.updateCosLos();
-            });
+
+        const view = document.getElementById('viewPerson');
+        const upd = document.getElementById('updateCoslos');
+
+        const s = Observable.merge(fromEvent(view, 'click').mapTo('view'), fromEvent(upd, 'click').mapTo('upd')).throttleTime(8000);
+
+        const sub = s.subscribe(data => {
+            // sub.unsubscribe();
+            if (data === 'view') {
+                this.viewPersonData();
+                // console.log(`viewwwwwwww`);
+                
+            } else if (data === 'upd') {
+                this.updateCosLos();
+                // console.log('upddddddd');
+            }
+        });
+        
+        // const that = this;
+        // $('#viewPerson').click(
+        //     function(){
+        //         that.viewPersonData();
+        //     });
+        // $('#updateCoslos').click(
+        //     function(){
+        //         that.updateCosLos();
+        //     });
     }
 
     viewPersonData() {
