@@ -1,9 +1,7 @@
-import {
-    Component, OnInit, Attribute, Output, EventEmitter,
-    Input, OnDestroy, HostListener
-} from '@angular/core';
+import { Component, OnInit, Attribute, Output, EventEmitter,
+    Input, OnDestroy, HostListener} from '@angular/core';
 import { TIMER_MILLIS } from '../var-setting';
-
+import {TranslateService} from '@ngx-translate/core';
 @Component({
     selector: 'sc2-timer',
     styleUrls: ['./sc2-timer.component.scss'],
@@ -13,6 +11,7 @@ import { TIMER_MILLIS } from '../var-setting';
 export class TimerComponent implements OnInit, OnDestroy {
     numSeconds: number;
     displayTime: string;
+    sumSeconds: number;
     timer: any;
     // timer idle
     idler: any;
@@ -27,12 +26,13 @@ export class TimerComponent implements OnInit, OnDestroy {
     // @Input('initTime')
     // initTime: number
 
-    constructor() {
+    constructor(private translate: TranslateService) {
         this.displayString();
         this.numSeconds =  TIMER_MILLIS;
         this.displayTime = this.numSeconds + '';
         this.lastAction = Date.now();
-        this.checkInterval = 5000;
+        this.sumSeconds = 60;
+        this.checkInterval = 1000;
         this.minsToIdle = 1;
         this.showTimer = false;
     }
@@ -44,7 +44,7 @@ export class TimerComponent implements OnInit, OnDestroy {
 
     @HostListener('document:click', ['$event'])
     reset(evt?) {
-        console.log('RESET TIMER', evt);
+        // console.log('RESET TIMER', evt);
         this.lastAction = Date.now();
     }
 
@@ -59,9 +59,9 @@ export class TimerComponent implements OnInit, OnDestroy {
     }
 
     check() {
-        console.log('RESET CHECK TRIGGER');
+        // console.log('RESET CHECK TRIGGER');
         const now = Date.now();
-        const timeleft = this.lastAction + this.minsToIdle * 60 * 1000;
+        const timeleft = this.lastAction + this.minsToIdle * this.sumSeconds * 1000;
         const diff = timeleft - now;
         const isIdle = diff < 0;
 
@@ -71,13 +71,13 @@ export class TimerComponent implements OnInit, OnDestroy {
         // console.log(this.showTimer);
 
         if (isIdle) {
-            console.log('COUNTDOWN INIT');
+            // console.log('COUNTDOWN INIT');
             if (!this.showTimer) {
                 this.showTimer = true;
                 this.timer = setInterval(() => this.countdownTimer(), 1000);
             }
         } else if (this.showTimer) {
-            console.log('COUNTDOWN UNINIT');
+            // console.log('COUNTDOWN UNINIT');
             this.showTimer = false;
             clearInterval(this.timer);
         }

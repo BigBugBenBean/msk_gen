@@ -1,0 +1,121 @@
+<div class="mainPanel">
+    <sc2-timer (timerExpired)="timeExpire()" class="timer" #timer ></sc2-timer>
+    <input [hidden]="controlStatus === 4" class="buttonTC" id="langBtn" type="button" value="{{'SCN-GEN-STEPS.LANGUAGE' | translate}}" (click) = "langButton()">
+    <img *ngIf="deviceType === 1" src="../../../../assets/images/menu/menubar_1_insert_card.png" class="sideimg" />
+    <img *ngIf="deviceType === 2" src="../../../../assets/images/menu/menubar_1_ocr_reader.png" class="sideimg" />
+    <p class="steps-div">{{'SCN-GEN-STEPS.NAVIGATION' | translate}}</p>
+    <sc2-confirm #modalRetryOCR>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageRetry | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="failTryAgainOCR()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalRetryOpenGate>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageRetry | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="failTryAgainOpengate()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalRetryOpenCard>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageRetry | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="failTryAgainOpenCard()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalFail>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageFail| translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="processFailQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalCollect>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageCollect| translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="processCollectQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modal1Comfirm>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageComfirm | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" id="ocrYesButton" class="btnModal confirm" (click)="confirmYesOCR()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+                <button type="button" id="ocrNoButton" class="btnModal cancel" (click)="confirmNotOCR()"><span>{{'SCN-GEN-STEPS.NO' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalQuit>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageAbort | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="processConfirmQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+                <button type="button" class="btnModal cancel" (click)="processCancelQuit()"><span>{{'SCN-GEN-STEPS.NO' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalTimeout>
+        <div class="app-modal-body">
+            <div class="modal-message" style="align-content: center">
+                {{messageTimeout | translate}}
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalPrompt>
+        <div class="app-modal-body">
+            <div class="modal-message" style="align-content: center">
+                {{messagePrompt | translate}}
+            </div>
+        </div>
+    </sc2-confirm>
+    <label class="labelStay" >{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
+    
+    <!--controlstatus 1.insert 2 collect 3 type 4 processing -->
+    <label *ngIf="controlStatus === 1 && deviceType === 1" class="label1">{{'SCN-GEN-STEPS.INSERT-HKID' | translate}}</label>
+    <label *ngIf="controlStatus === 2 && deviceType === 1" class="label1">{{'SCN-GEN-STEPS.COLLECT-HKID-CARD' | translate}}</label>
+    <label *ngIf="controlStatus === 1 && deviceType === 2" class="label1">{{'SCN-GEN-STEPS.READER-NEW-NO-CARD' | translate}}</label>
+    <label *ngIf="controlStatus === 2 && deviceType === 2" class="label1">{{'SCN-GEN-STEPS.COLLECT-HKID-CARD' | translate}}</label>
+    <label *ngIf="controlStatus === 3" class="label1">{{'SCN-GEN-STEPS.FAILED-RECOGNISE' | translate}}{{'SCN-GEN-STEPS.TYPE-OF-HKID-CARD' | translate}}</label>
+    <label *ngIf="controlStatus === 4" class="label1"></label>
+    <sc2-process-comp #processing></sc2-process-comp>
+    <sc2-process-comp [inputMessage]="preparingMessage" #preparing></sc2-process-comp>
+    <sc2-indicate-cardtype #indicateCardType></sc2-indicate-cardtype>
+    <!--   (click)="nextRoute()" -->
+
+    <img *ngIf="controlStatus === 1 && deviceType === 1" src="../../../../assets/images/insert-old-hkid.gif" width="928" height="522" class="main-image" />
+    <img *ngIf="controlStatus === 2 && deviceType === 1" src="../../../../assets/images/collect-old-hkid.gif" width="928" height="522" class="main-image" />
+    <img *ngIf="controlStatus === 1 && deviceType === 2" src="../../../../assets/images/insert-new-hkid.gif" width="928" height="522" class="main-image" />
+    <img *ngIf="controlStatus === 2 && deviceType === 2" src="../../../../assets/images/collect-new-hkid.gif" width="928" height="522" class="main-image" />
+
+    <!-- <img *ngIf="readType === 1" [hidden]="showImage" src="../../../../assets/images/insert-old-hkid.gif" class="main-image">
+    <img *ngIf="readType === 2" [hidden]="showImage" src="../../../../assets/images/insert-new-hkid.gif" width="928" height="522" class="main-image">
+    <img *ngIf="readType === 1" [hidden]="isShowCollect" src="../../../../assets/images/collect-old-hkid.gif" class="main-image">
+    <img *ngIf="readType === 2" [hidden]="isShowCollect" src="../../../../assets/images/collect-new-hkid.gif" width="928" height="522" class="main-image"> -->
+    
+    <input #imgNext type="button" (click)="nextRoute()">
+    <input [hidden]="controlStatus === 4 || controlStatus === 0" type="image" src="../../../../assets/images/button_Abort.png" class="exitButton" (click)="processModalQuitShow()" />
+    <input [hidden]="controlStatus === 4 || controlStatus === 0" class="exitButton" id='exitBtn' type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "processModalQuitShow()" />
+    <label class="footerSteps"></label>
+</div>

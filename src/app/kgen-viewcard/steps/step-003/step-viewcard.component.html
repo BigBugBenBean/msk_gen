@@ -1,0 +1,162 @@
+<div class="mainPanel">
+    <sc2-timer (timerExpired)="timeExpire()" class="timer" #timer></sc2-timer>
+    <input class="buttonTC" type="button" value="{{'SCN-GEN-STEPS.LANGUAGE' | translate}}" (click) = "langButton()">
+    <img *ngIf="readType === 1" src="../../../../assets/images/menu/menubar_3_insert_card.png" class="sideimg" />
+    <img *ngIf="readType === 2" src="../../../../assets/images/menu/menubar_3_ocr_reader.png" class="sideimg" />
+    <p class="steps-div">{{'SCN-GEN-STEPS.NAVIGATION' | translate}}</p>
+    <sc2-confirm #modalRetry>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageRetry | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="failTryAgain()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalFail>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageFail| translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="processFailQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalCollect>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageCollect| translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="processCollectQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalQuit>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messageAbort | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="processConfirmQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+                <button type="button" class="btnModal cancel" (click)="processCancelQuit()"><span>{{'SCN-GEN-STEPS.NO' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalTimeout>
+        <div class="app-modal-body">
+            <div class="modal-message" style="align-content: center">
+                {{messageTimeout | translate}}
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-confirm #modalPrintBill>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{messagePrint | translate}}
+            </div>
+            <div class="buttonDiv">
+                <button type="button" class="btnModal confirm" (click)="handlePrint()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
+                <button type="button" class="btnModal cancel" (click)="printCancel()"><span>{{'SCN-GEN-STEPS.NO' | translate}}</span></button>
+            </div>
+        </div>
+    </sc2-confirm>
+    <sc2-process-comp #processing></sc2-process-comp>
+    <label class="labelStay" >{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
+    <label [hidden]="!isShowCollect" class="label1" >{{'SCN-GEN-STEPS.CONFIRM-INFO' | translate}}</label>
+    <label [hidden]="isShowCollect"  class="label1" >{{'SCN-GEN-STEPS.COLLECT-HKID-CARD' | translate}}</label>
+    <div class="information" [hidden]="!isShowCollect">
+        <table class="infoTableClass">
+            <tr >
+                <td class="firstColumn">{{'SCN-GEN-STEPS.ID-CARD-NO' | translate}}</td>
+                <td class="SecondColumn">{{hkic_number_view}}</td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.NAME-IN-ENGLISH' | translate}}</td>
+                <td class="SecondColumn">
+                    <p *ngIf="cardType === 2">{{carddata.name_english}}</p>
+                    <p *ngIf="cardType === 1">{{carddata.english_name}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.NAME-IN-CHINESE' | translate}}</td>
+                <td class="SecondColumn">
+                    <p *ngIf="cardType === 2">{{carddata.name_chinese}}</p>
+                    <p *ngIf="cardType === 1">{{carddata.chinese_name}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.NAME-IN-CCC' | translate}}</td>
+                <td class="SecondColumn">{{name_ccc_view}}</td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.SEX' | translate}}</td>
+                <td class="SecondColumn">
+                    <p *ngIf="carddata.gender === 'M'">{{'SCN-GEN-STEPS.SEX-M' | translate}}</p>
+                    <p *ngIf="carddata.gender === 'F'">{{'SCN-GEN-STEPS.SEX-F' | translate}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.DATE-OF-BIRTH' | translate}}</td>
+                <td class="SecondColumn">{{date_of_birth_view}}</td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.SYMBOLS' | translate}}</td>
+                <td class="SecondColumn">{{carddata.indicators}}</td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.MONTH-YEAR-REGISTRATION' | translate}}</td>
+                <td class="SecondColumn">{{date_of_first_registration_view}}</td>
+            </tr>
+            <tr>
+                <td class="firstColumn">{{'SCN-GEN-STEPS.DATE-OF-ISSUE' | translate}}</td>
+                <td class="SecondColumn">{{date_of_registration_view}}</td>
+            </tr>
+            <tr>
+                <!--<td class="firstColumn">{{'SCN-GEN-STEPS.LIMIT-OF-STAY' | translate}}</td>-->
+                <td class="firstColumn">{{'SCN-GEN-STEPS.COS_LOS' | translate}}</td>
+                <td class="SecondColumn">
+                    <p *ngIf="cosView === N2E">{{'SCN-GEN-STEPS.N2E' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2E">{{'SCN-GEN-STEPS.R2E' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === N2H">{{'SCN-GEN-STEPS.N2H' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2H">{{'SCN-GEN-STEPS.R2H' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === N2S">{{'SCN-GEN-STEPS.N2S' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2S">{{'SCN-GEN-STEPS.R2S' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === N2W">{{'SCN-GEN-STEPS.N2W' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2W">{{'SCN-GEN-STEPS.R2W' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === N2X">{{'SCN-GEN-STEPS.N2X' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2X">{{'SCN-GEN-STEPS.R2X' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === N2Y">{{'SCN-GEN-STEPS.N2Y' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2Y">{{'SCN-GEN-STEPS.R2Y' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === N2">{{'SCN-GEN-STEPS.N2' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === R2">{{'SCN-GEN-STEPS.R2' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === V3T">{{'SCN-GEN-STEPS.V3T' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === V3">{{'SCN-GEN-STEPS.V3' | translate}}{{losView | translate}}</p>
+                    <p *ngIf="cosView === CN_COS">{{'SCN-GEN-STEPS.NOT-APPLICABLE' | translate}}</p>
+
+                </td>
+            </tr>
+            <!--<tr>-->
+                <!--<td class="firstColumn">{{'SCN-GEN-STEPS.COND-STAY' | translate}}</td>-->
+                <!--<td class="SecondColumn">{{cosView | translate}}</td>-->
+            <!--</tr>-->
+        </table>
+
+        <div class="image" *ngIf="cardType === 1" [hidden]="!showdata">
+            <img *ngIf="cardType === 1" src="data:image/png;base64,{{carddata.photo_bmp}}" height="280" width="220">
+        </div>
+        <div class="image" *ngIf="cardType === 2" [hidden]="!showdata">
+            <img *ngIf="cardType === 2" src="data:image/png;base64,{{carddata.photo_jpg_in_base64}}" height="280" width="220">
+        </div>
+
+    </div>
+    <img *ngIf="readType === 1" [hidden]="isShowCollect" src="../../../../assets/images/collect-old-hkid.gif" class="main-image">
+    <img *ngIf="readType === 2" [hidden]="isShowCollect" src="../../../../assets/images/collect-new-hkid.gif" width="928" height="522" class="main-image">
+    <input #imgNext type="hidden" (click)="nextRoute()">
+    <input type="button" [hidden]="!showdata" class="confirmButton" id="confirmBtn" value="{{'SCN-GEN-STEPS.TAKE_CARD_BTN' | translate}}" (click)="nextRoute()">
+    <!--<input type="button" [hidden]="!showdata" class="printButton" id="print" value="{{'SCN-GEN-STEPS.TAKE_CARD_BTN' | translate}}" (click)="printBill()">-->
+    <!--<input type="image" src="../../../../assets/images/button_Abort.png" class="exitButton" (click)="processModalQuitShow()" />-->
+    <!--<input class="exitButton" id='exitBtn' type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "processModalQuitShow()">-->
+</div>

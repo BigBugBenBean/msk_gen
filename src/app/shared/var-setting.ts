@@ -4,8 +4,8 @@ export const RR_FPSCANNERREG_MAX_RETRY: Number = 3;
 export const TIMEOUT_MILLIS = 1000;
 export const TIMER_MILLIS = 30;
 export const TIMEOUT_PAYLOAD = 5000;
-export const INI_URL = '/terminal/kioskini';
-// export const INI_URL = 'http://localhost:8080/terminal/kioskini';
+// export const INI_URL = '/terminal/kioskini';
+export const INI_URL = 'http://localhost:8080/terminal/mskgenini';
 // DISPLAY EXPORT
 
 export const PRIV_POL_LBL = 'Privacy Policy 隐私政策';
@@ -28,3 +28,5 @@ export const ABORT_YES_I18N_KEY = 'SCN-SCK-002-1.ABORT_CONFIRM_YES';
 export const CHANNEL_ID_RR_NOTICELIGHT = 'RR_NOTICELIGHT';
 export const CHANNEL_ID_RR_CARDREADER = 'RR_cardreader'; // RR_cardreader
 export const CHANNEL_ID_RR_ICCOLLECT = 'RR_ICCOLLECT';
+export const CHANNEL_ID_RR_ALERTSTUB = 'RR_ALERTSTUB';
+export const MAX_FAIL = 3;

@@ -30,7 +30,7 @@ export class MsksService {
                     payload
                 };
 
-                console.log('msks request', channel, functionid, source);
+                // console.log('msks request', channel, functionid, source);
 
                 sckclient.emit('room', JSON.stringify(
                     {
@@ -40,7 +40,7 @@ export class MsksService {
                 ));
 
                 sckclient.on(channel, (response) => {
-                    console.log('msks response', channel, functionid, source, response);
+                    // console.log('msks response', channel, functionid, source, response);
                     observer.next(response.payload);
 
                     sckclient.disconnect();
@@ -55,6 +55,39 @@ export class MsksService {
                 console.error(`Error occurred when connect to server ${MSKS.uri}`, e);
                 observer.error(`Error occurred when connect to server ${MSKS.uri}`);
             });
+        });
+    }
+
+    public sendRequestExcptLog(payload) {
+        this.sendRequest('RR_AUDIT', 'excptlg', payload).subscribe(resp => {
+            console.log(`Exception log:${resp}`, resp);
+        });
+    }
+
+    public sendRequestTransLog(payload) {
+        this.sendRequest('RR_AUDIT', 'translg', payload).subscribe(resp => {
+            console.log(`Transcation log:${resp}`, resp);
+        });
+    }
+
+    public sendTrackLog(message) {
+        this.sendRequest('RR_AUDIT', 'tracklg', {'message': message}).subscribe(resp => {
+            // console.log(`Transcation log:${resp}`, resp);
+        });
+    }
+
+    public sendRequestWithLog(channelid: string, functionid: string, payload: any = {}, stub: string = 'HAS'): Observable<any> {
+        const obsMain = this.sendRequest(channelid, functionid, payload, stub);
+        const head = {'chanlid': channelid, 'funcid': functionid};
+
+        const start = new Date().getTime();
+        return obsMain.map((resp) => {
+            const end = new Date().getTime();
+            payload.times = end - start;
+            // let response = JSON.stringify(resp);
+            this.sendRequest('RR_AUDIT', 'tracklg', {'head': head, 'resq': payload, 'resp': resp}).subscribe((resp4) => {
+            });
+            return resp;
         });
     }
 

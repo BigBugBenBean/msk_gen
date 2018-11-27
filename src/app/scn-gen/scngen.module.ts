@@ -39,11 +39,32 @@ import {AppointmentBookingComponent} from './appointment-booking/appointment-boo
 import {OwpPrefillFormComponent} from './owp-prefill-form/owp-prefill-form.component';
 import {ProcessingModule} from '../shared/processing-component';
 import {KioskHomeComponent} from './kiosk/kiosk-home.component';
+import {StepInsertcardComponent} from '../kgen-viewcard/steps/step-001/step-insertcard.component';
+import {StepProcessingComponent} from '../kgen-viewcard/steps/step-processing/step-processing.component';
+import {StepFingerprintComponent} from '../kgen-viewcard/steps/step-002/step-fingerprint.component';
+import {StepViewcardComponent} from '../kgen-viewcard/steps/step-003/step-viewcard.component';
+import {StepRetrievecardComponent} from '../kgen-viewcard/steps/step-004/step-retrievecard.component';
+import {StepOverComponent} from '../kgen-viewcard/steps/step-over/step-over.component';
+import {StepUpdatecardComponent} from '../kgen-viewcard/steps/step-003/step-updatecard.component';
+import {IndicateCardTypeModule} from '../shared/indicate-cardtype';
+import {SlipprintService} from '../shared/services/print-service/slipprint.service';
+import {FingerprintService} from '../shared/services/fingerprint-service/fingerprint.service';
+import {ReadcardService} from '../shared/services/readcard-service/readcard.service';
+import {ValidatorFingerprintService} from '../shared/services/validator-services/validator.fingerprint.service';
+import {CommonService} from '../shared/services/common-service/common.service';
+import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
 const routes: Routes = [
     // { path: '', redirectTo: 'gen001', pathMatch: 'full' },
     { path: '', redirectTo: 'kioskHome', pathMatch: 'full' },
     { path: 'gen001', component: Page1Component },
     { path: 'kioskHome', component: KioskHomeComponent },
+    { path: 'insertcard', component: StepInsertcardComponent },
+    { path: 'processing', component: StepProcessingComponent },
+    { path: 'fingerprint', component: StepFingerprintComponent },
+    { path: 'viewcard', component: StepViewcardComponent },
+    { path: 'updatecard', component: StepUpdatecardComponent },
+    { path: 'retrievecard', component: StepRetrievecardComponent },
+    { path: 'over', component: StepOverComponent },
     { path: 'gen002', component: Page2Component },
     { path: 'gen002/:id', component: Page2Component },
     { path: 'gen002/:id/:srv', component: Page2Component },
@@ -106,6 +127,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         AppointmentBookingComponent,
         OwpPrefillFormComponent,
         IframeComponent,
+        StepInsertcardComponent,
+        StepProcessingComponent,
+        StepFingerprintComponent,
+        StepViewcardComponent,
+        StepUpdatecardComponent,
+        StepRetrievecardComponent,
+        StepOverComponent
     ],
     imports: [
         CommonModule,
@@ -115,6 +143,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ConfirmModule,
         MenuModule,
         ProcessingModule,
+        IndicateCardTypeModule,
         TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,
@@ -127,6 +156,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     exports: [
         CommonModule
     ],
+    providers: [LocalStorageService,
+        CommonService,
+        ValidatorFingerprintService,
+        FingerprintService,
+        SlipprintService,
+        ReadcardService],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
