@@ -353,7 +353,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             return;
         }
         this.storeConfigParam();
-        this.router.navigate(['/kgen-viewcard/processing']);
+        this.router.navigate(['/scn-gen/processing']);
         return;
     }
 
@@ -1059,7 +1059,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
     exit(promtMessage) {
         this.storeConfigParam();
-        this.router.navigate(['/kgen-viewcard/over'], { queryParams: {'err': promtMessage, 'step': 1}});
+        this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 1}});
     }
 
     // 点击退出

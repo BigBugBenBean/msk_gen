@@ -683,6 +683,6 @@ export class StepFingerprintComponent implements OnInit {
 
     exit(promtMessage) {
         // this.storeConfigParam();
-        this.router.navigate(['/kgen-viewcard/over'], { queryParams: {'err': promtMessage, 'step': 2}});
+        this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 2}});
     }
 }
