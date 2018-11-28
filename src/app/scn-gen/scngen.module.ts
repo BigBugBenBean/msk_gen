@@ -54,9 +54,8 @@ import {ValidatorFingerprintService} from '../shared/services/validator-services
 import {CommonService} from '../shared/services/common-service/common.service';
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
 const routes: Routes = [
-    // { path: '', redirectTo: 'gen001', pathMatch: 'full' },
+
     { path: '', redirectTo: 'kioskHome', pathMatch: 'full' },
-    { path: 'gen001', component: Page1Component },
     { path: 'kioskHome', component: KioskHomeComponent },
     { path: 'insertcard', component: StepInsertcardComponent },
     { path: 'processing', component: StepProcessingComponent },
@@ -65,34 +64,6 @@ const routes: Routes = [
     { path: 'updatecard', component: StepUpdatecardComponent },
     { path: 'retrievecard', component: StepRetrievecardComponent },
     { path: 'over', component: StepOverComponent },
-    { path: 'gen002', component: Page2Component },
-    { path: 'gen002/:id', component: Page2Component },
-    { path: 'gen002/:id/:srv', component: Page2Component },
-    { path: 'gen005', component: Page5Component },
-    { path: 'gen007', component: Page7Component },
-    { path: 'slipprint', component: SlipprintComponent },
-    { path: 'slipprintTxt', component: SlipprintTxtComponent },
-    { path: 'slipprintVspace', component: SlipprintVspaceComponent },
-    { path: 'slipprintBarcode', component: SlipprintBarcodeComponent },
-    { path: 'slipprintBmp', component: SlipprintBmpComponent },
-    { path: 'slipprintCutpaper', component: SlipprintCutpaperComponent },
-    { path: 'fingerprint', component: FingerprintComponent },
-    { path: 'readNewCard', component: CardReaderComponent },
-    { path: 'appoinmentBooking', component: AppointmentBookingComponent },
-    { path: 'owpPrefillForm', component: OwpPrefillFormComponent },
-    // { path: 'step-001' , component: GenStep001Component },
-    { path: 'steps', component: GenStepsComponent,
-        children: [
-            { path: 'step-privacy' , component: GenStepPrivacyComponent },
-            { path: 'step-001-01' , component: GenStep00101Component },
-            { path: 'step-001-02' , component: GenStep00102Component },
-            { path: 'step-001-03' , component: GenStep00103Component },
-            { path: 'step-001-04' , component: GenStep00104Component },
-            { path: 'step-002-01' , component: GenStep00201Component },
-            { path: 'step-002-02' , component: GenStep00202Component },
-            { path: 'step-003-01' , component: GenStep00301Component },
-            { path: 'step-004-01' , component: GenStep00401Component }
-        ]},
     { path: 'iframe/:url', component: IframeComponent}
 
 ];

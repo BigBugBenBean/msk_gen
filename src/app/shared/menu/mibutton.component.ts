@@ -170,27 +170,22 @@ export class MenuButtonComponent implements AfterContentInit {
         } else if (!this.app) {
             console.warn('Miss configuration missing msksapp', this.menukey);
         }
-        // if (this.menukey === 'LV2HKICCheck') {
-        //     this.router.navigate(['scn-gen/viewcard']);
-        //     return;
-        // }
+        if (this.menukey === 'LV2HKICCheck') {
+            this.router.navigate(['scn-gen/viewcard']);
+            return;
+        }
         if (this.menukey === 'LV1Equipment') {
             this.router.navigate(['/scn-gen/gen007']);
             return;
         }
-        // appoinmentBooking
-        if (this.menukey === 'LV2_ROP_APPOINTMENT_BOOKING') {
-            this.router.navigate(['/scn-gen/appoinmentBooking']);
-            return;
-        }
-        // owpPrefillForm
-        if (this.menukey === 'LV2_OWP_FORM_PRE-FILL') {
-            this.router.navigate(['/scn-gen/owpPrefillForm']);
+        if (this.menukey === 'LV2HKICBOOKINB') {
+            this.router.navigate(['/scn-gen/steps/step-privacy']);
             return;
         }
         // console.log('app.type', this.app.type, this.app.path);
         switch (this.app.type) {
             case AppType.APPLICATION:
+
                 this.msks.sendRequest('RR_LAUNCHER', 'launch', {
                     exemode: 'execfile',
                     cmdfile: this.app.path,

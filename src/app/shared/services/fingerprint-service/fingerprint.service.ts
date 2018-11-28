@@ -209,7 +209,7 @@ export class FingerprintService {
 
     /** Convert data (an array of integers) to a Base64 string. */
 
-    toBase64(data) {
+/*    toBase64(data) {
         let result = '';
         const length = data.length;
         let i;
@@ -239,7 +239,7 @@ export class FingerprintService {
         return result;
     }
 
-    /** Convert Base64 data to a string */
+    /!** Convert Base64 data to a string *!/
 
     base64ToString(data) {
         let result = '';
@@ -274,7 +274,7 @@ export class FingerprintService {
           console.log('exception!');
         }
         return result;
-    }
+    }*/
 
     // toBase64() 将字符串转换为base64
     // base64ToString()  将base64 转换为字符串

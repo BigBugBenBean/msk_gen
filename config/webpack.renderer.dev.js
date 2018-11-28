@@ -21,7 +21,7 @@ const packagejson = require('../package.json');
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
 
@@ -43,7 +43,7 @@ const METADATA = webpackMerge(commonConfig({ env: ENV, entry: APP_ENTRY }).metad
     baseUrl: helpers.getBaseUrl(),
     isDevServer: helpers.isWebpackDevServer(),
     apiroot: '/msksapi',
-    API_TERMINAL: 'http://localhost:3000'
+    API_TERMINAL: 'http://localhost:8080'
 });
 
 module.exports = function (options) {

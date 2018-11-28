@@ -16,7 +16,7 @@ export class CommonService {
                 private httpClient: HttpClient,
                 private translate: TranslateService) {}
     doCloseWindow() {
-        this.router.navigate(['/scn-gen/kioskHome']);
+        this.router.navigate(['/scn-gen']);
         // const remote = require('electron').remote;
         // const window = remote.getCurrentWindow();
         // window.close();
@@ -60,7 +60,7 @@ export class CommonService {
     }
 
     doReturnDoc() {
-        this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').subscribe(() => {});
+        this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').subscribe(resp => {});
     }
 
     returnDoc() {

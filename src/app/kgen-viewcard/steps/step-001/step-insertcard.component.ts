@@ -13,6 +13,7 @@ import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { map } from 'rxjs/operator/map';
+import {log} from 'util';
 
 @Component({
     templateUrl: './step-insertcard.component.html',
@@ -146,8 +147,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.initLanguage();
         this.preparing.show();
-        this.startBusiness();
-        // this.initGetParam();
+        // this.startBusiness();
+         this.initGetParam();
         // this.controlStatus = 7;
         // this.indicateCardType.show();
     }
@@ -317,8 +318,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     }
 
     startBusiness() {
-        this.initConfigParam();
-        this.cancelQuitEnabledAll();
+        // this.initConfigParam();
+        // this.cancelQuitEnabledAll();
         // this.commonService.doCloseCard();
         // this.commonService.doReturnDoc();
         // this.openGateFun();
@@ -663,9 +664,11 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     }
 
     checkOCRSomething() {
+        console.log('66666666666');
         let retryCount = 0;
-        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
+        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart', 'light': 'Infra' };
         const ocr$ = this.service.sendRequestWithLog('RR_cardreader', 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
+            console.log(`77777777777====${resp}`);
             // if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
             // if ('VizIssueDate' === datas[i].field_id) {
             if (resp.ocr_data != null) {
@@ -716,10 +719,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     }
 
     startDetectCardListener(openGateTime) {
-
-        const hasocr$ = this.checkOCRSomething();
-
         this.service.sendTrackLog(`---------------------start------------------------------`);
+        const hasocr$ = this.checkOCRSomething();
         // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
         const ATTEMPT_COUNT = 3;
         const DELAY = 700;
@@ -818,7 +819,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         const DELAY_OCR = 3000;
 
         // bbb, 'light': 'Infra', 'field_ids': ['VizDocumentNumber', 'VizIssueDate']
-        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
+        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart', 'light': 'Infra' };
         const OCR = this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', payloadParam).map((resp) => {
             const result = { type: 'OCR', status: null, ocr_data: null };
             if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
@@ -881,6 +882,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         }).delay(DELAY_OCR));
 
         hasocr$.subscribe(data => {
+            console.log('准备完成...........');
             this.preparing.hide();
             this.controlStatus = 1;
             this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
@@ -889,6 +891,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             if (this.modalPrompt.visible) {
                 this.modalPrompt.hide();
             }
+                console.log(`<检测到>>>>>>>>  ${resp.type}  ${resp.status}`);
             this.service.sendTrackLog(`<检测到>>>>>>>>  ${resp.type}  ${resp.status}`);
             const payload = {
                 'card_reader_id': null,
