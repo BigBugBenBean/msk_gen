@@ -117,5 +117,7 @@
     <input #imgNext type="button" (click)="nextRoute()">
     <input [hidden]="controlStatus === 4 || controlStatus === 0" type="image" src="../../../../assets/images/button_Abort.png" class="exitButton" (click)="processModalQuitShow()" />
     <input [hidden]="controlStatus === 4 || controlStatus === 0" class="exitButton" id='exitBtn' type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "processModalQuitShow()" />
+    <!--<input type="image" src="../../../../assets/images/button_Abort.png" class="exitButton" (click)="processModalQuitShow()" />-->
+    <!--<input  class="exitButton" id='exitBtn' type="button" value="{{'SCN-GEN-STEPS.ABORT' | translate}}" (click) = "processModalQuitShow()" />-->
     <label class="footerSteps"></label>
 </div>

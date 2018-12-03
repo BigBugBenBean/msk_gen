@@ -16,7 +16,7 @@ export class CommonService {
                 private httpClient: HttpClient,
                 private translate: TranslateService) {}
     doCloseWindow() {
-        this.router.navigate(['/scn-gen']);
+        this.router.navigate(['/scn-gen/kioskHome']);
         // const remote = require('electron').remote;
         // const window = remote.getCurrentWindow();
         // window.close();

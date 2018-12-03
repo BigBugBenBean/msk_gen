@@ -248,6 +248,7 @@ export class StepFingerprintComponent implements OnInit {
             forwordPage = '/scn-gen/updatecard';
         }
         this.router.navigate([forwordPage]);
+        // this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
         return;
     }
 

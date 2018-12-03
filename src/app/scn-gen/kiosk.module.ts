@@ -6,39 +6,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MsksModule } from '../shared/msks';
 import { TimerModule } from '../shared/sc2-timer';
 import { MenuModule } from '../shared/menu';
-
-import { Page1Component } from './scn-gen-001/scn-gen-001.component';
-import { Page2Component } from './scn-gen-002/scn-gen-002.component';
-import { Page5Component } from './scn-gen-005/scn-gen-005.component';
-
-import { IframeComponent } from './scn-gen-iframe/iframe.component';
-
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {Page7Component} from './scn-gen-007/scn-gen-007.component';
-import {SlipprintComponent} from './scn-gen-slipprint/scn-gen-slipprint.component';
-import {FingerprintComponent} from './scn-gen-fingerprint/scn-gen-fingerprint.component';
-import {SlipprintTxtComponent} from './scn-gen-slipprint/scn-gen-slipprint-txt/scn-gen-slipprint-txt.component';
-import {SlipprintVspaceComponent} from './scn-gen-slipprint/scn-gen-slipprint-vspace/scn-gen-slipprint-vspace.component';
-import {SlipprintBmpComponent} from './scn-gen-slipprint/scn-gen-slipprint-bmp/scn-gen-slipprint-bmp.component';
-import {SlipprintBarcodeComponent} from './scn-gen-slipprint/scn-gen-slipprint-barcode/scn-gen-slipprint-barcode.componet';
-import {SlipprintCutpaperComponent} from './scn-gen-slipprint/scn-gen-slipprint-cutpaper/scn-gen-slipprint-cutpaper.component';
-import {CardReaderComponent} from './scn-gen-cardreader/scn-gen-cardreader.component';
+
 import {ConfirmModule} from '../shared/sc2-confirm';
-import {GenStep00101Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-01.component';
-import {GenStepsComponent} from './scn-gen-steps/steps/gen-steps.componoent';
-import {GenStep00201Component} from './scn-gen-steps/steps/gen-steps/gen-step-002/gen-step-002-01.component';
-import {GenStep00102Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-02.component';
-import {GenStep00202Component} from './scn-gen-steps/steps/gen-steps/gen-step-002/gen-step-002-02.component';
-import {GenStep00103Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-03.component';
-import {GenStep00401Component} from './scn-gen-steps/steps/gen-steps/gen-step-004/gen-step-004-01.component';
-import {GenStep00301Component} from './scn-gen-steps/steps/gen-steps/gen-step-003/gen-step-003-01.component';
-import {GenStepPrivacyComponent} from './scn-gen-steps/steps/gen-steps/gen-step-privacy/gen-step-privacy.component';
-import {GenStep00104Component} from './scn-gen-steps/steps/gen-steps/gen-step-001/gen-step-001-04.component';
-import {AppointmentBookingComponent} from './appointment-booking/appointment-booking.component';
-import {OwpPrefillFormComponent} from './owp-prefill-form/owp-prefill-form.component';
+
 import {ProcessingModule} from '../shared/processing-component';
-import {KioskHomeComponent} from './kiosk/kiosk-home.component';
+
 import {StepInsertcardComponent} from '../kgen-viewcard/steps/step-001/step-insertcard.component';
 import {StepProcessingComponent} from '../kgen-viewcard/steps/step-processing/step-processing.component';
 import {StepFingerprintComponent} from '../kgen-viewcard/steps/step-002/step-fingerprint.component';
@@ -53,6 +27,8 @@ import {ReadcardService} from '../shared/services/readcard-service/readcard.serv
 import {ValidatorFingerprintService} from '../shared/services/validator-services/validator.fingerprint.service';
 import {CommonService} from '../shared/services/common-service/common.service';
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
+import {KioskHomeComponent} from './kiosk-home.component';
+
 const routes: Routes = [
 
     { path: '', redirectTo: 'kioskHome', pathMatch: 'full' },
@@ -63,9 +39,7 @@ const routes: Routes = [
     { path: 'viewcard', component: StepViewcardComponent },
     { path: 'updatecard', component: StepUpdatecardComponent },
     { path: 'retrievecard', component: StepRetrievecardComponent },
-    { path: 'over', component: StepOverComponent },
-    { path: 'iframe/:url', component: IframeComponent}
-
+    { path: 'over', component: StepOverComponent }
 ];
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -73,31 +47,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         KioskHomeComponent,
-        Page1Component,
-        Page2Component,
-        Page5Component,
-        Page7Component,
-        SlipprintComponent,
-        SlipprintTxtComponent,
-        SlipprintVspaceComponent,
-        SlipprintBarcodeComponent,
-        SlipprintBmpComponent,
-        SlipprintCutpaperComponent,
-        FingerprintComponent,
-        CardReaderComponent,
-        GenStepsComponent,
-        GenStepPrivacyComponent,
-        GenStep00101Component,
-        GenStep00102Component,
-        GenStep00103Component,
-        GenStep00104Component,
-        GenStep00201Component,
-        GenStep00202Component,
-        GenStep00301Component,
-        GenStep00401Component,
-        AppointmentBookingComponent,
-        OwpPrefillFormComponent,
-        IframeComponent,
         StepInsertcardComponent,
         StepProcessingComponent,
         StepFingerprintComponent,

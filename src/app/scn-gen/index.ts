@@ -1,1 +1,1 @@
-export * from './scngen.module';
+export * from './kiosk.module';

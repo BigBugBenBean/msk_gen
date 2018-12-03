@@ -201,7 +201,14 @@ export class StepProcessingComponent implements OnInit {
         }
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/fingerprint']);
+        // this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
         return;
+    }
+
+    exit(promtMessage) {
+        this.storeConfigParam();
+        console.log(22222);
+        this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 1}});
     }
 
     storeConfigParam() {

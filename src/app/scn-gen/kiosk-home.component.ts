@@ -4,21 +4,18 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ConfirmComponent } from '../../shared/sc2-confirm';
 import {AppType, MenuService} from '../../shared/menu';
 import { TranslateService } from '@ngx-translate/core';
-import { MsksService } from '../../shared/msks';
+import { MsksService } from '../shared/msks';
 
-import {MenuButtonComponent} from '../../shared/menu/mibutton.component';
-import {LocalStorageService} from '../../shared/services/common-service/Local-storage.service';
+import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
 import {INI_URL} from '../../shared/var-setting';
 import {HttpClient} from '@angular/common/http';
-import {CommonService} from '../../shared/services/common-service/common.service';
+import {CommonService} from '../shared/services/common-service/common.service';
 @Component({
     templateUrl: './kiosk-home.component.html',
     styleUrls: ['./kiosk-home.component.scss']
 })
 
 export class KioskHomeComponent implements OnInit {
-    @ViewChild('modalFail')
-    public modalFail: ConfirmComponent;
     operateType = '1';
     isFirst = '0';
 
@@ -31,14 +28,7 @@ export class KioskHomeComponent implements OnInit {
     DEVICE_LIGHT_ALERT_BAR_GREEN_CODE = '12';
     DEVICE_LIGHT_ALERT_BAR_RED_CODE = '13';
 
-    @ViewChildren(MenuButtonComponent)
-    private children;
-
-    @ViewChild('modalNoROP')
-    private modalNoROP: ConfirmComponent;
-
     constructor(private router: Router,
-                private menusrv: MenuService,
                 private commonService: CommonService,
                 private translate: TranslateService,
                 private route: ActivatedRoute,
@@ -62,12 +52,14 @@ export class KioskHomeComponent implements OnInit {
         this.operateType = '1';
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/insertcard']);
+        return;
     }
 
     updateCosLos() {
         this.operateType = '2';
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/insertcard']);
+        return;
     }
 
     storeConfigParam() {

@@ -102,11 +102,11 @@ export class StepOverComponent implements OnInit {
 
     offAll() {
         return Observable.merge(
-        this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
-        this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
-        this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
-        this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
-        this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
+            this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
+            this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
+            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
+            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
+            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         );
     }
 
@@ -136,37 +136,37 @@ export class StepOverComponent implements OnInit {
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER)).subscribe(data => console.log(data));
 
         const all = this.commonService.doFlash(this.readType === 1 ? this.DEVICE_LIGHT_CODE_IC_READER : this.DEVICE_LIGHT_CODE_OCR_READER).mergeMap(data => {
-                return this.service.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').mergeMap(data => {
-                    if (this.readType === 1) {
-                        return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').mergeMap(data => {
-                            if (data.errorcode === 'D0007') { // 未取卡
-                                throw new Error('NOT_COLLECT');
-                            }else {
-                                return this.offAll();
-                            }
-                        });
-                    } else {
-                        return Observable.timer(2000).mergeMap(val => this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(data => {
-                            if (data.error_info.error_code === '7') { // no card
-                                return data;
-                            } else {
-                                throw new Error('NOT_COLLECT');
-                            }
-                        }).retryWhen(e => e.scan((errorCount, err) => {
-                            // this.service.sendTrackLog(`NOT Collect error:${err.message}`);
-                            if (this.modalPrompt.visible === false && errorCount >= 3) {
-                                this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
-                                this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
-                                // throw err;
-                            }
-                            return errorCount + 1;
+            return this.service.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').mergeMap(data1 => {
+                if (this.readType === 1) {
+                    return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').mergeMap(data2 => {
+                        if (data2.errorcode === 'D0007') { // 未取卡
+                            throw new Error('NOT_COLLECT');
+                        }else {
+                            return this.offAll();
+                        }
+                    });
+                } else {
+                    return Observable.timer(2000).mergeMap(val => this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(data2 => {
+                        if (data2.error_info.error_code === '7') { // no card
+                            return data;
+                        } else {
+                            throw new Error('NOT_COLLECT');
+                        }
+                    }).retryWhen(e => e.scan((errorCount, err) => {
+                        // this.service.sendTrackLog(`NOT Collect error:${err.message}`);
+                        if (this.modalPrompt.visible === false && errorCount >= 3) {
+                            this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
+                            this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
+                            // throw err;
+                        }
+                        return errorCount + 1;
                     },	0).delay(1000)));
 
-                    }
-                });
+                }
             });
+        });
         all.subscribe(data => {
-            this.offAll().subscribe(data => {
+            this.offAll().subscribe(data1 => {
                 this.commonService.doCloseWindow();
             });
         }, error => {

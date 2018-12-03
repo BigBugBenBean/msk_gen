@@ -223,8 +223,14 @@ export class StepViewcardComponent  implements OnInit {
         }
         this.quitDisabledAll();
         this.storeConfigParam();
-        this.router.navigate(['/scn-gen/retrievecard']);
+        // this.router.navigate(['/scn-gen/retrievecard']);
+        this.exit('');
         return;
+    }
+
+    exit(promtMessage) {
+        // this.storeConfigParam();
+        this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 4}});
     }
 
     storeConfigParam() {

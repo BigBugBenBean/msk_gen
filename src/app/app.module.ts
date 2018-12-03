@@ -1,5 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   NgModule,
@@ -15,9 +13,7 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
-/*
- * Platform and Environment providers/directives/pipes
- */
+
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 // App is our top level component
@@ -38,7 +34,6 @@ import './jquery';
 import './electron';
 import 'hammerjs';
 
-// import { StepsModule } from './steps/steps.module'
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -61,9 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
-    AppComponent,
-    HomeComponent,
-    NoContentComponent,
+    AppComponent
   ],
   /**
    * Import Angular's modules.

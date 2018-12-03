@@ -1,9 +1,9 @@
-@import '../../shared/sc2-confirm/sc2-confirm.components.scss';
+@import '../shared/sc2-confirm/sc2-confirm.components.scss';
 body { TEXT-ALIGN: center; }
 .mainDiv {
   width: 1280px;
   height: 1024px;
-  background-image: url(../../../assets/images/home/image_bg.png);
+  background-image: url(../../assets/images/home/image_bg.png);
   //text-align: center; /*让div内部文字居中*/
   margin-left: auto;
   margin-right: auto;
@@ -62,7 +62,7 @@ body { TEXT-ALIGN: center; }
 .viewPersonDataInChipBtn {
   margin-left: 50px;
   padding-top: 66px;
-  background-image: url(../../../assets/images/home/image_button.png);
+  background-image: url(../../assets/images/home/image_button.png);
   width: 584px;
   height: 474px;
   float: left;
@@ -72,14 +72,14 @@ body { TEXT-ALIGN: center; }
 .viewBtnImage {
   margin-left:200px;
   margin-rigt:204px;
-  background-image: url(../../../assets/images/home/icon_view_chip.png);
+  background-image: url(../../assets/images/home/icon_view_chip.png);
   width: 180px;
   height: 180px;
 }
 
 .updateCosLosInChipBtn {
   padding-top: 66px;
-  background-image: url(../../../assets/images/home/image_button.png);
+  background-image: url(../../assets/images/home/image_button.png);
   float: left;
   margin-left: 16px;
   margin-right: 46px;
@@ -90,7 +90,7 @@ body { TEXT-ALIGN: center; }
 .updateBtnImage {
   margin-left:200px;
   margin-rigt:204px;
-  background-image: url(../../../assets/images/home/icon_update_chip.png);
+  background-image: url(../../assets/images/home/icon_update_chip.png);
   width: 180px;
   height: 180px;
 }
