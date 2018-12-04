@@ -207,6 +207,10 @@ export class StepOverComponent implements OnInit {
     processPromtNotExist(message_key) {
         this.messagePrompt = message_key;
         this.modalPrompt.show();
+        setTimeout(() => {
+            this.modalPrompt.hide();
+            this.backToNormal();
+        }, 10000);
     }
 
     processPromt(message_key) {

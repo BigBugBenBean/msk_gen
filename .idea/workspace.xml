@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4cef9e4c-3290-44d1-93aa-79b89b3bf6e4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-002/step-fingerprint.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-002/step-fingerprint.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-updatecard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-updatecard.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-over/step-over.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-over/step-over.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,10 +20,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-001/step-insertcard.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1234">
+            <state relative-caret-position="17952">
               <caret line="830" column="39" selection-start-line="830" selection-start-column="33" selection-end-line="830" selection-end-column="39" />
               <folding>
                 <element signature="e#0#71#0" expanded="true" />
@@ -50,8 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1424">
-              <caret line="229" selection-start-line="229" selection-end-line="229" />
+            <state relative-caret-position="3784">
+              <caret line="182" column="7" selection-start-line="182" selection-start-column="7" selection-end-line="182" selection-end-column="7" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
               </folding>
@@ -59,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-over/step-over.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="148" column="52" selection-start-line="148" selection-start-column="52" selection-end-line="148" selection-end-column="52" />
+            <state relative-caret-position="196">
+              <caret line="208" column="32" lean-forward="true" selection-start-line="208" selection-start-column="32" selection-end-line="208" selection-end-column="32" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
               </folding>
@@ -74,7 +71,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/scn-gen/kiosk-home.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
+            <state relative-caret-position="1276">
               <caret line="69" selection-start-line="69" selection-end-line="69" />
               <folding>
                 <element signature="e#0#91#0" expanded="true" />
@@ -86,7 +83,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/shared/services/common-service/common.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
+            <state relative-caret-position="220">
               <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="53" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -110,8 +107,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3454">
-              <caret line="157" column="150" selection-start-line="157" selection-start-column="150" selection-end-line="157" selection-end-column="150" />
+            <state relative-caret-position="3190">
+              <caret line="145" selection-start-line="145" selection-end-line="145" />
             </state>
           </provider>
         </entry>
@@ -119,7 +116,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-002/step-fingerprint.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-188">
+            <state relative-caret-position="7986">
               <caret line="374" selection-start-line="374" selection-end-line="374" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
@@ -131,7 +128,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-updatecard.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
+            <state relative-caret-position="5654">
               <caret line="267" selection-start-line="267" selection-end-line="267" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
@@ -144,8 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>operateType</find>
-      <find>controlstatus</find>
       <find>httpClient</find>
       <find>messageFail</find>
       <find>processModalFailShow</find>
@@ -172,8 +167,10 @@
       <find>readType</find>
       <find>next</find>
       <find>/scn-gen</find>
-      <find>nextRoute</find>
       <find>exit</find>
+      <find>nextRoute</find>
+      <find>processPromt</find>
+      <find>processPromtNotExist</find>
     </findStrings>
     <replaceStrings>
       <replace>/kiosk</replace>
@@ -226,11 +223,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1358" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -315,8 +312,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -382,18 +379,19 @@
       <workItem from="1543485900817" duration="1677000" />
       <workItem from="1543543601226" duration="15463000" />
       <workItem from="1543803030338" duration="17351000" />
-      <workItem from="1543889020390" duration="6952000" />
+      <workItem from="1543889020390" duration="8388000" />
+      <workItem from="1543907211699" duration="1636000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="136579000" />
+    <option name="totallyTimeSpent" value="139651000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26439232" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24508321" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -411,7 +409,7 @@
       <window_info anchor="bottom" id="TODO" order="7" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="8" />
       <window_info anchor="bottom" id="TypeScript" order="9" weight="0.53846157" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.034669556" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.12111293" />
       <window_info anchor="bottom" id="CheckStyle" order="11" weight="0.3295082" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" />
@@ -438,7 +436,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-over/step-over.component.ts</url>
           <line>173</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
@@ -615,12 +612,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-001/step-insertcard.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17952">
+          <caret line="830" column="39" selection-start-line="830" selection-start-column="33" selection-end-line="830" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-processing/step-processing.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4268">
           <caret line="203" column="7" selection-start-line="203" selection-start-column="7" selection-end-line="203" selection-end-column="54" />
           <folding>
             <element signature="e#0#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3784">
+          <caret line="182" column="7" selection-start-line="182" selection-start-column="7" selection-end-line="182" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scn-gen/kiosk-home.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1276">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="e#0#91#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/shared/services/common-service/common.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -637,45 +674,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3454">
-          <caret line="157" column="150" selection-start-line="157" selection-start-column="150" selection-end-line="157" selection-end-column="150" />
+        <state relative-caret-position="3190">
+          <caret line="145" selection-start-line="145" selection-end-line="145" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-002/step-fingerprint.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-188">
+        <state relative-caret-position="7986">
           <caret line="374" selection-start-line="374" selection-end-line="374" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/shared/services/common-service/common.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scn-gen/kiosk-home.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
-          <folding>
-            <element signature="e#0#91#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-viewcard.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1424">
-          <caret line="229" selection-start-line="229" selection-end-line="229" />
           <folding>
             <element signature="e#0#53#0" expanded="true" />
           </folding>
@@ -684,7 +691,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-003/step-updatecard.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
+        <state relative-caret-position="5654">
           <caret line="267" selection-start-line="267" selection-end-line="267" />
           <folding>
             <element signature="e#0#53#0" expanded="true" />
@@ -694,20 +701,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-over/step-over.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="148" column="52" selection-start-line="148" selection-start-column="52" selection-end-line="148" selection-end-column="52" />
+        <state relative-caret-position="196">
+          <caret line="208" column="32" lean-forward="true" selection-start-line="208" selection-start-column="32" selection-end-line="208" selection-end-column="32" />
           <folding>
             <element signature="e#0#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/kgen-viewcard/steps/step-001/step-insertcard.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1234">
-          <caret line="830" column="39" selection-start-line="830" selection-start-column="33" selection-end-line="830" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
