@@ -127,7 +127,7 @@ export class StepOverComponent implements OnInit {
             }
 
             const errMessage = params.err;
-            if (errMessage !== null && errMessage !== '') {
+            if (errMessage !== null && errMessage !== '' && errMessage != undefined) {
                 this.processPromt(errMessage);
             }
         });
@@ -139,8 +139,6 @@ export class StepOverComponent implements OnInit {
             return this.service.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').mergeMap(data1 => {
                 if (this.readType === 1) {
                     return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').mergeMap(data2 => {
-                      debugger;
-                      console.log('6666');
                         if (data2.errorcode === 'D0007') { // 未取卡
                             this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
                             this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
@@ -165,7 +163,7 @@ export class StepOverComponent implements OnInit {
                             // throw err;
                         }
                         return errorCount + 1;
-                    },	0).delay(1000)));
+                    },	0).delay(2000)));
 
                 }
             });
