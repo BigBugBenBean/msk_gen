@@ -231,6 +231,7 @@ export class StepViewcardComponent  implements OnInit {
     exit(promtMessage) {
         // this.storeConfigParam();
         this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 4}});
+        return;
     }
 
     storeConfigParam() {

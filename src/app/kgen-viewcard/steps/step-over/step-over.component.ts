@@ -104,8 +104,8 @@ export class StepOverComponent implements OnInit {
         return Observable.merge(
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
-            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
-            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
+            //this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
+            //this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
             this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         );
     }
@@ -139,10 +139,15 @@ export class StepOverComponent implements OnInit {
             return this.service.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').mergeMap(data1 => {
                 if (this.readType === 1) {
                     return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').mergeMap(data2 => {
+                      debugger;
+                      console.log('6666');
                         if (data2.errorcode === 'D0007') { // 未取卡
+                            this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
+                            this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
                             throw new Error('NOT_COLLECT');
                         }else {
-                            return this.offAll();
+                            // return this.offAll();
+                            return [data2];
                         }
                     });
                 } else {
@@ -165,9 +170,10 @@ export class StepOverComponent implements OnInit {
                 }
             });
         });
-        all.subscribe(data => {
-            this.offAll().subscribe(data1 => {
-                this.commonService.doCloseWindow();
+        all.subscribe(data3 => {
+            this.offAll().subscribe(data4 => {
+                this.router.navigate(['/scn-gen/kioskHome']);
+                // this.commonService.doCloseWindow();
             });
         }, error => {
             this.commonService.loggerExcp(this.ACTION_TYPE_IC_RETURN_CARD, this.LOCATION_DEVICE_ID, 'GEFF', '', '', `not collect:${this.readType}`);
@@ -183,7 +189,8 @@ export class StepOverComponent implements OnInit {
         setTimeout(() => {
             this.modalPrompt.hide();
             this.offAll().subscribe();
-            this.commonService.doCloseWindow();
+            // this.commonService.doCloseWindow();
+            this.router.navigate(['/scn-gen/kioskHome']);
         }, 5000);
     }
 
