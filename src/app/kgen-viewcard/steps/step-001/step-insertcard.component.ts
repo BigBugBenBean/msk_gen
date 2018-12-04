@@ -316,14 +316,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     }
 
     startBusiness() {
-        // this.commonService.doCloseCard();
-        // this.commonService.doReturnDoc();
-        // this.openGateFun();
-        // *****************a later call openGate function *************************************************
-        // setTimeout(() => {
-        //     console.log('*******start call openGate function *********');
-        //     this.openGateFun();
-        // }, 1000);
         this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).merge(
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
             this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
@@ -341,7 +333,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         }
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/processing']);
-        // this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
         return;
     }
 
@@ -352,7 +343,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         }
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/processing']);
-        // this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
         return;
     }
 
@@ -431,36 +421,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     timeExpire() {
         this.timer.showTimer = false;
         this.timeOutPause = true;
-        // if (this.processing.visible) {
-        //     this.showImage = false;
-        //     this.processing.hide();
-        // }
-        // if (this.modalRetryOCR.visible) {
-        //     this.modalRetryOCR.hide();
-        // }
-        // if (this.modalRetryOpenGate.visible) {
-        //     this.modalRetryOpenGate.hide();
-        // }
-        // if (this.modalRetryOpenCard.visible) {
-        //     this.modalRetryOpenCard.hide();
-        // }
-        // if (this.modalFail.visible) {
-        //     this.modalFail.hide();
-        // }
-        // if (this.modal1Comfirm.visible) {
-        //     this.modal1Comfirm.hide();
-        // }
-        // if (this.modalQuit.visible) {
-        //     this.modalQuit.hide();
-        // }
-        // this.messageTimeout = 'SCN-GEN-STEPS.MESSAGE-TIMEOUT';
-        // this.quitDisabledAll();
-        // this.modalTimeout.show();
-        // setTimeout(() => {
-        //     this.controlStatus = 2;
-        //     this.processTimeoutQuit();
-        // }, 5000);
-
         this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
 
     }
@@ -1079,123 +1039,4 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             this.backRoute();
         }, 3000);
     }
-
-    /**
-     *  start print
-     */
-    // printBill() {
-    //     if (this.timeOutPause || this.isAbort) {
-    //         return;
-    //     }
-    //     // this.hkic_number_view = 'M004143(8)';
-    //     const icnoStar = 'g';
-    //     const date = new Date();
-    //     const year = date.getFullYear();
-    //     const month = date.getMonth() + 1;
-    //     let monthStr = month + '';
-    //     if (month < 10) {
-    //         monthStr = '0' + month;
-    //     }
-    //     const day = date.getDate();
-    //     let dayStr = day + '';
-    //     if (day < 10) {
-    //         dayStr = '0' + dayStr;
-    //     }
-    //     const hour = date.getHours();
-    //     let hourStr = hour + '';
-    //     if (hour < 10) {
-    //         hourStr = '0' + hourStr;
-    //     }
-    //     const minute = date.getMinutes();
-    //     let minuteStr  = minute + '';
-    //     if (minute < 10) {
-    //         minuteStr =  '0' + minuteStr;
-    //     }
-    //     const second = date.getSeconds();
-    //     let secondStr = second + '';
-    //     if (second < 10) {
-    //         secondStr = '0' + secondStr;
-    //     }
-    //     const datestr = dayStr + '-' + monthStr + '-' + year + '  ' + hourStr + ':' + minuteStr + ':' + secondStr;
-    //     const billNo = this.LOCATION_DEVICE_ID + '_' + year + monthStr + dayStr + hourStr + minuteStr + secondStr;
-    //     const printcontent =
-    //         ' ******************************************** \n' +
-    //         '           香港入境事務處\n' +
-    //         '        Hong Kong Immigration Department\n' +
-    //         ' ++++++++++++++++++++++++++++++++++++++++++++ \n' +
-    //         ' 身份證明文件號碼: ' + icnoStar + '\n' +
-    //         ' Identity document number:\n' +
-    //         ' --------------------------------------------- \n' +
-    //         ' 交易類別:          查看芯片中的個人數據 \n' +
-    //         ' Type of service:   View personal data in chip \n' +
-    //         ' -------------------------------------------- \n' +
-    //         '  交易狀態:                完成   \n' +
-    //         '  Transaction state:       Completed     \n' +
-    //         ' -------------------------------------------- \n' +
-    //         '  日期及時間:     ' + datestr + '\n' +
-    //         '  Date and time\n' +
-    //         ' -------------------------------------------- \n' +
-    //         '  交易參考編號:  ' + billNo + '\n' +
-    //         '  Transaction reference number:\n' +
-    //         ' --------------------------------------------- \n' +
-    //         '  備註:                     不適用\n' +
-    //         '  Remark:                 Unavailable\n' +
-    //         ' ********************************************* \n' ;
-    //     const dataJson = [
-    //         {
-    //             'type': 'txt',
-    //             'data': printcontent,
-    //             'height': '600',
-    //             'leftMargin': '10',
-    //             'attribute': 'normal'
-    //         },
-    //         {
-    //             'type': 'vspace',
-    //             'data': '100',
-    //             'height': '',
-    //             'leftMargin': '',
-    //             'attribute': ''
-    //         },
-    //         {
-    //             'type': 'cutpaper',
-    //             'data': '',
-    //             'height': '',
-    //             'leftMargin': '',
-    //             'attribute': 'black|full'
-    //         },
-    //     ];
-    //     console.log('call : printslip fun.' + JSON.stringify(dataJson))
-    //     this.printSlip(dataJson);
-    // }
-    // printSlip(dataJson) {
-    //     if (this.timeOutPause || this.isAbort) {
-    //         return;
-    //     }
-    //     console.log('call : printslip fun.' + JSON.stringify(dataJson))
-    //     this.service.sendRequestWithLog('RR_SLIPPRINTER', 'printslip', {'data': dataJson}).subscribe((resp) => {
-    //         if (!$.isEmptyObject(resp) && resp.errorcode === '0') {
-    //             console.log('printslip operate success');
-    //             if (this.timeOutPause || this.isAbort) {
-    //                 return;
-    //             }
-    //             this.nextRoute();
-    //         } else {
-    //             console.log('call printslip fail!');
-    //             if (this.timeOutPause || this.isAbort) {
-    //                 return;
-    //             }
-    //             this.messageFail = 'SCN-GEN-STEPS.BILL_PRINT_EXCEPTION';
-    //             this.processing.hide();
-    //             this.processModalFailShow();
-    //         }
-    //     }, (error) => {
-    //         console.log('printslip ERROR ' + error);
-    //         this.messageFail = 'SCN-GEN-STEPS.BILL_PRINT_EXCEPTION';
-    //         this.processing.hide();
-    //         if (this.isAbort || this.timeOutPause) {
-    //             return;
-    //         }
-    //         this.processModalFailShow();
-    //     });
-    // }
 }

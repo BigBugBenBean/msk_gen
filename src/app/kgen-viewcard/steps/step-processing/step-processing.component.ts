@@ -180,7 +180,6 @@ export class StepProcessingComponent implements OnInit {
         } else {  // show new card
             this.readhkicv2();
         }
-        // this.handleFingerNumber(this.fp_tmpl1_in_base64, this.fp_tmpl2_in_base64);
     }
 
     /**
@@ -201,23 +200,14 @@ export class StepProcessingComponent implements OnInit {
         }
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/fingerprint']);
-        // this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
         return;
     }
-
-    // exit(promtMessage) {
-    //     this.storeConfigParam();
-    //     this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 1}});
-    // }
 
     storeConfigParam() {
         this.localStorages.set('fp_tmpl1_in_base64', this.fp_tmpl1_in_base64);
         this.localStorages.set('fp_tmpl2_in_base64', this.fp_tmpl2_in_base64);
         this.localStorages.set('carddataJson', this.carddataJson);
         this.localStorages.set('APP_LANG', this.translate.currentLang);
-
-        // this.localStorages.set('cardType', '2');
-        // this.localStorages.set('readType', '2');
     }
 
     /**

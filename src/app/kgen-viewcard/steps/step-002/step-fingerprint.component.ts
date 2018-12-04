@@ -546,9 +546,6 @@ export class StepFingerprintComponent implements OnInit {
         this.doCloseCard();
     }
     processModalFailShow() {
-        // this.commonService.doLightOn(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
-        // this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
-        // this.quitDisabledAll();
         this.isAbort = true;
         this.modalFail.show();
     }
@@ -571,7 +568,6 @@ export class StepFingerprintComponent implements OnInit {
     processModalQuitShow() {
         this.modalQuit.show()
         this.isAbort = true;
-        // this.quitDisabledAll();
         if (this.processing.visible) {
             this.isRestore = true;
             this.processing.hide();

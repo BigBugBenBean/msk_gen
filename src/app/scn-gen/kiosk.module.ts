@@ -17,7 +17,6 @@ import {StepInsertcardComponent} from '../kgen-viewcard/steps/step-001/step-inse
 import {StepProcessingComponent} from '../kgen-viewcard/steps/step-processing/step-processing.component';
 import {StepFingerprintComponent} from '../kgen-viewcard/steps/step-002/step-fingerprint.component';
 import {StepViewcardComponent} from '../kgen-viewcard/steps/step-003/step-viewcard.component';
-import {StepRetrievecardComponent} from '../kgen-viewcard/steps/step-004/step-retrievecard.component';
 import {StepOverComponent} from '../kgen-viewcard/steps/step-over/step-over.component';
 import {StepUpdatecardComponent} from '../kgen-viewcard/steps/step-003/step-updatecard.component';
 import {IndicateCardTypeModule} from '../shared/indicate-cardtype';
@@ -38,7 +37,6 @@ const routes: Routes = [
     { path: 'fingerprint', component: StepFingerprintComponent },
     { path: 'viewcard', component: StepViewcardComponent },
     { path: 'updatecard', component: StepUpdatecardComponent },
-    { path: 'retrievecard', component: StepRetrievecardComponent },
     { path: 'over', component: StepOverComponent }
 ];
 export function HttpLoaderFactory(http: HttpClient) {
@@ -52,7 +50,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         StepFingerprintComponent,
         StepViewcardComponent,
         StepUpdatecardComponent,
-        StepRetrievecardComponent,
         StepOverComponent
     ],
     imports: [
