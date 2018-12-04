@@ -104,8 +104,8 @@ export class StepOverComponent implements OnInit {
         return Observable.merge(
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
-            //this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
-            //this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
+            // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
+            // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
             this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         );
     }
@@ -127,7 +127,7 @@ export class StepOverComponent implements OnInit {
             }
 
             const errMessage = params.err;
-            if (errMessage !== null && errMessage !== '' && errMessage != undefined) {
+            if (errMessage !== null && errMessage !== '' && errMessage !== undefined) {
                 this.processPromt(errMessage);
             }
         });
