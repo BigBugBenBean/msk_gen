@@ -535,8 +535,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
      * close card function.
      */
     doCloseCard() {
-        // this.showImage = true;
-        // this.isShowCollect = false;
         this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe((resp) => {
             if (this.readType === 1) {
                 this.doReturnDoc();
@@ -784,7 +782,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 result.status = 'CRASH';
                 this.deviceType = 2;
                 this.readType = 2;
-                // this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
                 this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
                     this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
             } else if ($.isEmptyObject(resp.ocr_data) || resp.ocr_data.length <= 1) {
@@ -794,7 +791,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 result.status = 'ERROR';
                 this.deviceType = 2;
                 this.readType = 2;
-                // this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
                 this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
                     this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
             } else {
@@ -899,8 +895,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         if (this.modalPrompt.visible) {
                             this.modalPrompt.hide();
                         }
-                        // const yesButton = document.getElementById('ocrYesButton');
-                        // const noButton = document.getElementById('ocrNoButton');
                         this.controlStatus = 3;
                         const oldc = document.getElementById('oldCard');
                         const newc = document.getElementById('newCard');
@@ -964,11 +958,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                                 this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER));
                         }
 
-                        // this.processPromt('SCN-GEN-STEPS.OCR_READER_SCREEN_S16');
-                        // this.deviceType = 1;
-                        // return Observable.of(err);
-                        // return this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).merge(
-                        //     this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER));
                     } else {
                         throw new Error('OCR_OVER_COUNT');
                     }
@@ -1025,9 +1014,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     // 点击退出
     quit() {
         this.subscription.unsubscribe();
-        // this.cardType = cardType;
-        // this.showImage = true;
-        // this.isShowCollect = false;
         const deviceCode = this.cardType === 1 ? this.DEVICE_LIGHT_CODE_IC_READER : this.DEVICE_LIGHT_CODE_OCR_READER;
         this.commonService.doCloseCard();
         this.commonService.doFlashLight(deviceCode);

@@ -96,8 +96,6 @@ export class StepOverComponent implements OnInit {
         this.cardType = Number.parseInt(this.localStorages.get('cardType'));
         this.readType = Number.parseInt(this.localStorages.get('readType'));
         this.hkic_number_view = this.localStorages.get('hkic_number_view');
-
-        this.IGNORE_NOT_COLLECT = this.localStorages.get('IGNORE_NOT_COLLECT');
     }
 
     offAll() {
@@ -176,9 +174,6 @@ export class StepOverComponent implements OnInit {
         }, error => {
             this.commonService.loggerExcp(this.ACTION_TYPE_IC_RETURN_CARD, this.LOCATION_DEVICE_ID, 'GEFF', '', '', `not collect:${this.readType}`);
             this.commonService.doAlarm('GEFF');
-            if (this.IGNORE_NOT_COLLECT === 'true') {
-                this.backToNormal();
-            }
         });
 
     }

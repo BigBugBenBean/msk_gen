@@ -148,10 +148,6 @@ export class StepUpdatecardComponent  implements OnInit {
         this.initConfigParam();
         this.initLanguage();
         this.startBusiness();
-        // this.readType = 2;
-        // this.cardType = 2;
-        // this.controlStatus = '1';
-        // this.test();
     }
 
     test() {
@@ -206,7 +202,7 @@ export class StepUpdatecardComponent  implements OnInit {
         if (this.carddataJson) {
             this.carddata = JSON.parse(this.carddataJson);
             this.initIcnoIcprfData();
-            const residential_status = this.carddata.residential_status; //CZ
+            const residential_status = this.carddata.residential_status;
             if (residential_status.indexOf('C') === -1) { // 不適用
                 // 非C卡不更新.
                 this.processing.hide();
@@ -261,13 +257,11 @@ export class StepUpdatecardComponent  implements OnInit {
         }
         this.quitDisabledAll();
         this.storeConfigParam();
-        // this.router.navigate(['/scn-gen/retrievecard']);
         this.exit('');
         return;
     }
 
     exit(promtMessage) {
-        // this.storeConfigParam();
         this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 4}});
         return;
     }
@@ -401,7 +395,7 @@ export class StepUpdatecardComponent  implements OnInit {
                 }
                 const resultJson =  $.parseJSON(resp );
                 this.service.sendTrackLog(`<resultJson.cos>>>>${resultJson.cos}   resultJson.los=${resultJson.los}`);
-                if (resultJson.cos == null && resultJson.los === null) { //不適用
+                if (resultJson.cos == null && resultJson.los === null) {
                     // this.messageFail = 'SCN-GEN-STEPS.WEB-SERVICE-GET-COS-LOS-EMPTY';
                     this.processing.hide();
                     this.cancelQuitEnabledAll();
