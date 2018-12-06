@@ -64,6 +64,7 @@ export class StepProcessingComponent implements OnInit {
     isShowCollect = false;
     timeOutPause = false;
     hkic_number_view = '';
+    operateType = '1';
     PAGE_PROCESSING_ABORT_QUIT_ITEMOUT = 5000;
     PAGE_PROCESSING_RETURN_CARD_ITEMOUT = 5000;
     PAGE_PROCESSING_TIME_EXPIRE_ITEMOUT = 5000;
@@ -114,6 +115,7 @@ export class StepProcessingComponent implements OnInit {
     }
 
     initConfigParam() {
+        this.operateType = this.localStorages.get('operateType');
         this.APP_LANG = this.localStorages.get('APP_LANG');
         this.LOCATION_DEVICE_ID = this.localStorages.get('LOCATION_DEVICE_ID');
         this.DEVICE_LIGHT_CODE_OCR_READER = this.localStorages.get('DEVICE_LIGHT_CODE_OCR_READER');

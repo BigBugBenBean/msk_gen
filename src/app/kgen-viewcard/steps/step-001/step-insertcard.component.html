@@ -90,7 +90,7 @@
             </div>
         </div>
     </sc2-confirm>
-    <label class="labelStay" >{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
+    <label class="labelStay" *ngIf="operateType === '1' ">{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
     
     <!--controlstatus 1.insert 2 collect 3 type 4 processing -->
     <label *ngIf="controlStatus === 1 && deviceType === 1" class="label1">{{'SCN-GEN-STEPS.INSERT-HKID' | translate}}</label>

@@ -18,6 +18,7 @@ export class StepOverComponent implements OnInit {
 
     messagePrompt = '';
     messageFail= '';
+    operateType = '1';
     messageCollect = 'SCN-GEN-STEPS.COLLECT-CARD-SURE';
     messageAbort= 'SCN-GEN-STEPS.ABORT_CONFIRM';
     messageTimeout = 'SCN-GEN-STEPS.MESSAGE-TIMEOUT';
@@ -74,6 +75,7 @@ export class StepOverComponent implements OnInit {
     }
 
     initConfigParam() {
+        this.operateType = this.localStorages.get('operateType');
         this.APP_LANG = this.localStorages.get('APP_LANG');
         this.LOCATION_DEVICE_ID = this.localStorages.get('LOCATION_DEVICE_ID');
         this.DEVICE_LIGHT_CODE_OCR_READER = this.localStorages.get('DEVICE_LIGHT_CODE_OCR_READER');
@@ -138,7 +140,7 @@ export class StepOverComponent implements OnInit {
                 if (this.readType === 1) {
                     return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').mergeMap(data2 => {
                         if (data2.errorcode === 'D0007') { // 未取卡
-                            this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
+                            this.processPromtNotExitOver('SCN-GEN-STEPS.NOT-COLLECT-CARD');
                             this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
                             throw new Error('NOT_COLLECT');
                         }else {
@@ -200,9 +202,15 @@ export class StepOverComponent implements OnInit {
     processPromtNotExist(message_key) {
         this.messagePrompt = message_key;
         this.modalPrompt.show();
+    }
+
+    processPromtNotExitOver(message_key) {
+        this.messagePrompt = message_key;
+        this.modalPrompt.show();
         setTimeout(() => {
             this.modalPrompt.hide();
-            this.backToNormal();
+            this.offAll().subscribe();
+            this.router.navigate(['/scn-gen/kioskHome']);
         }, 10000);
     }
 

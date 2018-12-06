@@ -64,7 +64,7 @@
         </div>
     </sc2-confirm>
     <sc2-process-comp #processing></sc2-process-comp>
-    <label class="labelStay" >{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
+    <label class="labelStay" *ngIf="operateType === '1' ">{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
     <label [hidden]="!isShowCollect" class="label1" >{{'SCN-GEN-STEPS.CONFIRM-INFO' | translate}}</label>
     <label [hidden]="isShowCollect"  class="label1" >{{'SCN-GEN-STEPS.COLLECT-HKID-CARD' | translate}}</label>
     <div class="information" [hidden]="!isShowCollect">

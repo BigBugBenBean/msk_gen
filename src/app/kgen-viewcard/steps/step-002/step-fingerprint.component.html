@@ -70,7 +70,7 @@
             </div>
             <img class="content" src="../../../../assets/images/hands-no-circle.png">
         </div>
-        <label class="labelStay" >{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
+        <label class="labelStay" *ngIf="operateType === '1' ">{{'SCN-GEN-STEPS.VIEW_INFO_CARD' | translate}}</label>
         <!--controlstatus 1.insert 2 collect  4 processing -->
         <label *ngIf="controlStatus === 2"  class="label1" >{{'SCN-GEN-STEPS.COLLECT-HKID-CARD' | translate}}</label>
         <label *ngIf="controlStatus === 4" class="label1"></label>

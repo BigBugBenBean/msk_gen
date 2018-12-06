@@ -305,6 +305,9 @@ export class StepFingerprintComponent implements OnInit {
                 'finger_num': this.fp_tmpl1_fingernum,
                 'fp_img_format': 'wsq'
         }).subscribe((resp) => {
+            if (this.isAbort || this.timeOutPause) {
+                return;
+            }
             this.processing.show();
             this.controlStatus = 4;
             // this.quitDisabledAll();
@@ -589,6 +592,7 @@ export class StepFingerprintComponent implements OnInit {
     processCancelQuit() {
         this.modalQuit.hide();
         this.isAbort = false;
+        this.doScanFingerPrint();
         if (this.isRestore) {
             // this.processing.show();
             this.isShow = true;
