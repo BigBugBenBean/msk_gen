@@ -159,6 +159,7 @@ export class StepOverComponent implements OnInit {
                         // this.service.sendTrackLog(`NOT Collect error:${err.message}`);
                         if (this.modalPrompt.visible === false && errorCount >= 3) {
                             this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
+                            this.commonService.doAlarm('OCR CardNotPick');
                             this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
                             // throw err;
                         }
@@ -175,7 +176,6 @@ export class StepOverComponent implements OnInit {
             });
         }, error => {
             this.commonService.loggerExcp(this.ACTION_TYPE_IC_RETURN_CARD, this.LOCATION_DEVICE_ID, 'GEFF', '', '', `not collect:${this.readType}`);
-            this.commonService.doAlarm('GEFF');
         });
 
     }
@@ -206,6 +206,7 @@ export class StepOverComponent implements OnInit {
 
     processPromtNotExitOver(message_key) {
         this.messagePrompt = message_key;
+        this.commonService.doAlarm('SmartReader CardNotPick');
         this.modalPrompt.show();
         setTimeout(() => {
             this.modalPrompt.hide();
