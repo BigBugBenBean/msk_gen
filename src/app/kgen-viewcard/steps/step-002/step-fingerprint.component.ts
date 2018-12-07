@@ -57,6 +57,7 @@ export class StepFingerprintComponent implements OnInit {
     readType = 1;
     retryVal = 0;
     operateType = '1';
+    isLevePage = false;
 
     controlStatus = 1;
 
@@ -242,6 +243,8 @@ export class StepFingerprintComponent implements OnInit {
             return;
         }
         this.storeConfigParam();
+        this.isLevePage = true;
+        // this.closeFpFn();
         // 根据所选操作类型 operateType = 1, viewcard, operateType = 2 updatecoslos.
         let forwordPage = '/scn-gen/viewcard';
         if (this.operateType === '2') {
@@ -257,6 +260,10 @@ export class StepFingerprintComponent implements OnInit {
         this.localStorages.set('cardType', this.cardType.toString());
         this.localStorages.set('readType', this.readType.toString());
     }
+
+    // closeFpFn() {
+    //     this.service.sendRequestWithLog('RR_fptool', 'cancelscan', {}).subscribe((resp) => {});
+    // }
 
     /**
      * backPage.
@@ -297,7 +304,7 @@ export class StepFingerprintComponent implements OnInit {
      */
     doScanFingerPrint() {
         console.log('call : getphoto fun.')
-        if (this.isAbort || this.timeOutPause) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
             return;
         }
         // this.service.sendRequestWithLog('RR_FPSCANNERREG', 'takephoto', {
@@ -305,7 +312,7 @@ export class StepFingerprintComponent implements OnInit {
                 'finger_num': this.fp_tmpl1_fingernum,
                 'fp_img_format': 'wsq'
         }).subscribe((resp) => {
-            if (this.isAbort || this.timeOutPause) {
+            if (this.isAbort || this.timeOutPause || this.isLevePage) {
                 return;
             }
             this.processing.show();
@@ -350,7 +357,7 @@ export class StepFingerprintComponent implements OnInit {
      * faild try again.
      */
     doFailedScan() {
-        if (this.isAbort || this.timeOutPause) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
             return;
         }
         this.retryVal += 1;
@@ -380,6 +387,9 @@ export class StepFingerprintComponent implements OnInit {
      * scan try again.
      */
     failTryAgain() {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
+            return;
+        }
         this.modalRetry.hide();
         this.cancelQuitEnabledAll();
         this.doScanFingerPrint();
@@ -390,13 +400,16 @@ export class StepFingerprintComponent implements OnInit {
      * @param fpdata
      */
     processExtractImgtmpl (fpdata: String) {
-        if (this.isAbort || this.timeOutPause) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
             return;
         }
         this.service.sendRequestWithLog('RR_fptool', 'extractimgtmpl',
             {'finger_num': this.fp_tmpl1_fingernum,
                 'fp_tmpl_format': this.PAGE_FINGERPRINT_FP_TMPL_FORMAT,
                 'fp_img_in_base64': fpdata}).subscribe((resp) => {
+            if (this.isAbort || this.timeOutPause || this.isLevePage) {
+                return;
+            }
             if (resp.error_info.error_code === '0') {
                 this.commonService.loggerTrans(this.ACTION_TYPE_FINGER_SCAN, this.LOCATION_DEVICE_ID, 'S', '', this.hkic_number_view, 'extractimgtmpl exception');
                 this.compareFingerPrint( resp.fp_tmpl_in_base64);
@@ -416,13 +429,16 @@ export class StepFingerprintComponent implements OnInit {
     }
 
     processExtractImgtmplTwo (fpdata: String) {
-        if (this.isAbort || this.timeOutPause) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
             return;
         }
         this.service.sendRequestWithLog('RR_fptool', 'extractimgtmpl',
             {'finger_num': this.fp_tmpl2_fingernum,
                 'fp_tmpl_format': this.PAGE_FINGERPRINT_FP_TMPL_FORMAT,
                 'fp_img_in_base64': fpdata}).subscribe((resp) => {
+            if (this.isAbort || this.timeOutPause || this.isLevePage) {
+                return;
+            }
             if (resp.error_info.error_code === '0') {
                 this.commonService.loggerTrans(this.ACTION_TYPE_FINGER_SCAN, this.LOCATION_DEVICE_ID, 'S', '', this.hkic_number_view, 'extractimgtmpl exception');
                 this.compareFingerPrint( resp.fp_tmpl_in_base64);
@@ -441,7 +457,7 @@ export class StepFingerprintComponent implements OnInit {
      * @param fpdataTemp
      */
     compareFingerPrint(fpdataTemp: String) {
-        if (this.isAbort || this.timeOutPause) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
             return;
         }
 
@@ -450,6 +466,9 @@ export class StepFingerprintComponent implements OnInit {
             'fp_tmpl1_in_base64': fpdataTemp,
             'fp_tmpl2_in_base64': this.fp_tmpl1_in_base64
         }).subscribe((resp) => {
+            if (this.isAbort || this.timeOutPause || this.isLevePage) {
+                return;
+            }
             // is validate
             if (this.PAGE_FINGERPRINT_IS_VALIDATION === 0) {
                 this.commonService.loggerTrans(this.ACTION_TYPE_VERIFICATION, this.LOCATION_DEVICE_ID, 'S', 'KSK_AUD', this.hkic_number_view, 'call verifytmpl');
@@ -484,7 +503,7 @@ export class StepFingerprintComponent implements OnInit {
     }
 
     compareFingerPrintTwo(fpdataTemp: String) {
-        if (this.isAbort || this.timeOutPause) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
             return;
         }
         this.service.sendRequest('RR_fptool', 'verifytmpl', {
@@ -492,6 +511,9 @@ export class StepFingerprintComponent implements OnInit {
             'fp_tmpl1_in_base64': fpdataTemp,
             'fp_tmpl2_in_base64': this.fp_tmpl2_in_base64
         }).subscribe((resp) => {
+            if (this.isAbort || this.timeOutPause || this.isLevePage) {
+                return;
+            }
             // is validate
             if (this.PAGE_FINGERPRINT_IS_VALIDATION === 0) {
                 this.commonService.loggerTrans(this.ACTION_TYPE_VERIFICATION, this.LOCATION_DEVICE_ID, 'S', 'KSK_AUD', this.hkic_number_view, 'call verifytmpl');
@@ -586,6 +608,7 @@ export class StepFingerprintComponent implements OnInit {
             this.isShow = false;
         }
         this.isAbort = true;
+        this.isLevePage = true;
         // this.doCloseCard();
         this.exit('');
     }
@@ -665,6 +688,9 @@ export class StepFingerprintComponent implements OnInit {
     }
 
     processPromt(message_key) {
+        if (this.isAbort || this.timeOutPause || this.isLevePage) {
+            return;
+        }
         this.messagePrompt = message_key;
         this.modalPrompt.show();
         this.doScanFingerPrint();
@@ -683,6 +709,7 @@ export class StepFingerprintComponent implements OnInit {
     }
 
     exit(promtMessage) {
+        // this.closeFpFn();
         // this.storeConfigParam();
         this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 2}});
         return;

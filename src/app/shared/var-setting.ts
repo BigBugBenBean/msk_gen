@@ -30,4 +30,5 @@ export const CHANNEL_ID_RR_NOTICELIGHT = 'RR_NOTICELIGHT';
 export const CHANNEL_ID_RR_CARDREADER = 'RR_cardreader'; // RR_cardreader
 export const CHANNEL_ID_RR_ICCOLLECT = 'RR_ICCOLLECT';
 export const CHANNEL_ID_RR_ALERTSTUB = 'RR_ALERTSTUB';
+export const CHANNEL_ID_RR_ALARMBOX = 'RR_ALARMBOX';
 export const MAX_FAIL = 3;

@@ -3,7 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {MsksService} from '../../msks';
 import {CHANNEL_ID_RR_CARDREADER, CHANNEL_ID_RR_ICCOLLECT, CHANNEL_ID_RR_NOTICELIGHT,
-    CHANNEL_ID_RR_ALERTSTUB, INI_URL} from '../../var-setting';
+    CHANNEL_ID_RR_ALARMBOX, INI_URL} from '../../var-setting';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './Local-storage.service';
 import {TimerComponent} from '../../sc2-timer';
@@ -183,7 +183,7 @@ export class CommonService {
     }
 
     doAlarm(errorCode) {
-        this.service.sendRequestWithLog(CHANNEL_ID_RR_ALERTSTUB, 'createalarm', {'alerttype': errorCode}).subscribe((resp) => {
+        this.service.sendRequestWithLog(CHANNEL_ID_RR_ALARMBOX, 'createalarm', {'alerttype': errorCode}).subscribe((resp) => {
         });
     }
 }
