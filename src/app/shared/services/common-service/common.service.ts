@@ -183,7 +183,8 @@ export class CommonService {
     }
 
     doAlarm(errorCode) {
-        this.service.sendRequestWithLog(CHANNEL_ID_RR_ALARMBOX, 'createalarm', {'alerttype': errorCode}).subscribe((resp) => {
+        this.service.sendRequestWithLog(CHANNEL_ID_RR_ALARMBOX, 'createalarm', {'alerttype': errorCode, 'alertdetail': errorCode}).subscribe((resp) => {
+        // this.service.sendRequestWithLog(CHANNEL_ID_RR_ALARMBOX, 'createalarm', {'alerttype': errorCode}).subscribe((resp) => {
         });
     }
 }
