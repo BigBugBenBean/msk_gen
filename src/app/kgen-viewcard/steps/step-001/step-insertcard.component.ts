@@ -135,6 +135,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     ACTION_TYPE_UPDATE_COS_LOS = 'GA0C';
     ACTION_TYPE_OCR_COLLECT_CARD = 'GA0D';
     ACTION_TYPE_IC_INSERT = 'GA0E';
+    OPEN_GATE_TIMEOUT = '20';
 
     constructor(private router: Router,
                 private commonService: CommonService,
@@ -323,7 +324,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         ).subscribe(data => console.log(data));
 
-        this.startDetectCardListener('20');
+        this.startDetectCardListener(this.OPEN_GATE_TIMEOUT);
     }
 
     /**
@@ -510,7 +511,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.modalQuit.hide();
         this.isAbort = false;
         this.readType = 1;
-        this.startDetectCardListener('20');
+        this.startDetectCardListener(this.OPEN_GATE_TIMEOUT);
         if (this.isRestore) {
             this.processing.show();
             // this.showImage = true;
@@ -645,7 +646,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             return;
         }
         let retryCount = 0;
-        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
+        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart', 'light': 'Infra' };
         const ocr$ = this.service.sendRequestWithLog('RR_cardreader', 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
             // if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
             // if ('VizIssueDate' === datas[i].field_id) {
@@ -812,8 +813,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         const DELAY_OCR = 3000;
 
         // bbb, 'light': 'Infra', 'field_ids': ['VizDocumentNumber', 'VizIssueDate']
-        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
-        const OCR = this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', payloadParam).map((resp) => {
+        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart', 'light': 'Infra' };
+        const OCR = this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
             const result = { type: 'OCR', status: null, ocr_data: null };
             if (this.timeOutPause || this.isAbort) {
                 return;
@@ -834,14 +835,20 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
                     this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
             } else {
-                this.thereiscard = true;
-                this.deviceType = 2;
-                this.readType = 2;
-                result.status = 'FIRSTSUCCESS';
-                this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
-                    this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
-                this.processOCRReaderData(resp.ocr_data, result);
-                return result;
+                return this.getListCardReadersWithHkic().map(val => {
+                    if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
+                        throw new Error('OLD_CARD');
+                    } else {
+                        this.thereiscard = true;
+                        this.deviceType = 2;
+                        this.readType = 2;
+                        result.status = 'FIRSTSUCCESS';
+                        this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
+                            this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
+                        this.processOCRReaderData(resp.ocr_data, result);
+                        return result;
+                    }
+                });
             }
             throw new Error(result.status);
         }).retryWhen(stream => stream.mergeMap(err => {
@@ -849,7 +856,10 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 return;
             }
             this.service.sendTrackLog(`<OCR 重试>>>>>>>   ${err.message}`);
-            if (err.message === 'NOCARD') {
+            if (err.message === 'OLD_CARD') {
+                this.processPromt('SCN-GEN-STEPS.OCR_OLD_CARD');
+                return [err];
+            }else if (err.message === 'NOCARD') {
                 return [err];
             } else if (err.message === 'CRASH' || err.message === 'ERROR') {
                 this.commonService.loggerExcp(this.ACTION_TYPE_OCR_INSERT, this.LOCATION_DEVICE_ID, 'GE02', '', this.newReader_icno, 'OCR exception');
@@ -1088,5 +1098,9 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             this.commonService.doLightOff(deviceCode);
             this.backRoute();
         }, 3000);
+    }
+
+    getListCardReadersWithHkic() {
+        return this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic');
     }
 }
