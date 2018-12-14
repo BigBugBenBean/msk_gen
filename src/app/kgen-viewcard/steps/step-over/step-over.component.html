@@ -8,41 +8,10 @@
     <img *ngIf="readType === 2 && step === '2'" src="../../../../assets/images/menu/menubar_2_ocr_reader.png" class="sideimg" />
     <img *ngIf="readType === 2 && step === '4'" src="../../../../assets/images/menu/menubar_4_ocr_reader.png" class="sideimg" />
     <p class="steps-div">{{'SCN-GEN-STEPS.NAVIGATION' | translate}}</p>
-    <sc2-confirm #modalFail>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageFail| translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="processFailQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-            </div>
-        </div>
-    </sc2-confirm>
-    <sc2-confirm #modalCollect>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageCollect| translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="processCollectQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-            </div>
-        </div>
-    </sc2-confirm>
     <sc2-confirm #modalTimeout>
         <div class="app-modal-body">
             <div class="modal-message" style="align-content: center">
                 {{messageTimeout | translate}}
-            </div>
-        </div>
-    </sc2-confirm>
-    <sc2-confirm #modalQuit>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageAbort | translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="processConfirmQuit()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-                <!--<button type="button" class="btnModal cancel" (click)="processCancelQuit()"><span>{{'SCN-GEN-STEPS.NO' | translate}}</span></button>-->
             </div>
         </div>
     </sc2-confirm>

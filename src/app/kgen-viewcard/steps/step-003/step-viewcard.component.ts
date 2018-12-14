@@ -15,9 +15,6 @@ import {CHANNEL_ID_RR_CARDREADER, CHANNEL_ID_RR_ICCOLLECT} from '../../../shared
 })
 export class StepViewcardComponent  implements OnInit {
 
-    @ViewChild('modalRetry')
-    public modalRetry: ConfirmComponent;
-
     @ViewChild('modalFail')
     public modalFail: ConfirmComponent;
 
@@ -284,9 +281,6 @@ export class StepViewcardComponent  implements OnInit {
         if (this.processing.visible) {
             this.processing.hide();
         }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
-        }
         if (this.modalFail.visible) {
             this.modalFail.hide();
         }
@@ -438,9 +432,6 @@ export class StepViewcardComponent  implements OnInit {
         this.timeOutPause = true;
         if (this.processing.visible) {
             this.processing.hide();
-        }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
         }
         if (this.modalFail.visible) {
             this.modalFail.hide();

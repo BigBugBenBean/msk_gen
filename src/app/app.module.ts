@@ -13,7 +13,6 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
-
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 // App is our top level component
@@ -33,7 +32,6 @@ import '../styles/_style.scss';
 import './jquery';
 import './electron';
 import 'hammerjs';
-
 
 // Application wide providers
 const APP_PROVIDERS = [

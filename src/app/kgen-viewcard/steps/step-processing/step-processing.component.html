@@ -4,16 +4,6 @@
     <img *ngIf="readType === 1" src="../../../../assets/images/menu/menubar_1_insert_card.png" class="sideimg" />
     <img *ngIf="readType === 2" src="../../../../assets/images/menu/menubar_1_ocr_reader.png" class="sideimg" />
     <p class="steps-div">{{'SCN-GEN-STEPS.NAVIGATION' | translate}}</p>
-    <sc2-confirm #modalRetry>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageRetry | translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="failTryAgain()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-            </div>
-        </div>
-    </sc2-confirm>
     <sc2-confirm #modalFail>
         <div class="app-modal-body">
             <div class="modal-message">

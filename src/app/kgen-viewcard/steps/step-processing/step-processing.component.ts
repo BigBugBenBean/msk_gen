@@ -15,9 +15,6 @@ import {TimerComponent} from '../../../shared/sc2-timer';
 })
 export class StepProcessingComponent implements OnInit {
 
-    @ViewChild('modalRetry')
-    public modalRetry: ConfirmComponent;
-
     @ViewChild('modalFail')
     public modalFail: ConfirmComponent;
 
@@ -218,9 +215,6 @@ export class StepProcessingComponent implements OnInit {
     backRoute() {
         if (this.processing.visible) {
             this.processing.hide();
-        }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
         }
         if (this.modalFail.visible) {
             this.modalFail.hide();
@@ -439,9 +433,6 @@ export class StepProcessingComponent implements OnInit {
         this.timeOutPause = true;
         if (this.processing.visible) {
             this.processing.hide();
-        }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
         }
         if (this.modalFail.visible) {
             this.modalFail.hide();

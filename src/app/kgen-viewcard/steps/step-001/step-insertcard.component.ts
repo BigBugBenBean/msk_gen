@@ -20,9 +20,6 @@ import { map } from 'rxjs/operator/map';
 })
 export class StepInsertcardComponent implements OnInit, OnDestroy {
 
-    @ViewChild('modalRetry')
-    public modalRetry: ConfirmComponent;
-
     @ViewChild('modalFail')
     public modalFail: ConfirmComponent;
 
@@ -37,15 +34,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
     @ViewChild('modal1Comfirm')
     public modal1Comfirm: ConfirmComponent;
-
-    @ViewChild('modalRetryOpenGate')
-    public modalRetryOpenGate: ConfirmComponent;
-
-    @ViewChild('modalRetryOpenCard')
-    public modalRetryOpenCard: ConfirmComponent;
-
-    @ViewChild('modalRetryOCR')
-    public modalRetryOCR: ConfirmComponent;
 
     @ViewChild('processing')
     public processing: ProcessingComponent;
@@ -83,13 +71,9 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     isAbort = false;
     timeOutPause = false;
     isRestore = false;
-    retryReaderVal = 0;
-    retryReader1Val = 0;
-    retryReader2Val = 0;
     // showImage = false;
     // isShow = false;
     // isShowCollect = false;
-    isProcessing = false;
     isExit = true;
     APP_LANG = 'zh-HK';
     DEFAULT_LANG = '';
@@ -363,15 +347,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         if (this.processing.visible) {
             this.processing.hide();
             // this.showImage = false;
-        }
-        if (this.modalRetryOCR.visible) {
-            this.modalRetryOCR.hide();
-        }
-        if (this.modalRetryOpenGate.visible) {
-            this.modalRetryOpenGate.hide();
-        }
-        if (this.modalRetryOpenCard.visible) {
-            this.modalRetryOpenCard.hide();
         }
         if (this.modalFail.visible) {
             this.modalFail.hide();
@@ -1083,7 +1058,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
     exit(promtMessage) {
         this.storeConfigParam();
-        console.log(11111);
         this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 1}});
     }
 

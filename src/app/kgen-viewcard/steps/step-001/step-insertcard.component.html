@@ -4,36 +4,6 @@
     <img *ngIf="deviceType === 1" src="../../../../assets/images/menu/menubar_1_insert_card.png" class="sideimg" />
     <img *ngIf="deviceType === 2" src="../../../../assets/images/menu/menubar_1_ocr_reader.png" class="sideimg" />
     <p class="steps-div">{{'SCN-GEN-STEPS.NAVIGATION' | translate}}</p>
-    <sc2-confirm #modalRetryOCR>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageRetry | translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="failTryAgainOCR()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-            </div>
-        </div>
-    </sc2-confirm>
-    <sc2-confirm #modalRetryOpenGate>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageRetry | translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="failTryAgainOpengate()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-            </div>
-        </div>
-    </sc2-confirm>
-    <sc2-confirm #modalRetryOpenCard>
-        <div class="app-modal-body">
-            <div class="modal-message">
-                {{messageRetry | translate}}
-            </div>
-            <div class="buttonDiv">
-                <button type="button" class="btnModal confirm" (click)="failTryAgainOpenCard()"><span>{{'SCN-GEN-STEPS.YES' | translate}}</span></button>
-            </div>
-        </div>
-    </sc2-confirm>
     <sc2-confirm #modalFail>
         <div class="app-modal-body">
             <div class="modal-message">
