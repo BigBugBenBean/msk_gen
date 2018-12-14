@@ -17,9 +17,6 @@ import {CHANNEL_ID_RR_CARDREADER, CHANNEL_ID_RR_ICCOLLECT} from '../../../shared
 
 export class StepFingerprintComponent implements OnInit {
 
-    @ViewChild('modalRetry')
-    public modalRetry: ConfirmComponent;
-
     @ViewChild('modalFail')
     public modalFail: ConfirmComponent;
 
@@ -28,9 +25,6 @@ export class StepFingerprintComponent implements OnInit {
 
     @ViewChild('modalTimeout')
     public modalTimeout: ConfirmComponent;
-
-    @ViewChild('modalCollect')
-    public modalCollect: ConfirmComponent;
 
     @ViewChild('processing')
     public processing: ProcessingComponent;
@@ -275,9 +269,6 @@ export class StepFingerprintComponent implements OnInit {
             this.processing.hide();
             this.isShow = false;
         }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
-        }
         if (this.modalQuit.visible) {
             this.modalQuit.hide();
         }
@@ -370,7 +361,6 @@ export class StepFingerprintComponent implements OnInit {
             this.processing.hide();
             // this.isShow = false;
             // this.quitDisabledAll();
-            // this.modalRetry.show();
             this.processPromt(this.messageRetry);
 
         } else {
@@ -385,18 +375,6 @@ export class StepFingerprintComponent implements OnInit {
             // this.commonService.doAlarm('FP Verify Failure');
             this.exit('SCN-GEN-STEPS.RE-SCANER-MAX');
         }
-    }
-
-    /**
-     * scan try again.
-     */
-    failTryAgain() {
-        if (this.isAbort || this.timeOutPause || this.isLevePage) {
-            return;
-        }
-        this.modalRetry.hide();
-        this.cancelQuitEnabledAll();
-        this.doScanFingerPrint();
     }
 
     /**
@@ -556,9 +534,6 @@ export class StepFingerprintComponent implements OnInit {
             this.processing.hide();
             this.isShow = false;
         }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
-        }
         if (this.modalQuit.visible) {
             this.modalQuit.hide();
         }
@@ -631,27 +606,6 @@ export class StepFingerprintComponent implements OnInit {
         }
     }
 
-    modalCollectShow() {
-        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
-        if (this.processing.visible) {
-            this.isRestore = true;
-            this.processing.hide();
-            this.isShow = false;
-        }
-        this.modalCollect.show();
-    }
-    processCollectQuit() {
-        this.modalCollect.hide();
-        if (this.isRestore) {
-            // this.processing.show();
-            this.isShow = true;
-        }
-        setTimeout(() => {
-            this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
-            this.backRoute();
-        }, this.PAGE_FINGERPRINT_ABORT_QUIT_ITEMOUT);
-    }
-
     doCloseCard() {
         // this.processing.show();
         this.isShow = true;
@@ -665,7 +619,6 @@ export class StepFingerprintComponent implements OnInit {
                     this.backRoute();
                 }, this.PAGE_FINGERPRINT_ABORT_QUIT_ITEMOUT);
             } else {
-                // this.modalCollectShow();
                 this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
                 setTimeout(() => {
                     this.backRoute();

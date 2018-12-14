@@ -16,23 +16,14 @@ import {TimerComponent} from '../../../shared/sc2-timer';
 })
 export class StepUpdatecardComponent  implements OnInit {
 
-    @ViewChild('modalRetry')
-    public modalRetry: ConfirmComponent;
-
     @ViewChild('modalFail')
     public modalFail: ConfirmComponent;
 
     @ViewChild('modalTimeout')
     public modalTimeout: ConfirmComponent;
 
-    @ViewChild('modalCollect')
-    public modalCollect: ConfirmComponent;
-
     @ViewChild('modalNoROP')
     public modalNoROP: ConfirmComponent;
-
-    @ViewChild('modalQuit')
-    public modalQuit: ConfirmComponent;
 
     @ViewChild('modalPrintBill')
     public modalPrintBill: ConfirmComponent;
@@ -283,14 +274,8 @@ export class StepUpdatecardComponent  implements OnInit {
         if (this.processing.visible) {
             this.processing.hide();
         }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
-        }
         if (this.modalFail.visible) {
             this.modalFail.hide();
-        }
-        if (this.modalQuit.visible) {
-            this.modalQuit.hide();
         }
         if (this.modalPrintBill.visible) {
             this.modalPrintBill.hide();
@@ -311,15 +296,6 @@ export class StepUpdatecardComponent  implements OnInit {
             this.translate.use('en-US');
         } else {
             this.translate.use('zh-HK');
-        }
-    }
-
-    failTryAgain() {
-        this.modalRetry.hide();
-        if (this.cardType === 1) {
-            this.updatehkicv1();
-        } else {
-            this.updatehkicv2();
         }
     }
 
@@ -637,14 +613,8 @@ export class StepUpdatecardComponent  implements OnInit {
         if (this.processing.visible) {
             this.processing.hide();
         }
-        if (this.modalRetry.visible) {
-            this.modalRetry.hide();
-        }
         if (this.modalFail.visible) {
             this.modalFail.hide();
-        }
-        if (this.modalQuit.visible) {
-            this.modalQuit.hide();
         }
         if (this.modalPrintBill.visible) {
             this.modalPrintBill.hide();
@@ -689,52 +659,6 @@ export class StepUpdatecardComponent  implements OnInit {
         $('#exitBtn').removeAttr('disabled');
         // $('#langBtn').removeAttr('disabled');
         $('#confirmBtn').removeAttr('disabled');
-    }
-
-    processModalQuitShow() {
-        this.modalQuit.show()
-        this.isAbort = true;
-        this.quitDisabledAll();
-        if (this.processing.visible) {
-            this.isRestore = true;
-            this.processing.hide();
-        }
-    }
-
-    processConfirmQuit() {
-        this.modalQuit.hide();
-        if (this.processing.visible) {
-            this.processing.hide();
-        }
-        this.isAbort = true;
-        this.doCloseCard();
-    }
-    processCancelQuit() {
-        this.modalQuit.hide();
-        this.isAbort = false;
-        this.cancelQuitEnabledAll();
-        if (this.isRestore) {
-            this.processing.show();
-        }
-    }
-
-    modalCollectShow() {
-        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
-        if (this.processing.visible) {
-            this.isRestore = true;
-            this.processing.hide();
-        }
-        this.modalCollect.show();
-    }
-    processCollectQuit() {
-        this.modalCollect.hide();
-        if (this.isRestore) {
-            this.processing.show();
-        }
-        setTimeout(() => {
-            this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
-            this.backRoute();
-        }, this.PAGE_UPDATE_ABORT_QUIT_ITEMOUT);
     }
 
     doCloseCard() {

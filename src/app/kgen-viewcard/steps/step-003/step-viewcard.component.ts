@@ -18,9 +18,6 @@ export class StepViewcardComponent  implements OnInit {
     @ViewChild('modalFail')
     public modalFail: ConfirmComponent;
 
-    @ViewChild('modalCollect')
-    public modalCollect: ConfirmComponent;
-
     @ViewChild('modalQuit')
     public modalQuit: ConfirmComponent;
 
@@ -506,25 +503,6 @@ export class StepViewcardComponent  implements OnInit {
         }
     }
 
-    modalCollectShow() {
-        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
-        if (this.processing.visible) {
-            this.isRestore = true;
-            this.processing.hide();
-        }
-        this.modalCollect.show();
-    }
-    processCollectQuit() {
-        this.modalCollect.hide();
-        if (this.isRestore) {
-            this.processing.show();
-        }
-        setTimeout(() => {
-            this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
-            this.backRoute();
-        }, this.PAGE_VIEW_ABORT_QUIT_ITEMOUT);
-    }
-
     doCloseCard() {
         // this.processing.show();
         this.isShowCollect = false;
@@ -535,7 +513,6 @@ export class StepViewcardComponent  implements OnInit {
                     this.backRoute();
                 }, this.PAGE_VIEW_RETURN_CARD_ITEMOUT);
             } else {
-                // this.modalCollectShow();
                 this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
                 setTimeout(() => {
                     this.backRoute();

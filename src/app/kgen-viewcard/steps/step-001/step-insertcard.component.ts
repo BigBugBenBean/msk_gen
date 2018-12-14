@@ -29,12 +29,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     @ViewChild('modalTimeout')
     public modalTimeout: ConfirmComponent;
 
-    @ViewChild('modalCollect')
-    public modalCollect: ConfirmComponent;
-
-    @ViewChild('modal1Comfirm')
-    public modal1Comfirm: ConfirmComponent;
-
     @ViewChild('processing')
     public processing: ProcessingComponent;
 
@@ -145,14 +139,12 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     }
 
     initGetParam() {
-        // this.quitDisabledAll();
         // this.isShowCollect = true;
         this.httpClient.get(INI_URL).subscribe(data => {
             // save to local storate param.
             this.saveLocalStorages(data);
             // init param.
             this.initConfigParam();
-            this.cancelQuitEnabledAll();
             this.startBusiness();
         }, (err) => {
             this.preparing.hide();
@@ -351,9 +343,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         if (this.modalFail.visible) {
             this.modalFail.hide();
         }
-        if (this.modal1Comfirm.visible) {
-            this.modal1Comfirm.hide();
-        }
         if (this.modalQuit.visible) {
             this.modalQuit.hide();
         }
@@ -377,29 +366,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         // this.printBill();
     }
 
-    processAbortQuit() {
-        this.isAbort = true;
-        this.quitDisabledAll();
-        this.modal1Comfirm.hide();
-        if (this.processing.visible) {
-            // this.showImage = false;
-            this.processing.hide();
-        }
-        this.doCloseCard();
-    }
-
-    confirmYesOCR() {
-
-    }
-
-    confirmNotOCR() {
-        if (this.timeOutPause || this.isAbort) {
-            return;
-        }
-        this.modal1Comfirm.hide();
-        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
-    }
-
     timeExpire() {
         this.timer.showTimer = false;
         this.timeOutPause = true;
@@ -414,7 +380,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     processModalFailShow() {
         this.commonService.doLightOn(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
         this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
-        this.quitDisabledAll();
         this.isAbort = true;
         this.isExit = false;
         this.modalFail.show();
@@ -428,16 +393,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.doCloseCard();
     }
 
-    quitDisabledAll() {
-        // $('#exitBtn').attr('disabled', 'false');
-        // $('#langBtn').attr('disabled', 'false');
-
-    }
-    cancelQuitEnabledAll() {
-        // $('#exitBtn').removeAttr('disabled');
-        // $('#langBtn').removeAttr('disabled');
-    }
-
     /**
      * show abort modal.
      */
@@ -448,7 +403,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
          this.isAbort = true;
         this.modalQuit.show();
         this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
-        // this.quitDisabledAll();
         if (this.processing.visible) {
             // this.isRestore = true;
             // this.showImage = false;
@@ -490,30 +444,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         if (this.isRestore) {
             this.processing.show();
             // this.showImage = true;
-        } else {
-            this.cancelQuitEnabledAll();
         }
-    }
-
-    modalCollectShow() {
-        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
-        if (this.processing.visible) {
-            this.isRestore = true;
-            this.processing.hide();
-            // this.showImage = false;
-        }
-        this.modalCollect.show();
-    }
-    processCollectQuit() {
-        this.modalCollect.hide();
-        if (this.isRestore) {
-            this.processing.show();
-            // this.showImage = true;
-        }
-        setTimeout(() => {
-            this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
-            this.backRoute();
-        }, this.PAGE_READ_ABORT_QUIT_ITEMOUT);
     }
 
     /**
@@ -530,7 +461,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                     this.backRoute();
                 }, this.PAGE_READ_RETURN_CARD_ITEMOUT);
             } else {
-                // this.modalCollectShow();
                 this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_OCR_READER);
                 setTimeout(() => {
                     this.backRoute();
@@ -941,13 +871,10 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         const oldc = document.getElementById('oldCard');
                         const newc = document.getElementById('newCard');
                         this.indicateCardType.show();
-                        // this.modal1Comfirm.show();
                         return this.commonService.returnDoc().zip(Observable.merge(
                             fromEvent(newc, 'click').mapTo('YES'),
                             fromEvent(oldc, 'click').mapTo('NO')).take(1).mergeMap(resp => {
                                 this.controlStatus = 1;
-                                this.service.sendTrackLog(`errrrrr is  ${err}  and button click is   ${resp}`);
-                                // this.modal1Comfirm.hide();
                                 this.indicateCardType.hide();
                                 if ('YES' === resp) {
                                     this.manualOCR = true;
