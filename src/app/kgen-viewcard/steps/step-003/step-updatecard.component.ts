@@ -446,7 +446,7 @@ export class StepUpdatecardComponent  implements OnInit {
                 this.commonService.loggerExcp(this.ACTION_TYPE_QUERY_COS_LOS, this.LOCATION_DEVICE_ID, 'GE0B', '', this.hkic_number_view, 'webservice exception');
                 this.isWebServiceTimeout = true;
                 console.log('getCSLSDate WS ERROR...', $.parseJSON(err));
-                this.commonService.doAlarm('Enquire COS LOS Failure');
+                this.commonService.doAlarm('Server Error (COS/LOS)');
                 this.messageFail = 'SCN-GEN-STEPS.CALL-WEB-SERVICE-EXCEPTION';
                 this.processing.hide();
                 if (this.isAbort || this.timeOutPause) {
@@ -522,7 +522,7 @@ export class StepUpdatecardComponent  implements OnInit {
             console.log('readhkicv2 ERROR ' + error);
             this.commonService.loggerExcp(this.ACTION_TYPE_UPDATE_COS_LOS, this.LOCATION_DEVICE_ID, 'GE0D', '', this.hkic_number_view, 'updatehkicv2coslos exception');
             this.messageFail = 'SCN-GEN-STEPS.UPDATE-COS-LOS-FAILED-EXCEPTION';
-            this.commonService.doAlarm('OCR Update COS LOS Failure');
+            // this.commonService.doAlarm('OCR Update COS LOS Failure');
             if (this.isAbort || this.timeOutPause) {
                 return;
             }
@@ -625,7 +625,7 @@ export class StepUpdatecardComponent  implements OnInit {
             console.log('updatehkicv1coslos ERROR ' + error);
             this.commonService.loggerExcp(this.ACTION_TYPE_UPDATE_COS_LOS, this.LOCATION_DEVICE_ID, 'GE0C', '', this.hkic_number_view, 'updatehkicv1coslos exception');
             this.messageFail = 'SCN-GEN-STEPS.UPDATE-COS-LOS-FAILED-EXCEPTION';
-            this.commonService.doAlarm('SmartReader COS LOS Failure');
+            // this.commonService.doAlarm('SmartReader COS LOS Failure');
             if (this.isAbort || this.timeOutPause) {
                 return;
             }

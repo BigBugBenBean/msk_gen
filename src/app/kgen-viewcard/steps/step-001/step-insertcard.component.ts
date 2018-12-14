@@ -146,6 +146,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 private translate: TranslateService) { }
 
     ngOnInit(): void {
+        this.timer.sumSeconds = 120;
         this.initLanguage();
         this.preparing.show();
         this.initGetParam();
@@ -428,7 +429,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.timer.showTimer = false;
         this.timeOutPause = true;
         this.exit('SCN-GEN-STEPS.MESSAGE-TIMEOUT');
-
     }
 
     processTimeoutQuit() {
@@ -646,7 +646,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             return;
         }
         let retryCount = 0;
-        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart', 'light': 'Infra' };
+        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
         const ocr$ = this.service.sendRequestWithLog('RR_cardreader', 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
             // if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
             // if ('VizIssueDate' === datas[i].field_id) {
@@ -729,6 +729,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             const result = { type: 'ICCOLLECT', status: null };
             this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
             if ($.isEmptyObject(resp)) {
+                this.commonService.doAlarm('Smart Card Reader Error');
                 result.status = 'CRASH';
             } else if (resp.errorcode === '0') {
                 this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER); // 识别到正确的卡后关灯
@@ -813,13 +814,14 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         const DELAY_OCR = 3000;
 
         // bbb, 'light': 'Infra', 'field_ids': ['VizDocumentNumber', 'VizIssueDate']
-        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart', 'light': 'Infra' };
+        const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
         const OCR = this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
             const result = { type: 'OCR', status: null, ocr_data: null };
             if (this.timeOutPause || this.isAbort) {
                 return;
             }
             if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
+                this.commonService.doAlarm('OCR Reader Error');
                 result.status = 'CRASH';
                 this.deviceType = 2;
                 this.readType = 2;

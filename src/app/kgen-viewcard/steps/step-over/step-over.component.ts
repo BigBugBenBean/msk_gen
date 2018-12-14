@@ -149,7 +149,7 @@ export class StepOverComponent implements OnInit {
                         }
                     });
                 } else {
-                    return Observable.timer(2000).mergeMap(val => this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(data2 => {
+                    return Observable.timer(3500).mergeMap(val => this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(data2 => {
                         if (data2.error_info.error_code === '7') { // no card
                             return data;
                         } else {
@@ -159,7 +159,7 @@ export class StepOverComponent implements OnInit {
                         // this.service.sendTrackLog(`NOT Collect error:${err.message}`);
                         if (this.modalPrompt.visible === false && errorCount >= 3) {
                             this.processPromtNotExist('SCN-GEN-STEPS.NOT-COLLECT-CARD');
-                            this.commonService.doAlarm('OCR CardNotPick');
+                            this.commonService.doAlarm('Collect Card Timeout (OCR)');
                             this.commonService.doFlashLight(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
                             // throw err;
                         }
@@ -206,7 +206,7 @@ export class StepOverComponent implements OnInit {
 
     processPromtNotExitOver(message_key) {
         this.messagePrompt = message_key;
-        this.commonService.doAlarm('SmartReader CardNotPick');
+        this.commonService.doAlarm('Collect Card Timeout');
         this.modalPrompt.show();
         setTimeout(() => {
             this.modalPrompt.hide();

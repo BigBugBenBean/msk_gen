@@ -340,14 +340,14 @@ export class StepFingerprintComponent implements OnInit {
                 }
                 // this.controlStatus = 2;
                 // this.processModalFailShow();
-                this.commonService.doAlarm('FP Scanfp Failure');
+                // this.commonService.doAlarm('FP Scanfp Failure');
                 this.exit('SCN-GEN-STEPS.FINGERPRINT-DEVICE-EXCEPTION');
             }
         }, (error) => {
             console.log('takephoto ERROR ' + error);
             this.commonService.loggerExcp(this.ACTION_TYPE_FINGER_SCAN, this.LOCATION_DEVICE_ID, 'GE08', '', this.hkic_number_view, 'takephoto exception');
             this.messageFail = 'SCN-GEN-STEPS.FINGERPRINT-DEVICE-EXCEPTION';
-            this.commonService.doAlarm('FP Device Error');
+            this.commonService.doAlarm('FP Scanner Error');
             this.processing.hide();
             this.isShow = false;
             if (this.isAbort || this.timeOutPause) {
@@ -382,7 +382,7 @@ export class StepFingerprintComponent implements OnInit {
             // this.isShow = false;
             // this.processModalFailShow();
             // this.processPromtWithExit(this.messageFail);
-            this.commonService.doAlarm('FP Verify Failure');
+            // this.commonService.doAlarm('FP Verify Failure');
             this.exit('SCN-GEN-STEPS.RE-SCANER-MAX');
         }
     }
@@ -687,7 +687,7 @@ export class StepFingerprintComponent implements OnInit {
             console.log('opencard ERROR ' + error);
             this.commonService.loggerExcp(this.ACTION_TYPE_IC_RETURN_CARD, this.LOCATION_DEVICE_ID, 'GE0F', '', this.hkic_number_view, 'call returndoc');
             this.messageFail = 'SCN-GEN-STEPS.READER-COLLECT-FAIL';
-            this.commonService.doAlarm('SmartReader Collect Failure');
+            this.commonService.doAlarm('Eject Card Error');
             if (this.timeOutPause || this.isAbort) {
                 return;
             }
