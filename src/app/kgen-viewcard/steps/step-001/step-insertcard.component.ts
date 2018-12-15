@@ -537,15 +537,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         }, 6000);
     }
 
-    processPromtExit(message_key) {
-        this.messagePrompt = message_key;
-        this.modalPrompt.show();
-        setTimeout(() => {
-            this.modalPrompt.hide();
-            this.backRoute();
-        }, 6000);
-    }
-
     checkOCRSomething() {
         if (this.timeOutPause || this.isAbort) {
             return;
@@ -986,21 +977,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     exit(promtMessage) {
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/over'], { queryParams: {'err': promtMessage, 'step': 1}});
-    }
-
-    // 点击退出
-    quit() {
-        this.subscription.unsubscribe();
-        const deviceCode = this.cardType === 1 ? this.DEVICE_LIGHT_CODE_IC_READER : this.DEVICE_LIGHT_CODE_OCR_READER;
-        this.commonService.doCloseCard();
-        this.commonService.doFlashLight(deviceCode);
-        setTimeout(() => {
-            if (this.cardType === 1) {
-                this.commonService.doReturnDoc();
-            }
-            this.commonService.doLightOff(deviceCode);
-            this.backRoute();
-        }, 3000);
     }
 
     getListCardReadersWithHkic() {

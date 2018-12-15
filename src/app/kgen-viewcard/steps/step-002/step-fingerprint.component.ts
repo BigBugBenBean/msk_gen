@@ -185,6 +185,7 @@ export class StepFingerprintComponent implements OnInit {
         }
         this.translate.currentLang = this.APP_LANG;
     }
+
     initHKICNumber() {
         if (this.cardType === 1) {
             const icno = this.carddata.icno;
@@ -580,7 +581,6 @@ export class StepFingerprintComponent implements OnInit {
     }
 
     processConfirmQuit() {
-
         this.modalQuit.hide();
         if (this.processing.visible) {
             this.processing.hide();
@@ -591,6 +591,7 @@ export class StepFingerprintComponent implements OnInit {
         // this.doCloseCard();
         this.exit('');
     }
+
     processCancelQuit() {
         this.modalQuit.hide();
         this.isAbort = false;
@@ -657,15 +658,6 @@ export class StepFingerprintComponent implements OnInit {
         this.doScanFingerPrint();
         setTimeout(() => {
             this.modalPrompt.hide();
-        }, 3000);
-    }
-
-    processPromtWithExit(message_key) {
-        this.messagePrompt = message_key;
-        this.modalPrompt.show();
-        setTimeout(() => {
-            this.modalPrompt.hide();
-            this.doCloseCard();
         }, 3000);
     }
 
