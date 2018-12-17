@@ -13,6 +13,7 @@ import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { map } from 'rxjs/operator/map';
+import { Icu } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
     templateUrl: './step-insertcard.component.html',
@@ -599,20 +600,12 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         return ocr$;
     }
 
-    startDetectCardListener(openGateTime) {
-        if (this.timeOutPause || this.isAbort) {
-            return;
-        }
-        const hasocr$ = this.checkOCRSomething();
-
-        this.service.sendTrackLog(`---------------------start------------------------------`);
-        // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
-        const ATTEMPT_COUNT = 3;
-        const DELAY = 700;
+    getICCardReaderObservable() {
         const card_error = { ocrerrCount: 0, nocardCount: 0, readerrorCount: 0 };
-
+        const DELAY = 700;
+        const ATTEMPT_COUNT = 3;
         // aaa.zip(this.doOpenLight(whichLight, isLightOff), (x, y) => { isLightOff = false; return x; })
-        const IC = this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': openGateTime }).mergeMap(resp => {
+        const IC = this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT }).mergeMap(resp => {
             this.thereiscard = true;
             if (this.timeOutPause || this.isAbort) {
                 return;
@@ -656,7 +649,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 // this.service.sendTrackLog(`>>>>>超时了第${card_error.nocardCount}次. 是否超过次数: ${card_error.nocardCount >= ATTEMPT_COUNT} `);
                 if (card_error.nocardCount >= ATTEMPT_COUNT) {
                     throw err;
-                }else {
+                } else {
                     this.processPromt('SCN-GEN-STEPS.INSERT_CARD_SCREEN_S4'); // 请插入卡
                     return [err];
                 }
@@ -706,6 +699,22 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 return [err];
             }
         }).delay(DELAY));
+        return IC;
+    }
+
+    startDetectCardListener(openGateTime) {
+        if (this.timeOutPause || this.isAbort) {
+            return;
+        }
+        const hasocr$ = this.checkOCRSomething();
+
+        this.service.sendTrackLog(`---------------------start------------------------------`);
+        // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
+        // const ATTEMPT_COUNT = 3;
+        // const DELAY = 700;
+        const card_error = { ocrerrCount: 0, nocardCount: 0, readerrorCount: 0 };
+
+        const IC = this.getICCardReaderObservable();
 
         const DELAY_OCR = 3000;
 
