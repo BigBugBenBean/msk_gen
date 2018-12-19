@@ -559,11 +559,19 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 const datas = resp.ocr_data;
                 if (datas.length === 0) {
                     return [resp];
-                } else if ('VizSecurityFibres' === resp.ocr_data[0].field_id && '0' === resp.ocr_data[0].field_value) {
-                    this.modalPrompt.hide();
-                    return [resp];
+                } else if (datas.length <= 2) {
+                    let canExit = false;
+                    datas.map(val => {
+                        if ('VizSecurityFibres' === val.field_id && '0' === val.field_value) {
+                            canExit = true;
+                        }
+                    });
+                    if(canExit) {
+                        this.modalPrompt.hide();
+                        return [resp];
+                    }
                 }
-
+                
                 if (retryCount > 0) {
                     return this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(val => {
                         if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
