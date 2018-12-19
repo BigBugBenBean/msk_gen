@@ -15,7 +15,7 @@ export class MsksService {
                 upgrade: false
             });
             sckclient.on('connect', () => {
-                console.log('socket client connected');
+                // console.log('socket client connected');
                 const channel = `${MSKS.namespace}/${channelid}`;
 
                 const source = {

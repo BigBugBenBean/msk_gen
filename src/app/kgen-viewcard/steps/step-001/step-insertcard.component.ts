@@ -12,8 +12,7 @@ import {TimerComponent} from '../../../shared/sc2-timer';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { map } from 'rxjs/operator/map';
-import { Icu } from '@angular/compiler/src/i18n/i18n_ast';
+import { of } from 'rxjs/observable/of';
 
 @Component({
     templateUrl: './step-insertcard.component.html',
@@ -78,6 +77,9 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     subscription = null;
     thereiscard = false;
     operateType = '1';
+    abortFlag = false;
+    openGateFlag = false;
+    card_error = { ocrerrCount: 0, nocardCount: 0, readerrorCount: 0 };
 
     PAGE_READ_OPENGATE_TIMEOUT_PAYLOAD = 10;
     PAGE_READ_CLOSE_CARD_ITMEOUT_OCR = 2000;
@@ -115,6 +117,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     ACTION_TYPE_OCR_COLLECT_CARD = 'GA0D';
     ACTION_TYPE_IC_INSERT = 'GA0E';
     OPEN_GATE_TIMEOUT = '20';
+    ATTEMPT_COUNT = 3;
 
     constructor(private router: Router,
                 private commonService: CommonService,
@@ -302,7 +305,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         ).subscribe(data => console.log(data));
 
-        this.startDetectCardListener(this.OPEN_GATE_TIMEOUT);
+        this.startDetectCardListener();
     }
 
     /**
@@ -401,7 +404,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         if (this.processing.visible) {
             return;
         }
-         this.isAbort = true;
+        //  this.isAbort = true;
+        this.abortFlag = true;
         this.modalQuit.show();
         this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
         if (this.processing.visible) {
@@ -439,9 +443,10 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
      */
     processCancelQuit() {
         this.modalQuit.hide();
-        this.isAbort = false;
+        // this.isAbort = false;
+        this.abortFlag = false;
         this.readType = 1;
-        this.startDetectCardListener(this.OPEN_GATE_TIMEOUT);
+        // this.startDetectCardListener();
         if (this.isRestore) {
             this.processing.show();
             // this.showImage = true;
@@ -601,67 +606,99 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     }
 
     getICCardReaderObservable() {
-        const card_error = { ocrerrCount: 0, nocardCount: 0, readerrorCount: 0 };
-        const DELAY = 700;
-        const ATTEMPT_COUNT = 3;
+        const DELAY = 1000;
         // aaa.zip(this.doOpenLight(whichLight, isLightOff), (x, y) => { isLightOff = false; return x; })
-        const IC = this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT }).mergeMap(resp => {
-            this.thereiscard = true;
-            if (this.timeOutPause || this.isAbort) {
-                return;
-            }
-            if (!$.isEmptyObject(resp)) {
-                this.service.sendTrackLog(`<开门的返回状态>>>>>>>${resp.errorcode}`);
-            }
-            this.deviceType = 1;
-            this.readType = 1;
-            const result = { type: 'ICCOLLECT', status: null };
-            this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
-            if ($.isEmptyObject(resp)) {
-                this.commonService.doAlarm('Smart Card Reader Error');
-                result.status = 'CRASH';
-            } else if (resp.errorcode === '0') {
-                this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER); // 识别到正确的卡后关灯
-                // isLightOff = true;
-                result.status = 'FIRSTSUCCESS';
-                return [result];
-            } else if (resp.errorcode === 'D0009') {
-                // this.service.sendTrackLog(`<警告>>>>>>>>>WARN....There is a card in card reader.`);
-                this.commonService.loggerExcp(this.ACTION_TYPE_IC_OPENGATE, this.LOCATION_DEVICE_ID, 'GE02', '', this.newReader_icno, 'opengate exception 009');
-                return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').map(() => {
-                    // return { type: 'ICCOLLECT', status: 'EXIST' };
-                    throw new Error('EXIST');
-                });
-                // result.status = 'EXIST';
-            } else if (resp.errorcode === 'D0006') {
-                result.status = 'TIMEOUT';
+        const IC = of(this.abortFlag || this.openGateFlag).mergeMap(val => {
+            console.log(`abortflag=${this.abortFlag}  opengateflag=${this.openGateFlag}`);
+
+            if (this.abortFlag || this.openGateFlag) {
+                throw new Error('ABORT_RETRY');
             } else {
-                result.status = 'ERROR';
+                return this.getListCardReadersWithHkic().mergeMap(val => {
+                    if (val.error_info.error_code === '0' && val.card_infos.length > 0) {
+                        let hasCard = false;
+                        val.card_infos.map(val => {
+                            if (val.is_contact) {
+                                hasCard = true;
+                            }
+                        });
+                        if (hasCard) {
+                            return [{ type: 'ICCOLLECT', status: 'FIRSTSUCCESS' }];
+                        }
+                    }
+                    return this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER).map(x => {
+                        this.openGateFlag = true; console.log(`设置opengte=${this.openGateFlag}`);
+                    }).mergeMap(x => this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT })
+                        .mergeMap(resp => {
+                            this.thereiscard = true;
+                            this.openGateFlag = false;
+                            if (!$.isEmptyObject(resp)) {
+                                this.service.sendTrackLog(`<开门的返回状态>>>>>>>${resp.errorcode}`);
+                            }
+                            if (this.abortFlag) {
+                                throw new Error('ABORT_RETRY');
+                            }
+                            this.deviceType = 1;
+                            this.readType = 1;
+                            const result = { type: 'ICCOLLECT', status: null };
+                            this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
+                            if ($.isEmptyObject(resp)) {
+                                this.commonService.doAlarm('Smart Card Reader Error');
+                                result.status = 'CRASH';
+                            } else if (resp.errorcode === '0') {
+                                this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER); // 识别到正确的卡后关灯
+                                // isLightOff = true;
+                                result.status = 'FIRSTSUCCESS';
+                                return [result];
+                            } else if (resp.errorcode === 'D0009') {
+                                // this.service.sendTrackLog(`<警告>>>>>>>>>WARN....There is a card in card reader.`);
+                                this.commonService.loggerExcp(this.ACTION_TYPE_IC_OPENGATE, this.LOCATION_DEVICE_ID, 'GE02', '', this.newReader_icno, 'opengate exception 009');
+                                return this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'returndoc').map(() => {
+                                    // return { type: 'ICCOLLECT', status: 'EXIST' };
+                                    throw new Error('EXIST');
+                                });
+                                // result.status = 'EXIST';
+                            } else if (resp.errorcode === 'D0006') {
+                                result.status = 'TIMEOUT';
+                            } else {
+                                result.status = 'ERROR';
+                            }
+                            throw new Error(result.status);
+                        })
+                    );
+                });
             }
-            throw new Error(result.status);
-        }).retryWhen(stream => stream.mergeMap((err) => { // crash timeout error
-            if (this.timeOutPause || this.isAbort) {
-                return;
-            }
-            if (err.message === 'TIMEOUT') {
-                card_error.nocardCount = card_error.nocardCount + 1;
+        }
+        ).retryWhen(e => e.mergeMap(err => {
+            if (err.message === 'ABORT_RETRY') {
+                console.log(`retryWhen重试=${err.message} `);
+                return Observable.timer(2000).mergeMap(val => IC);
+            } else if (err.message === 'TIMEOUT') {
+                console.log(`222222abortflag=${this.abortFlag}  opengateflag=${this.openGateFlag}`);
+                if (this.abortFlag || this.openGateFlag) {
+                    // throw new Error('ABORTING');
+                    return Observable.timer(1500).mergeMap(val => IC);
+                }
+                this.card_error.nocardCount = this.card_error.nocardCount + 1;
                 this.commonService.loggerExcp(this.ACTION_TYPE_IC_OPENGATE, this.LOCATION_DEVICE_ID, 'GE08', '', '', 'open gate timeout');
                 // this.service.sendTrackLog(`>>>>>超时了第${card_error.nocardCount}次. 是否超过次数: ${card_error.nocardCount >= ATTEMPT_COUNT} `);
-                if (card_error.nocardCount >= ATTEMPT_COUNT) {
+                if (this.card_error.nocardCount >= this.ATTEMPT_COUNT) {
                     throw err;
                 } else {
-                    this.processPromt('SCN-GEN-STEPS.INSERT_CARD_SCREEN_S4'); // 请插入卡
+                    if (this.controlStatus === 1) {
+                        this.processPromt('SCN-GEN-STEPS.INSERT_CARD_SCREEN_S4'); // 请插入卡
+                    }
                     return [err];
                 }
             } else if (err.message === 'EXIST') {
                 return [err];
             } else if (err.message === 'CRASH' || err.message === 'ERROR') { // 读卡失败次数检验
                 this.commonService.loggerExcp(this.ACTION_TYPE_IC_OPENGATE, this.LOCATION_DEVICE_ID, 'GE01', '', this.newReader_icno, 'opengate exception error');
-                card_error.readerrorCount = card_error.readerrorCount + 1;
-                this.service.sendTrackLog(`>>>>IC卡出错了了第${card_error.readerrorCount}次`);
-                if (card_error.readerrorCount === 1) { // 不能正确识别卡
+                this.card_error.readerrorCount = this.card_error.readerrorCount + 1;
+                this.service.sendTrackLog(`>>>>IC卡出错了了第${this.card_error.readerrorCount}次`);
+                if (this.card_error.readerrorCount === 1) { // 不能正确识别卡
                     this.processPromt('SCN-GEN-STEPS.OCR_READER_SCREEN_S16');
-                } else if (card_error.readerrorCount <= ATTEMPT_COUNT - 1) {// 第二次要转到OCR,需要用户确认
+                } else if (this.card_error.readerrorCount <= this.ATTEMPT_COUNT - 1) {// 第二次要转到OCR,需要用户确认
                     // this.processPromt('SCN-GEN-STEPS.INSERT_CARD_SCREEN_S6');
                     if (this.modalPrompt.visible) {
                         this.modalPrompt.hide();
@@ -693,7 +730,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         }
                         return [resp];
                     }), (x, y) => x);
-                } else if (card_error.readerrorCount >= ATTEMPT_COUNT) { // IC超过次数限制
+                } else if (this.card_error.readerrorCount >= this.ATTEMPT_COUNT) { // IC超过次数限制
                     throw new Error('IC_OVER_COUNT');
                 }
                 return [err];
@@ -702,68 +739,64 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         return IC;
     }
 
-    startDetectCardListener(openGateTime) {
-        if (this.timeOutPause || this.isAbort) {
-            return;
-        }
-        const hasocr$ = this.checkOCRSomething();
-
-        this.service.sendTrackLog(`---------------------start------------------------------`);
-        // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
-        // const ATTEMPT_COUNT = 3;
-        // const DELAY = 700;
-        const card_error = { ocrerrCount: 0, nocardCount: 0, readerrorCount: 0 };
-
-        const IC = this.getICCardReaderObservable();
-
+    getOCRObservable() {
         const DELAY_OCR = 3000;
-
         // bbb, 'light': 'Infra', 'field_ids': ['VizDocumentNumber', 'VizIssueDate']
         const payloadParam = { 'ocr_reader_name': 'ARH ComboSmart' };
-        const OCR = this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
-            const result = { type: 'OCR', status: null, ocr_data: null };
-            if (this.timeOutPause || this.isAbort) {
-                return;
-            }
-            if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
-                this.commonService.doAlarm('OCR Reader Error');
-                result.status = 'CRASH';
-                this.deviceType = 2;
-                this.readType = 2;
-                this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
-                    this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
-            } else if ($.isEmptyObject(resp.ocr_data) || resp.ocr_data.length <= 1) {
-                result.status = 'NOCARD';
-            } else if (!this.checkOCRDataIsCurrent(resp.ocr_data)) {
-                // } else if (resp.ocr_data.length <= 2) {
-                result.status = 'ERROR';
-                this.deviceType = 2;
-                this.readType = 2;
-                this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
-                    this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
+        const OCR = of(this.abortFlag).mergeMap(val => {
+            if (this.abortFlag) {
+                throw new Error('ABORT_RETRY');
             } else {
-                return this.getListCardReadersWithHkic().map(val => {
-                    if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
-                        throw new Error('OLD_CARD');
-                    } else {
-                        this.thereiscard = true;
+                return this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', payloadParam).mergeMap(resp => {
+                    const result = { type: 'OCR', status: null, ocr_data: null };
+                    // if (this.timeOutPause || this.isAbort) {
+                    //     return;
+                    // }
+                    if(this.abortFlag) {
+                        throw new Error('ABORT_RETRY');
+                    }
+                    if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
+                        this.commonService.doAlarm('OCR Reader Error');
+                        result.status = 'CRASH';
                         this.deviceType = 2;
                         this.readType = 2;
-                        result.status = 'FIRSTSUCCESS';
                         this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
                             this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
-                        this.processOCRReaderData(resp.ocr_data, result);
-                        return result;
+                    } else if ($.isEmptyObject(resp.ocr_data) || resp.ocr_data.length <= 1) {
+                        result.status = 'NOCARD';
+                    } else if (!this.checkOCRDataIsCurrent(resp.ocr_data)) {
+                        // } else if (resp.ocr_data.length <= 2) {
+                        result.status = 'ERROR';
+                        this.deviceType = 2;
+                        this.readType = 2;
+                        this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
+                            this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
+                    } else {
+                        return this.getListCardReadersWithHkic().map(val => {
+                            if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
+                                throw new Error('OLD_CARD');
+                            } else {
+                                this.thereiscard = true;
+                                this.deviceType = 2;
+                                this.readType = 2;
+                                result.status = 'FIRSTSUCCESS';
+                                this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
+                                    this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
+                                this.processOCRReaderData(resp.ocr_data, result);
+                                return result;
+                            }
+                        });
                     }
+                    throw new Error(result.status);
                 });
             }
-            throw new Error(result.status);
         }).retryWhen(stream => stream.mergeMap(err => {
-            if (this.timeOutPause || this.isAbort) {
-                return;
-            }
             this.service.sendTrackLog(`<OCR 重试>>>>>>>   ${err.message}`);
-            if (err.message === 'OLD_CARD') {
+
+            if (err.message === 'ABORT_RETRY') {
+                //console.log(`retryWhen重试=${err.message} `);
+                return Observable.timer(1500).mergeMap(val => OCR);
+            }else if (err.message === 'OLD_CARD') {
                 this.processPromt('SCN-GEN-STEPS.OCR_OLD_CARD');
                 return [err];
             }else if (err.message === 'NOCARD') {
@@ -777,8 +810,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                     this.deviceType = 1;
                     this.readType = 1;
                 }
-                card_error.ocrerrCount = card_error.ocrerrCount + 1;
-                if (card_error.ocrerrCount < ATTEMPT_COUNT) {
+                this.card_error.ocrerrCount = this.card_error.ocrerrCount + 1;
+                if (this.card_error.ocrerrCount < this.ATTEMPT_COUNT) {
                     if (this.manualOCR) {
                         this.processPromt('SCN-GEN-STEPS.OCR_READER_SCREEN_S17');
                         return this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).merge(
@@ -794,6 +827,41 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 }
             }
         }).delay(DELAY_OCR));
+        
+        
+        
+        
+        
+        return OCR;
+    }
+
+    // getAbortObservable() {
+    //     const btn = document.querySelector('#exitBtn');
+    //     const btn$ = fromEvent(btn, 'click').throttleTime(5000).map(e => {
+    //         this.processModalQuitShow();
+    //     });
+    //     return btn$;
+    // }
+
+    getAbortCancelObservable() {
+        const btn = document.querySelector('#cancelBtn');
+        const btn$ = fromEvent(btn, 'click').do(x => this.processCancelQuit());
+        return btn$;
+    }
+
+    startDetectCardListener() {
+        if (this.timeOutPause || this.isAbort) {
+            return;
+        }
+
+        const cancel = this.getAbortCancelObservable();
+        cancel.subscribe();
+        const hasocr$ = this.checkOCRSomething();
+
+        this.service.sendTrackLog(`---------------------start------------------------------`);
+        // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
+        
+        // const DELAY = 700;
 
         hasocr$.subscribe(data => {
             if (this.timeOutPause || this.isAbort) {
@@ -801,12 +869,26 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             }
             this.preparing.hide();
             this.controlStatus = 1;
-            this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
+            
             // ccc
-            this.subscription = IC.merge(OCR).take(1).mergeMap((resp: any) => {
-                    if (this.timeOutPause || this.isAbort) {
-                        return;
-                    }
+            this.mergeCardReader();
+        });
+    }
+
+    mergeCardReader() {
+        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
+        const IC$ = this.getICCardReaderObservable();
+        const OCR$ = this.getOCRObservable();
+        this.subscription = IC$.merge(OCR$)
+            // .scan((acc,e,index) => {
+            //         if (index > 0) {
+            //             throw new Error('IGNORE_SCAN');
+            //         }
+            //         return acc+1;}, 0)
+                .mergeMap((resp: any) => {
+                    // if (this.timeOutPause || this.isAbort) {
+                    //     return;
+                    // }
                     if (this.modalPrompt.visible) {
                         this.modalPrompt.hide();
                     }
@@ -851,7 +933,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         this.cardType = y.card_version;
                     }
                     return y;
-                }).retryWhen(stream => stream.mergeMap(err => {
+                }).retryWhen(e => e.mergeMap(err => {
                 if (this.timeOutPause || this.isAbort) {
                     return;
                 }
@@ -859,11 +941,11 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                     this.deviceType = 1;
                     throw err;
                 } else if (err.message === 'IC_OPENCARD_ERR') {
-                    card_error.readerrorCount = card_error.readerrorCount + 1;
-                    if (card_error.readerrorCount === 1) {
+                    this.card_error.readerrorCount = this.card_error.readerrorCount + 1;
+                    if (this.card_error.readerrorCount === 1) {
                         this.processPromt('SCN-GEN-STEPS.OCR_READER_SCREEN_S16');
                         return this.commonService.returnDoc().mergeMap(() => this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER));
-                    } else if (card_error.readerrorCount <= ATTEMPT_COUNT - 1) {
+                    } else if (this.card_error.readerrorCount <= this.ATTEMPT_COUNT - 1) {
                         if (this.modalPrompt.visible) {
                             this.modalPrompt.hide();
                         }
@@ -902,7 +984,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                             })
                         );
 
-                    } else if (card_error.readerrorCount >= ATTEMPT_COUNT) {
+                    } else if (this.card_error.readerrorCount >= this.ATTEMPT_COUNT) {
                         throw new Error('IC_OVER_COUNT');
                     }
                 } else if (err.message === 'OCR_OPENCARD_ERR') {
@@ -910,8 +992,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.thereiscard = true;
-                    card_error.ocrerrCount = card_error.ocrerrCount + 1;
-                    if (card_error.ocrerrCount < ATTEMPT_COUNT) {
+                    this.card_error.ocrerrCount = this.card_error.ocrerrCount + 1;
+                    if (this.card_error.ocrerrCount < this.ATTEMPT_COUNT) {
                         if (this.manualOCR) {
                             this.deviceType = 2;
                             this.readType = 2;
@@ -933,7 +1015,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                     } else {
                         throw new Error('OCR_OVER_COUNT');
                     }
-                } else if (err.message === 'OCR_OVER_COUNT' || err.message === 'IC_OVER_COUNT') {
+                } else if (err.message === 'OCR_OVER_COUNT' || err.message === 'IC_OVER_COUNT' || err.message === 'ABORT') {
                     throw err;
                 }
             }).delay(1000)).subscribe((resp) => {
@@ -973,6 +1055,9 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         this.readType = 2;
                         // this.processPromtExit('SCN-GEN-STEPS.PROCESS_SCREEN_S14');
                         errMessage = 'SCN-GEN-STEPS.PROCESS_SCREEN_S14';
+                    } else if (error.message === 'ABORT') {
+                        // DO NOTHING
+                        return;
                     }
                     this.exit(errMessage);
                     // this.router.navigate(['kgen-viewcard/over'], { queryParams: {'err': errMessage}});
@@ -980,7 +1065,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 () => {
                     // subscription.unsubscribe();
                 });
-        });
     }
 
     exit(promtMessage) {
