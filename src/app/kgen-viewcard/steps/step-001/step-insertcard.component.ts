@@ -879,7 +879,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
         const IC$ = this.getICCardReaderObservable();
         const OCR$ = this.getOCRObservable();
-        this.subscription = IC$.merge(OCR$)
+        this.subscription = IC$.merge(OCR$).take(1)
             // .scan((acc,e,index) => {
             //         if (index > 0) {
             //             throw new Error('IGNORE_SCAN');
