@@ -132,6 +132,7 @@
         </div>
 
     </div>
+    <img id="immd_logo" [hidden]="true" src="../../../../assets/images/immd_logo.png" class="main-image">
     <img *ngIf="readType === 1" [hidden]="isShowCollect" src="../../../../assets/images/collect-old-hkid.gif" class="main-image">
     <img *ngIf="readType === 2" [hidden]="isShowCollect" src="../../../../assets/images/collect-new-hkid.gif" width="928" height="522" class="main-image">
     <input #imgNext type="hidden" (click)="nextRoute()">
