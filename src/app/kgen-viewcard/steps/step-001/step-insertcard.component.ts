@@ -566,34 +566,40 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                             canExit = true;
                         }
                     });
-                    if(canExit) {
+                    if (canExit) {
                         this.modalPrompt.hide();
                         return [resp];
                     }
                 }
-                
-                if (retryCount > 0) {
-                    return this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(val => {
-                        if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
-                            // return val;
-                            throw new Error('HAS_CARD');
-                        } else {
-                            let isNewCard = false;
-                            val.card_infos.forEach(element => {
-                                if (element.card_version === 2 && element.is_contact === false) {
-                                    isNewCard = true;
-                                }
-                            });
-                            if (isNewCard) {
-                                this.modalPrompt.hide();
-                                return val;
-                            }
-                        }
-                        throw new Error('HAS_CARD');
-                    });
-                } else {
+                if (retryCount === 0) {
                     throw new Error('HAS_CARD');
+                } else {
+                    this.modalPrompt.hide();
+                    return [resp];
                 }
+
+                // if (retryCount > 0) {
+                //     return this.service.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'listcardreaderswithhkic').map(val => {
+                //         if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
+                //             // return val;
+                //             throw new Error('HAS_CARD');
+                //         } else {
+                //             let isNewCard = false;
+                //             val.card_infos.forEach(element => {
+                //                 if (element.card_version === 2 && element.is_contact === false) {
+                //                     isNewCard = true;
+                //                 }
+                //             });
+                //             if (isNewCard) {
+                //                 this.modalPrompt.hide();
+                //                 return val;
+                //             }
+                //         }
+                //         throw new Error('HAS_CARD');
+                //     });
+                // } else {
+                //     throw new Error('HAS_CARD');
+                // }
             } else {
                 // throw new Error('OCR_ERROR');
                 return [resp];
@@ -617,7 +623,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         const DELAY = 1000;
         // aaa.zip(this.doOpenLight(whichLight, isLightOff), (x, y) => { isLightOff = false; return x; })
         const IC = of(this.abortFlag || this.openGateFlag).mergeMap(val => {
-            console.log(`abortflag=${this.abortFlag}  opengateflag=${this.openGateFlag}`);
 
             if (this.abortFlag || this.openGateFlag) {
                 throw new Error('ABORT_RETRY');
@@ -634,7 +639,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                             return [{ type: 'ICCOLLECT', status: 'FIRSTSUCCESS' }];
                         }
                     }
-                    return this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER).map(x => {
+                    return this.commonService.doFlash(this.manualOCR ? this.DEVICE_LIGHT_CODE_OCR_READER : this.DEVICE_LIGHT_CODE_IC_READER).map(x => {
                         this.openGateFlag = true; console.log(`设置opengte=${this.openGateFlag}`);
                     }).mergeMap(x => this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT })
                         .mergeMap(resp => {
