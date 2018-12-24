@@ -58,7 +58,9 @@ export class KioskHomeComponent implements OnInit {
         // Light device check.
         noticelight: {channelId: 'RR_NOTICELIGHT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 0},
         // fingerprint device check.
-        fpscannergen: {channelId: 'RR_fptool', functionId: 'healthcheck', isSuccess: false, isResponded: false},
+        fpscannergen: {channelId: 'RR_fptool', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 1},
+        // collect check.
+        iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 2}
         // collect check.
         // iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false},
         // cardreader: {channelId: 'RR_cardreader', functionId: 'healthcheck', isSuccess: false, isResponded: false}
@@ -130,7 +132,6 @@ storeConfigParam() {
 }
 
     checkDevices() {
-        debugger;
         this.logger.log('Function checkDevices..........')
         if (this.isAllDeviceFine) {
             this.offRedLight();
@@ -179,7 +180,6 @@ storeConfigParam() {
     }
 
     doCheckHealthStatusFor(targetDeviceName) {
-        debugger;
         const targetDevice = this.checkHealthStatus[targetDeviceName];
         const channelId = this.checkHealthStatus[targetDeviceName].channelId;
         const functionId = this.checkHealthStatus[targetDeviceName].functionId;
@@ -204,8 +204,8 @@ storeConfigParam() {
     }
     checkAllSuccess() {
         this.isAllDeviceFine =  this.checkHealthStatus.noticelight.isSuccess &&
-            this.checkHealthStatus.fpscannergen.isSuccess;
-            // this.checkHealthStatus.camera.isSuccess &&
+            this.checkHealthStatus.fpscannergen.isResponded &&
+            this.checkHealthStatus.iccollect.isSuccess;
             // this.checkHealthStatus.cabapp.isSuccess &&
             // this.checkHealthStatus.ocr.isSuccess ;
         // this.checkHealthStatus.ups.isSuccess*/;
@@ -213,8 +213,8 @@ storeConfigParam() {
 
     checkAllResponded() {
         this.isAllResponded =   this.checkHealthStatus.noticelight.isResponded &&
-            this.checkHealthStatus.fpscannergen.isResponded;
-            // this.checkHealthStatus.camera.isResponded &&
+            this.checkHealthStatus.fpscannergen.isResponded &&
+            this.checkHealthStatus.iccollect.isResponded;
             // this.checkHealthStatus.cabapp.isResponded &&
             // this.checkHealthStatus.ocr.isResponded/*&&
             //                     this.checkHealthStatus.ups.isResponded*/;
@@ -268,7 +268,8 @@ storeConfigParam() {
     private retrieveDeviceCommonName(deviceKey: string) {
         return {
             'RR_fptool' : 'RR_fptool',
-            'RR_NOTICELIGHT' : 'RR_NOTICELIGHT'
+            'RR_NOTICELIGHT' : 'RR_NOTICELIGHT',
+            'RR_ICCOLLECT' : 'RR_ICCOLLECT'
         }[deviceKey];
     }
 
