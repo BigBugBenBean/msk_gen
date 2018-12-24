@@ -630,7 +630,8 @@ export class StepUpdatecardComponent  implements OnInit {
 
     processTimeoutQuit() {
         this.modalTimeout.hide();
-        this.doCloseCard();
+        // this.doCloseCard();
+        this.exit('');
     }
 
     processModalFailShow() {

@@ -32,8 +32,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     @ViewChild('processing')
     public processing: ProcessingComponent;
 
-    @ViewChild('preparing')
-    public preparing: ProcessingComponent;
+    // @ViewChild('preparing')
+    // public preparing: ProcessingComponent;
 
     @ViewChild('timer')
     public timer: TimerComponent;
@@ -55,7 +55,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     messagePrompt = '';
 
     processMessage = 'SCN-GEN-STEPS.PROCESSING';
-    preparingMessage = 'SCN-GEN-STEPS.PREPARING';
+    // preparingMessage = 'SCN-GEN-STEPS.PREPARING';
     manualOCR = false;
     cardType = 1;
     readType = 1;
@@ -131,7 +131,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.timer.sumSeconds = 120;
         this.initLanguage();
-        this.preparing.show();
+        // this.preparing.show();
         this.initGetParam();
         // this.controlStatus = 7;
         // this.indicateCardType.show();
@@ -152,7 +152,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             this.initConfigParam();
             this.startBusiness();
         }, (err) => {
-            this.preparing.hide();
+            // this.preparing.hide();
             this.messageFail = 'SCN-GEN-STEPS.INIT_CONFIG_PARAM_ERROR';
             this.processing.hide();
             // this.isShow = false;
@@ -610,7 +610,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             if (this.timeOutPause || this.isAbort) {
                 return;
             }
-            this.preparing.hide();
+            // this.preparing.hide();
             this.messagePrompt = 'SCN-GEN-STEPS.HAS_CARD';
             this.modalPrompt.show();
             return s.map(e => {
@@ -624,41 +624,42 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
     getICCardReaderObservable() {
         const DELAY = 1000;
         // aaa.zip(this.doOpenLight(whichLight, isLightOff), (x, y) => { isLightOff = false; return x; })
-        const IC = of(this.abortFlag).mergeMap(val => {
+        const IC = of(this.abortFlag).map(val => {
             console.log(`1......${this.abortFlag }`);
-            
             if (this.abortFlag) {
                 throw new Error('ABORT_RETRY');
             } else {
-            //     if (this.everAbortFlag) {
-            //         return 'list';
-            //     }else {
-            //         return 'open';
-            //     }
-            // }})
-            // .mergeMap(val => {
-            //     if(val === 'list') {
-
-            //     }else if (val === 'open') {
-
-            //     }
-            //     return [val];
-            // })
-
-                return this.getListCardReadersWithHkic().mergeMap(val => {
-                    if (val.error_info.error_code === '0' && val.card_infos.length > 0) {
-                        let hasCard = false;
-                        val.card_infos.map(val => {
-                            console.log(`2...card_info.....${val.card_version}   ${val.is_contact}`);
-                            
-                            if (val.is_contact) {
-                                hasCard = true;
+                if (this.everAbortFlag) {
+                    return 'list';
+                }else {
+                    return 'open';
+                }
+            }}).mergeMap(val => {
+                if (val === 'list') {
+                    return this.getListCardReadersWithHkic().map(val => {
+                        if (val.error_info.error_code === '0' && val.card_infos.length > 0) {
+                            let hasCard = false;
+                            val.card_infos.map(val => {
+                                console.log(`2...card_info.....${val.card_version}   ${val.is_contact}`);
+                                if (val.is_contact) {
+                                    hasCard = true;
+                                }
+                            });
+                            if (hasCard) {
+                                // return [{ type: 'ICCOLLECT', status: 'FIRSTSUCCESS' }];
+                                return 'hasCard';
+                            } else {
+                                return 'openCard';
                             }
-                        });
-                        if (hasCard) {
-                            return [{ type: 'ICCOLLECT', status: 'FIRSTSUCCESS' }];
+                        }else {
+                            return 'openCard';
                         }
-                    }
+                    })
+                } else if (val === 'open') {
+                    return ['openCard'];
+                }
+            }).mergeMap(val => {
+                if (val === 'openCard') {
                     return this.commonService.doFlash(this.manualOCR ? this.DEVICE_LIGHT_CODE_OCR_READER : this.DEVICE_LIGHT_CODE_IC_READER) //.map(x => {
                         //this.openGateFlag = true; console.log(`设置opengte=${this.openGateFlag}`);})
                     .mergeMap(x => this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT })
@@ -697,12 +698,12 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                                 result.status = 'ERROR';
                             }
                             throw new Error(result.status);
-                        })
-                    );
-                });
-            }
-        }
-        ).retryWhen(e => e.mergeMap(err => {
+                        }))
+                }else if (val === 'hasCard') {
+                    return [{ type: 'ICCOLLECT', status: 'FIRSTSUCCESS' }];
+                }
+            })
+        .retryWhen(e => e.mergeMap(err => {
             if (err.message === 'ABORT_RETRY') {
                 console.log(`retryWhen重试=${err.message} `);
                 return Observable.timer(2000).mergeMap(val => IC);

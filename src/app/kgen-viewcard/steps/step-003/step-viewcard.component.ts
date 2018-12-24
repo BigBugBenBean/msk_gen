@@ -462,7 +462,8 @@ export class StepViewcardComponent  implements OnInit {
 
     processTimeoutQuit() {
         this.modalTimeout.hide();
-        this.doCloseCard();
+        // this.doCloseCard();
+        this.exit('');
     }
     processModalFailShow() {
         this.commonService.doLightOn(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
