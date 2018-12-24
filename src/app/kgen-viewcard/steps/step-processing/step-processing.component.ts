@@ -299,7 +299,7 @@ export class StepProcessingComponent implements OnInit {
             'fp_tmpl_in_base64':  '' +  fp_tmpl_in_base64
         }
         this.service.sendRequestWithLog('RR_fptool', 'getfingernum', playloadParam).subscribe((resp) => {
-                console.log(resp);
+                console.log(`getfingernum ==${resp}`);
             if (!$.isEmptyObject(resp)) {
                 if (resp.error_info.error_code === '0') {
                     callback(resp);
