@@ -343,6 +343,11 @@ export class StepViewcardComponent  implements OnInit {
         }
         const datestr = dayStr + '-' + monthStr + '-' + year + '  ' + hourStr + ':' + minuteStr + ':' + secondStr;
         const billNo = this.LOCATION_DEVICE_ID + '_' + year + monthStr + dayStr + hourStr + minuteStr + secondStr;
+        const img = document.getElementById('immd_logo');
+
+        const data = this.getBase64Image(img);
+        console.log(data);
+        const base64_bmp_inc = data;
         const printcontent =
             ' ******************************************** \n' +
             '           香港入境事務處\n' +
@@ -368,6 +373,13 @@ export class StepViewcardComponent  implements OnInit {
             ' ********************************************* \n' ;
         const dataJson = [
             {
+                'type': 'bmp',
+                'data': base64_bmp_inc,
+                'height': '',
+                'leftMargin': '10',
+                'attribute': ''
+            },
+            {
                 'type': 'txt',
                 'data': printcontent,
                 'height': '600',
@@ -386,11 +398,12 @@ export class StepViewcardComponent  implements OnInit {
                 'data': '',
                 'height': '',
                 'leftMargin': '',
-                'attribute': 'black|full'
+                'attribute': 'full'
             },
         ];
-        console.log('call : printslip fun.' + JSON.stringify(dataJson))
+       // console.log('call : printslip fun.' + JSON.stringify(dataJson))
         this.printSlip(dataJson);
+        // 图标.
     }
     printSlip(dataJson) {
         if (this.timeOutPause || this.isAbort) {
@@ -558,4 +571,14 @@ export class StepViewcardComponent  implements OnInit {
         this.nextRoute();
     }
 
+     getBase64Image(img) {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+         const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+         const dataURL = canvas.toDataURL('image/png');
+        // return dataURL;
+         return dataURL.replace('data:image/png;base64,', '')
+    }
 }

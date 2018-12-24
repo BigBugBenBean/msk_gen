@@ -474,6 +474,10 @@
         "CSLS-UPDATE-COMMENT": "注：詳細的逗留條件和逗留期限以香港入境事務處在你的旅行證件上最近期的簽注爲準。",
         "CSLS-BASE": "你的逗留條件及逗留期限是：",
         "PREPARING": "請預備你的身份證，以使用服務。",
-        "OCR_OLD_CARD": "請把你的身份證插入右邊的閱讀器。"
+        "OCR_OLD_CARD": "請把你的身份證插入右邊的閱讀器。",
+        "START": "開始",
+        "CHECK-HEALTH" : "系統正在自我檢查",
+        "CHECK-HEALTH-RETRY": "系統正在自我檢查(:count): ",
+        "CHECK-HEALTH-FAIL": "系統自我檢查失敗　："
     }
 }
