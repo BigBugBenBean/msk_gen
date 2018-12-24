@@ -58,9 +58,9 @@ export class KioskHomeNewComponent implements OnInit {
         // Light device check.
         noticelight: {channelId: 'RR_NOTICELIGHT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 0},
         // fingerprint device check.
-        fpscannergen: {channelId: 'RR_fptool', functionId: 'healthcheck', isSuccess: false, isResponded: false},
+        fpscannergen: {channelId: 'RR_fptool', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 1},
         // collect check.
-        // iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false},
+        iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 2}
         // cardreader: {channelId: 'RR_cardreader', functionId: 'healthcheck', isSuccess: false, isResponded: false}
         // alarmbox: {channelId: 'RR_ALARMBOX', functionId: 'healthcheck', isSuccess: false, isResponded: false},
     };
@@ -83,12 +83,12 @@ export class KioskHomeNewComponent implements OnInit {
     }
     ngOnInit() {
         this.initLanguage();
-        // this.checkHealthMaxRetry = 999;
-        // this.logger.log('STEP 1 START');
-        // if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
-        //     this.modalCheckHealth.show();
-        // }
-        // this.programFlow.start();
+        this.checkHealthMaxRetry = 999;
+        this.logger.log('STEP 1 START');
+        if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
+            this.modalCheckHealth.show();
+        }
+        this.programFlow.start();
         const that = this;
         $('#viewPerson').click(
             function(){
@@ -204,8 +204,8 @@ storeConfigParam() {
     }
     checkAllSuccess() {
         this.isAllDeviceFine =  this.checkHealthStatus.noticelight.isSuccess &&
-            this.checkHealthStatus.fpscannergen.isSuccess;
-            // this.checkHealthStatus.camera.isSuccess &&
+            this.checkHealthStatus.fpscannergen.isSuccess &&
+            this.checkHealthStatus.iccollect.isSuccess;
             // this.checkHealthStatus.cabapp.isSuccess &&
             // this.checkHealthStatus.ocr.isSuccess ;
         // this.checkHealthStatus.ups.isSuccess*/;
@@ -213,8 +213,8 @@ storeConfigParam() {
 
     checkAllResponded() {
         this.isAllResponded =   this.checkHealthStatus.noticelight.isResponded &&
-            this.checkHealthStatus.fpscannergen.isResponded;
-            // this.checkHealthStatus.camera.isResponded &&
+            this.checkHealthStatus.fpscannergen.isResponded &&
+            this.checkHealthStatus.iccollect.isResponded;
             // this.checkHealthStatus.cabapp.isResponded &&
             // this.checkHealthStatus.ocr.isResponded/*&&
             //                     this.checkHealthStatus.ups.isResponded*/;
@@ -268,7 +268,8 @@ storeConfigParam() {
     private retrieveDeviceCommonName(deviceKey: string) {
         return {
             'RR_fptool' : 'RR_fptool',
-            'RR_NOTICELIGHT' : 'RR_NOTICELIGHT'
+            'RR_NOTICELIGHT' : 'RR_NOTICELIGHT',
+            'RR_ICCOLLECT' : 'RR_ICCOLLECT'
         }[deviceKey];
     }
 
