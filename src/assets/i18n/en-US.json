@@ -473,6 +473,10 @@
         "CSLS-UPDATE-COMMENT": "Note:You should refer to the detailed Condition of Stay and Limit of Stay last endorsed on your travel document by the Hong Kong Immigration Department.",
         "CSLS-BASE": "Your Condition of Stay and Limit of Stay are:",
         "PREPARING": "Please prepare your Smart Identity Card for the service.",
-        "OCR_OLD_CARD": "Please insert your Identity Card into the Smart Card Reader on the right."
+        "OCR_OLD_CARD": "Please insert your Identity Card into the Smart Card Reader on the right.",
+        "START": "Start",
+        "CHECK-HEALTH" : "System self-test...",
+        "CHECK-HEALTH-RETRY": "System self-test(:count): ",
+        "CHECK-HEALTH-FAIL": "System self-test fail: "
     }
 }

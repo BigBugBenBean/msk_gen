@@ -15,11 +15,11 @@ import {ConfirmComponent} from '../shared/sc2-confirm';
 import {Sc2ProgramFlow} from '../shared/sc2-execution-flow/sc2-program-flow';
 import {Sc2ExecutionFlow} from '../shared/sc2-execution-flow/sc2-execution-flow';
 @Component({
-    templateUrl: './kiosk-home.component.html',
-    styleUrls: ['./kiosk-home.component.scss']
+    templateUrl: './kiosk-home-new.component.html',
+    styleUrls: ['./kiosk-home-new.component.scss']
 })
 
-export class KioskHomeComponent implements OnInit {
+export class KioskHomeNewComponent implements OnInit {
 
     @ViewChild('modalCheckHealth')
     public modalCheckHealth: ConfirmComponent;
@@ -83,12 +83,12 @@ export class KioskHomeComponent implements OnInit {
     }
     ngOnInit() {
         this.initLanguage();
-        this.checkHealthMaxRetry = 999;
-        this.logger.log('STEP 1 START');
-        if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
-            this.modalCheckHealth.show();
-        }
-        this.programFlow.start();
+        // this.checkHealthMaxRetry = 999;
+        // this.logger.log('STEP 1 START');
+        // if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
+        //     this.modalCheckHealth.show();
+        // }
+        // this.programFlow.start();
         const that = this;
         $('#viewPerson').click(
             function(){
