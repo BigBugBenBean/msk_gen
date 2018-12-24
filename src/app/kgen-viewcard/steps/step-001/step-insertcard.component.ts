@@ -630,11 +630,20 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             if (this.abortFlag) {
                 throw new Error('ABORT_RETRY');
             } else {
+            //     if (this.everAbortFlag) {
+            //         return 'list';
+            //     }else {
+            //         return 'open';
+            //     }
+            // }})
+            // .mergeMap(val => {
+            //     if(val === 'list') {
 
-                
+            //     }else if (val === 'open') {
 
-                
-
+            //     }
+            //     return [val];
+            // })
 
                 return this.getListCardReadersWithHkic().mergeMap(val => {
                     if (val.error_info.error_code === '0' && val.card_infos.length > 0) {
@@ -880,26 +889,27 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
         const cancel = this.getAbortCancelObservable();
         cancel.subscribe();
-        const hasocr$ = this.checkOCRSomething();
+        // const hasocr$ = this.checkOCRSomething();
 
         this.service.sendTrackLog(`---------------------start------------------------------`);
         // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
         
         // const DELAY = 700;
 
-        hasocr$.subscribe(data => {
+        // hasocr$.subscribe(data => {
             // if (this.timeOutPause || this.isAbort) {
             //     return;
             // }
-            this.preparing.hide();
-            this.controlStatus = 1;
+            // this.preparing.hide();
+            // this.controlStatus = 1;
             
             // ccc
             this.mergeCardReader();
-        });
+        // });
     }
 
     mergeCardReader() {
+        this.controlStatus = 1;
         this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
         const IC$ = this.getICCardReaderObservable();
         const OCR$ = this.getOCRObservable();
