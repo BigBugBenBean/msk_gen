@@ -478,6 +478,7 @@
         "START": "開始",
         "CHECK-HEALTH" : "系統正在自我檢查",
         "CHECK-HEALTH-RETRY": "系統正在自我檢查(:count): ",
-        "CHECK-HEALTH-FAIL": "系統自我檢查失敗　："
+        "CHECK-HEALTH-FAIL": "系統自我檢查失敗　：",
+        "UPDATE_CSOS": "更新身份證晶片內的逗留條件及逗留期限"
     }
 }

@@ -257,9 +257,9 @@ export class StepFingerprintComponent implements OnInit {
         this.localStorages.set('readType', this.readType.toString());
     }
 
-    // closeFpFn() {
-    //     this.service.sendRequestWithLog('RR_fptool', 'cancelscan', {}).subscribe((resp) => {});
-    // }
+    closeFpFn() {
+        this.service.sendRequestWithLog('RR_fptool', 'cancelscan', {}).subscribe((resp) => {});
+    }
 
     /**
      * backPage.
@@ -573,6 +573,7 @@ export class StepFingerprintComponent implements OnInit {
     processModalQuitShow() {
         this.modalQuit.show()
         this.isAbort = true;
+        this.closeFpFn();
         if (this.processing.visible) {
             this.isRestore = true;
             this.processing.hide();
@@ -596,9 +597,9 @@ export class StepFingerprintComponent implements OnInit {
         this.modalQuit.hide();
         this.isAbort = false;
         this.isLevePage = false;
-        if (this.isScanfp) {
-            this.doScanFingerPrint();
-        }
+        this.doScanFingerPrint();
+        // if (this.isScanfp) {
+        // }
         if (this.isRestore) {
             // this.processing.show();
             this.isShow = true;

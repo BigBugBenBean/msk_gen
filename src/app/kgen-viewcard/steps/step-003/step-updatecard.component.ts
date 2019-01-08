@@ -64,7 +64,7 @@ export class StepUpdatecardComponent  implements OnInit {
     hkic_number_view = '';
     newReader_dor = null;
     newReader_icno = null;
-    operateType = '1';
+    operateType = '2';
 
     UPDATE_LOL_COS_WEBSERVICE_PORT = '6090';
     UPDATE_LOS_COS_WEBSERVICE_IP = 'localhost';

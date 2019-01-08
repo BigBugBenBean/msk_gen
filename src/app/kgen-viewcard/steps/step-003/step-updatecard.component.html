@@ -34,6 +34,7 @@
     </sc2-confirm>
     <sc2-process-comp #processing></sc2-process-comp>
     <!-- <label [hidden]="isShowCollect"  class="label1" >{{'SCN-GEN-STEPS.COLLECT-HKID-CARD' | translate}}</label> -->
+    <label class="labelStay" *ngIf="operateType === '2' ">{{'SCN-GEN-STEPS.UPDATE_CSOS' | translate}}</label>
     <label class="label1" *ngIf="controlStatus === '1'">{{'SCN-GEN-STEPS.CSLS-UPDATE-ORIGIN' | translate}}</label>
     <label class="label1" *ngIf="controlStatus === '2'">{{'SCN-GEN-STEPS.CSLS-BASE' | translate}}</label>
     <label class="label1" *ngIf="controlStatus === '3'">{{'SCN-GEN-STEPS.CSLS-NOT-APPLICABLE' | translate}}</label>

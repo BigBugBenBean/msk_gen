@@ -24,6 +24,9 @@ export class KioskHomeComponent implements OnInit {
     @ViewChild('modalCheckHealth')
     public modalCheckHealth: ConfirmComponent;
 
+    pathOtherApp: string;
+    cwdOtherApp?: string;
+
     operateType = '1';
     isFirst = '0';
 
@@ -61,8 +64,6 @@ export class KioskHomeComponent implements OnInit {
         fpscannergen: {channelId: 'RR_fptool', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 1},
         // collect check.
         iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 2}
-        // collect check.
-        // iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false},
         // cardreader: {channelId: 'RR_cardreader', functionId: 'healthcheck', isSuccess: false, isResponded: false}
         // alarmbox: {channelId: 'RR_ALARMBOX', functionId: 'healthcheck', isSuccess: false, isResponded: false},
     };
@@ -100,36 +101,61 @@ export class KioskHomeComponent implements OnInit {
             function(){
                 that.updateCosLos();
             });
+
+        $('#otherFun').click(
+            function(){
+                that.otherApp();
+            });
     }
 
-initLanguage() {
-    if ('en-US' === this.APP_LANG) {
-        this.translate.use('en-US');
-    } else {
-        this.translate.use('zh-HK');
+    initLanguage() {
+        if ('en-US' === this.APP_LANG) {
+            this.translate.use('en-US');
+        } else {
+            this.translate.use('zh-HK');
+        }
+        this.translate.currentLang = this.APP_LANG;
     }
-    this.translate.currentLang = this.APP_LANG;
-}
-viewPersonData() {
-    this.programFlow.abort();
-    this.operateType = '1';
-    this.storeConfigParam();
-    this.router.navigate(['/scn-gen/insertcard']);
-    return;
-}
+    viewPersonData() {
+        this.programFlow.abort();
+        this.operateType = '1';
+        this.storeConfigParam();
+        this.router.navigate(['/scn-gen/insertcard']);
+        return;
+    }
 
-updateCosLos() {
-    this.programFlow.abort();
-    this.operateType = '2';
-    this.storeConfigParam();
-    this.router.navigate(['/scn-gen/insertcard']);
-    return;
-}
+    updateCosLos() {
+        this.programFlow.abort();
+        this.operateType = '2';
+        this.storeConfigParam();
+        this.router.navigate(['/scn-gen/insertcard']);
+        return;
+    }
+    otherApp() {
+        // this.pathOtherApp = 'C:/Program Files/Smartics2 MSKS GEN UPDCSLS/Smartics2 MSKS GEN UPDCSLS.exe';
+        // this.cwdOtherApp = 'C:/Program Files/Smartics2 MSKS GEN UPDCSLS/';
+        this.pathOtherApp = 'C:/icons/bin/mcEnrollment.cmd';
+        this.cwdOtherApp = 'C:/icons/bin/';
+        this.startLocalProgram(this.pathOtherApp, this.cwdOtherApp);
+    }
 
-storeConfigParam() {
-    this.localStorages.set('APP_LANG', this.translate.currentLang);
-    this.localStorages.set('operateType', this.operateType);
-}
+    /**
+     *
+     * @param pathParam
+     * @param cmdParam
+     */
+    startLocalProgram(pathParam: string, cmdParam: string) {
+        this.msksService.sendRequest('RR_LAUNCHER', 'launch', {
+            exemode: 'execfile',
+            cmdfile: pathParam,
+            cwd: cmdParam
+        }, 'PGC').subscribe();
+    }
+
+    storeConfigParam() {
+        this.localStorages.set('APP_LANG', this.translate.currentLang);
+        this.localStorages.set('operateType', this.operateType);
+    }
 
     checkDevices() {
         this.logger.log('Function checkDevices..........')
@@ -140,11 +166,11 @@ storeConfigParam() {
             clearInterval(this.checkHealthTimer);
             this.modalCheckHealth.hide();
         } else {
-            console.log('7777');
+            // console.log('7777');
             this.checkHealthCounter += 1;
             let devices = '';
             if (this.checkHealthCounter <= this.checkHealthMaxRetry) {
-                console.log('#################################### this.checkHealthCounter', this.checkHealthCounter);
+                // console.log('#################################### this.checkHealthCounter', this.checkHealthCounter);
                 Object.keys(this.checkHealthStatus).map((key) => {
                     console.log('key1=' + key);
                     this.doCheckHealthStatusFor(key);
@@ -204,10 +230,10 @@ storeConfigParam() {
     }
     checkAllSuccess() {
         this.isAllDeviceFine =  this.checkHealthStatus.noticelight.isSuccess &&
-            this.checkHealthStatus.fpscannergen.isResponded &&
+            this.checkHealthStatus.fpscannergen.isSuccess &&
             this.checkHealthStatus.iccollect.isSuccess;
-            // this.checkHealthStatus.cabapp.isSuccess &&
-            // this.checkHealthStatus.ocr.isSuccess ;
+        // this.checkHealthStatus.cabapp.isSuccess &&
+        // this.checkHealthStatus.ocr.isSuccess ;
         // this.checkHealthStatus.ups.isSuccess*/;
     }
 
@@ -215,9 +241,9 @@ storeConfigParam() {
         this.isAllResponded =   this.checkHealthStatus.noticelight.isResponded &&
             this.checkHealthStatus.fpscannergen.isResponded &&
             this.checkHealthStatus.iccollect.isResponded;
-            // this.checkHealthStatus.cabapp.isResponded &&
-            // this.checkHealthStatus.ocr.isResponded/*&&
-            //                     this.checkHealthStatus.ups.isResponded*/;
+        // this.checkHealthStatus.cabapp.isResponded &&
+        // this.checkHealthStatus.ocr.isResponded/*&&
+        //                     this.checkHealthStatus.ups.isResponded*/;
     }
 
     resetLights(type: string) {
@@ -245,7 +271,7 @@ storeConfigParam() {
     }
 
     private createMainFlow() {
-        console.log('start 111');
+        // console.log('start 111');
         const mainFlow = new Sc2ExecutionFlow(this.mainFlowName);
 
         mainFlow.addFunctionStep(() => {

@@ -133,7 +133,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.initLanguage();
         // this.preparing.show();
         this.initGetParam();
-        // this.controlStatus = 7;
+        // this.controlStatus = 1;
         // this.indicateCardType.show();
     }
 
@@ -640,7 +640,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         if (val.error_info.error_code === '0' && val.card_infos.length > 0) {
                             let hasCard = false;
                             val.card_infos.map(val => {
-                                console.log(`2...card_info.....${val.card_version}   ${val.is_contact}`);
+                                // console.log(`2...card_info.....${val2.card_version}   ${val2.is_contact}`);
                                 if (val.is_contact) {
                                     hasCard = true;
                                 }
@@ -660,12 +660,12 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 }
             }).mergeMap(val => {
                 if (val === 'openCard') {
-                    return this.commonService.doFlash(this.manualOCR ? this.DEVICE_LIGHT_CODE_OCR_READER : this.DEVICE_LIGHT_CODE_IC_READER) //.map(x => {
-                        //this.openGateFlag = true; console.log(`设置opengte=${this.openGateFlag}`);})
+                    return this.commonService.doFlash(this.manualOCR ? this.DEVICE_LIGHT_CODE_OCR_READER : this.DEVICE_LIGHT_CODE_IC_READER) // .map(x => {
+                        // this.openGateFlag = true; console.log(`设置opengte=${this.openGateFlag}`);})
                     .mergeMap(x => this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT })
                         .mergeMap(resp => {
                             this.thereiscard = true;
-                            //this.openGateFlag = false;
+                            // this.openGateFlag = false;
                             if (!$.isEmptyObject(resp)) {
                                 this.service.sendTrackLog(`<开门的返回状态>>>>>>>${resp.errorcode}`);
                             }
@@ -786,7 +786,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                     // if (this.timeOutPause || this.isAbort) {
                     //     return;
                     // }
-                    if(this.abortFlag) {
+                    if (this.abortFlag) {
                         throw new Error('ABORT_RETRY');
                     }
                     if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
@@ -828,7 +828,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             this.service.sendTrackLog(`<OCR 重试>>>>>>>   ${err.message}`);
 
             if (err.message === 'ABORT_RETRY') {
-                //console.log(`retryWhen重试=${err.message} `);
+                // console.log(`retryWhen重试=${err.message} `);
                 return Observable.timer(1500).mergeMap(val => OCR);
             }else if (err.message === 'OLD_CARD') {
                 this.processPromt('SCN-GEN-STEPS.OCR_OLD_CARD');
@@ -861,11 +861,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 }
             }
         }).delay(DELAY_OCR));
-        
-        
-        
-        
-        
         return OCR;
     }
 
@@ -894,7 +889,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
         this.service.sendTrackLog(`---------------------start------------------------------`);
         // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
-        
         // const DELAY = 700;
 
         // hasocr$.subscribe(data => {
@@ -903,7 +897,6 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
             // }
             // this.preparing.hide();
             // this.controlStatus = 1;
-            
             // ccc
             this.mergeCardReader();
         // });

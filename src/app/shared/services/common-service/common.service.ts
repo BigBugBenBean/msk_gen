@@ -19,6 +19,9 @@ export class CommonService {
         this.router.navigate(['/scn-gen/kioskHome']);
         // const remote = require('electron').remote;
         // const window = remote.getCurrentWindow();
+        // window.addListener('',e => {
+
+        // });
         // window.close();
     }
 

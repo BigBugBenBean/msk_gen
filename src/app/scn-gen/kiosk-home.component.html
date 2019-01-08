@@ -1,35 +1,34 @@
 <div class="mainDiv">
- <div class="headDiv">
-    <div class="textSelf-serviceGeneraChinese">
+    <div class="headDiv">
+        <div class="textSelf-serviceGeneraChinese">
             多用途自助服務站
-    </div>
-     <div class="textSelf-serviceGeneralEnglish">
+        </div>
+        <div class="textSelf-serviceGeneralEnglish">
             Self-service General Application Kiosk
-     </div>
- </div>
- <div class="contentDiv">
-     <div id="viewPerson" class="viewPersonDataInChipBtn" [disabled]="!allDeviceHealthFlag">
-         <div class="viewBtnImage"></div>
-         <!--<img class="viewBtnImage" src="../../../assets/images/home/icon_view_chip.png">-->
-         <!--<div class="textButtonChinese"> 查看晶片中的個人數據</div>-->
-         <!--<div class="textButtonEnglish"> View Personal Data in Chip</div>-->
-         <div class="textButtonChinese"> 讀取身份證晶片內的個人資料</div>
-         <div class="textButtonEnglishLeft"> View personal data in chip of identity card</div>
-     </div>
-     <div id="updateCoslos" class="updateCosLosInChipBtn" [disabled]="!allDeviceHealthFlag">
-         <div class="updateBtnImage"></div>
-         <!--<img class="updateBtnImage" src="../../../assets/images/home/icon_update_chip.png">-->
-         <!--<div class="textButtonChinese">更新逗留條件和逗留期限</div>-->
-         <!--<div class="textButtonEnglish">Update Condition of Stay and Limited of Stay in Chip</div>-->
-         <div class="textButtonChineseRight">更新身份證晶片內的逗留條件及逗留期限</div>
-         <div class="textButtonEnglishRight">Update Condition of Stay and Limit of Stay in chip of identity card</div>
-     </div>
- </div>
-    <sc2-confirm #modalCheckHealth>
-    <div class="app-modal-body">
-        <div class="modal-message">
-            {{ infoMessage | translate}}
         </div>
     </div>
-</sc2-confirm>
+    <div class="contentDiv">
+        <div id="viewPerson" class="contentMenuBtn" [disabled]="!allDeviceHealthFlag">
+            <div class="viewBtnImage"></div>
+            <div class="textButtonChinese"> 讀取身份證晶片內的個人資料</div>
+            <div class="textButtonEnglish"> View personal data in chip of identity card</div>
+        </div>
+        <div id="updateCoslos" class="contentMenuBtn" [disabled]="!allDeviceHealthFlag">
+            <div class="updateBtnImage"></div>
+            <div class="textButtonChinese">更新身份證晶片內的逗留條件及逗留期限</div>
+            <div class="textButtonEnglish">Update Condition of Stay and Limit of Stay in chip of identity card</div>
+        </div>
+        <div id="otherFun" class="contentMenuBtn" [disabled]="!allDeviceHealthFlag">
+            <div class="otherAppBtnImage"></div>
+            <div class="textButtonChinese">香港居民登記使用澳門特別行政區旅客自助過關系統</div>
+            <div class="textButtonEnglish">Hong Kong residents Enrolment for the Automated Passenger Clearance System of The Government of The Macao SAR</div>
+        </div>
+    </div>
+    <sc2-confirm #modalCheckHealth>
+        <div class="app-modal-body">
+            <div class="modal-message">
+                {{ infoMessage | translate}}
+            </div>
+        </div>
+    </sc2-confirm>
 </div>
