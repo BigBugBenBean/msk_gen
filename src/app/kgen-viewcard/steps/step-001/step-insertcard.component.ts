@@ -56,7 +56,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
     processMessage = 'SCN-GEN-STEPS.PROCESSING';
     // preparingMessage = 'SCN-GEN-STEPS.PREPARING';
-    manualOCR = false;
+    // manualOCR = false;
+    manualClick = '';
     cardType = 1;
     readType = 1;
     newReader_dor = null;
@@ -409,7 +410,10 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.abortFlag = true;
         this.everAbortFlag = true;
         this.modalQuit.show();
-        this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
+        // this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
+
+        Observable.combineLatest(this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER), this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER))
+        .subscribe();
         if (this.processing.visible) {
             // this.isRestore = true;
             // this.showImage = false;
@@ -660,8 +664,9 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 }
             }).mergeMap(val => {
                 if (val === 'openCard') {
-                    return this.commonService.doFlash(this.manualOCR ? this.DEVICE_LIGHT_CODE_OCR_READER : this.DEVICE_LIGHT_CODE_IC_READER) // .map(x => {
-                        // this.openGateFlag = true; console.log(`设置opengte=${this.openGateFlag}`);})
+                    // return this.commonService.doFlash(this.manualOCR ? this.DEVICE_LIGHT_CODE_OCR_READER : this.DEVICE_LIGHT_CODE_IC_READER) // .map(x => {
+                    return Observable.combineLatest(this.manualClick !== 'old' ? this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER) : of(1),
+                                                    this.manualClick !== 'new' ? this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER) : of(1))
                     .mergeMap(x => this.service.sendRequestWithLog(CHANNEL_ID_RR_ICCOLLECT, 'opengate', { 'timeout': this.OPEN_GATE_TIMEOUT })
                         .mergeMap(resp => {
                             this.thereiscard = true;
@@ -680,8 +685,9 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                                 this.commonService.doAlarm('Smart Card Reader Error');
                                 result.status = 'CRASH';
                             } else if (resp.errorcode === '0') {
-                                this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER); // 识别到正确的卡后关灯
-                                // isLightOff = true;
+                                // this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER); // 识别到正确的卡后关灯
+                                Observable.merge(this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
+                                                 this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
                                 result.status = 'FIRSTSUCCESS';
                                 return [result];
                             } else if (resp.errorcode === 'D0009') {
@@ -749,7 +755,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         this.controlStatus = 1;
                         this.indicateCardType.hide();
                         if ('YES' === resp) {
-                            this.manualOCR = true;
+                            // this.manualOCR = true;
+                            this.manualClick = 'new';
                             this.deviceType = 2;
                             this.readType = 2;
                             // return this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER);
@@ -761,6 +768,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                                 }
                             );
                         } else if ('NO' === resp) {
+                            this.manualClick = 'old';
                         }
                         return [resp];
                     }), (x, y) => x);
@@ -831,13 +839,15 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 // console.log(`retryWhen重试=${err.message} `);
                 return Observable.timer(1500).mergeMap(val => OCR);
             }else if (err.message === 'OLD_CARD') {
+                this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_OCR_READER);
                 this.processPromt('SCN-GEN-STEPS.OCR_OLD_CARD');
                 return [err];
             }else if (err.message === 'NOCARD') {
                 return [err];
             } else if (err.message === 'CRASH' || err.message === 'ERROR') {
                 this.commonService.loggerExcp(this.ACTION_TYPE_OCR_INSERT, this.LOCATION_DEVICE_ID, 'GE02', '', this.newReader_icno, 'OCR exception');
-                if (this.manualOCR) {
+                // if (this.manualOCR) {
+                if (this.manualClick === 'new') {
                     this.deviceType = 2;
                     this.readType = 2;
                 } else {
@@ -846,7 +856,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 }
                 this.card_error.ocrerrCount = this.card_error.ocrerrCount + 1;
                 if (this.card_error.ocrerrCount < this.ATTEMPT_COUNT) {
-                    if (this.manualOCR) {
+                    // if (this.manualOCR) {
+                    if (this.manualClick === 'new') {
                         this.processPromt('SCN-GEN-STEPS.OCR_READER_SCREEN_S17');
                         return this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).merge(
                             this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER));
@@ -884,7 +895,10 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         // }
 
         const cancel = this.getAbortCancelObservable();
-        cancel.subscribe();
+        cancel.subscribe(val => {
+            Observable.combineLatest(this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER), this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER))
+                .subscribe();
+        });
         // const hasocr$ = this.checkOCRSomething();
 
         this.service.sendTrackLog(`---------------------start------------------------------`);
@@ -904,7 +918,10 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
     mergeCardReader() {
         this.controlStatus = 1;
-        this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
+        // this.commonService.doFlashLight(this.DEVICE_LIGHT_CODE_IC_READER);
+        Observable.merge(this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER),
+                         this.commonService.doFlash(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
+
         const IC$ = this.getICCardReaderObservable();
         const OCR$ = this.getOCRObservable();
         this.subscription = IC$.merge(OCR$).take(1)
@@ -987,7 +1004,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                                 this.controlStatus = 1;
                                 this.indicateCardType.hide();
                                 if ('YES' === resp) {
-                                    this.manualOCR = true;
+                                    // this.manualOCR = true;
+                                    this.manualClick = 'new';
                                     this.readType = 2;
                                     this.deviceType = 2;
                                     return Observable.combineLatest(
@@ -999,6 +1017,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                                         }
                                     );
                                 } else if ('NO' === resp) {
+                                    this.manualClick = 'old';
                                     this.readType = 1;
                                     // return Observable.of(resp);
                                     return Observable.combineLatest(
@@ -1022,7 +1041,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                     this.thereiscard = true;
                     this.card_error.ocrerrCount = this.card_error.ocrerrCount + 1;
                     if (this.card_error.ocrerrCount < this.ATTEMPT_COUNT) {
-                        if (this.manualOCR) {
+                        // if (this.manualOCR) {
+                        if (this.manualClick === 'new') {
                             this.deviceType = 2;
                             this.readType = 2;
                         } else {
@@ -1030,7 +1050,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                             this.readType = 1;
                         }
 
-                        if (this.manualOCR) {
+                        // if (this.manualOCR) {
+                        if (this.manualClick === 'new') {
                             this.processPromt('SCN-GEN-STEPS.OCR_READER_SCREEN_S17');
                             return this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).merge(
                                 this.commonService.doFlash(this.DEVICE_LIGHT_CODE_OCR_READER));

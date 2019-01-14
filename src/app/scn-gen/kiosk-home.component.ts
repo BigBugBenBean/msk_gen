@@ -5,15 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../shared/msks';
 
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
-import {INI_URL} from '../../shared/var-setting';
+import {CHANNEL_ID_RR_CARDREADER} from '../shared/var-setting';
 import {HttpClient} from '@angular/common/http';
 import {CommonService} from '../shared/services/common-service/common.service';
 import {TrackLogService} from '../shared/sc2-tracklog';
 import {isNull} from 'util';
 
 import {ConfirmComponent} from '../shared/sc2-confirm';
-import {Sc2ProgramFlow} from '../shared/sc2-execution-flow/sc2-program-flow';
-import {Sc2ExecutionFlow} from '../shared/sc2-execution-flow/sc2-execution-flow';
+// import {Sc2ProgramFlow} from '../shared/sc2-execution-flow/sc2-program-flow';
+// import {Sc2ExecutionFlow} from '../shared/sc2-execution-flow/sc2-execution-flow';
+import { Observable } from 'rxjs/Observable';
 @Component({
     templateUrl: './kiosk-home.component.html',
     styleUrls: ['./kiosk-home.component.scss']
@@ -67,8 +68,8 @@ export class KioskHomeComponent implements OnInit {
         // cardreader: {channelId: 'RR_cardreader', functionId: 'healthcheck', isSuccess: false, isResponded: false}
         // alarmbox: {channelId: 'RR_ALARMBOX', functionId: 'healthcheck', isSuccess: false, isResponded: false},
     };
-    private programFlow: Sc2ProgramFlow;
-    private mainFlowName = 'kiosk-main-flow';
+    // private programFlow: Sc2ProgramFlow;
+    // private mainFlowName = 'kiosk-main-flow';
     constructor(private router: Router,
                 private commonService: CommonService,
                 private translate: TranslateService,
@@ -82,16 +83,20 @@ export class KioskHomeComponent implements OnInit {
                 // private sc2IniPropertyService: Sc2IniPropertyService
     ) {
         this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH';
-        this.programFlow = new Sc2ProgramFlow('kiosk-program-flow', this.createMainFlow());
+        // this.programFlow = new Sc2ProgramFlow('kiosk-program-flow', this.createMainFlow());
     }
     ngOnInit() {
         this.initLanguage();
         // this.checkHealthMaxRetry = 999;
         // this.logger.log('STEP 1 START');
         // if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
-        //     this.modalCheckHealth.show();
+            // this.modalCheckHealth.show();
         // }
         // this.programFlow.start();
+        // const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(), this.getFingerprintHealthCheckObservable());
+        // health$.subscribe(val => {
+        //     this.modalCheckHealth.hide();
+        // });
         const that = this;
         $('#viewPerson').click(
             function(){
@@ -108,6 +113,25 @@ export class KioskHomeComponent implements OnInit {
             });
     }
 
+    getOCRHealthCheckObservable() {
+        return this.msksService.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', { 'ocr_reader_name': 'ARH ComboSmart' }).map(resp => {
+            console.log(`=============${resp}`);
+            
+            if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
+                throw new Error('not ready');
+            }else {
+                return 'ok';
+            }
+        }).retryWhen(e => {
+            return e.delay(3000);
+        });
+    }
+
+    getFingerprintHealthCheckObservable() {
+        // return this.msksService.sendRequestWithLog('RR_fptool', 'cancelscan', {});
+        return Observable.of(1);
+    }
+
     initLanguage() {
         if ('en-US' === this.APP_LANG) {
             this.translate.use('en-US');
@@ -117,7 +141,7 @@ export class KioskHomeComponent implements OnInit {
         this.translate.currentLang = this.APP_LANG;
     }
     viewPersonData() {
-        this.programFlow.abort();
+        // this.programFlow.abort();
         this.operateType = '1';
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/insertcard']);
@@ -125,7 +149,7 @@ export class KioskHomeComponent implements OnInit {
     }
 
     updateCosLos() {
-        this.programFlow.abort();
+        // this.programFlow.abort();
         this.operateType = '2';
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/insertcard']);
@@ -270,26 +294,26 @@ export class KioskHomeComponent implements OnInit {
         }, 700);
     }
 
-    private createMainFlow() {
-        // console.log('start 111');
-        const mainFlow = new Sc2ExecutionFlow(this.mainFlowName);
+    // private createMainFlow() {
+    //     // console.log('start 111');
+    //     const mainFlow = new Sc2ExecutionFlow(this.mainFlowName);
 
-        mainFlow.addFunctionStep(() => {
-            if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
-                // this.logger.log(`###### Current running version is: ${this.sc2PropertyService.get('version')} as of ${new Date()} .`);
-                // this.logger.log(`###### Logs created for ${this.office}: ${this.kioskDeviceId}`);
-                this.resetLights('healthcheck');
-                this.logger.log('STEP 1 Checking device health...');
-                this.checkHealthTimer = setInterval(() => this.checkDevices(), 5000);
-            } else {
-                // this.sc2ObjectCache.clearCache();
-                this.resetLights('default');
-            }
-            return true;
-        });
+    //     mainFlow.addFunctionStep(() => {
+    //         if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
+    //             // this.logger.log(`###### Current running version is: ${this.sc2PropertyService.get('version')} as of ${new Date()} .`);
+    //             // this.logger.log(`###### Logs created for ${this.office}: ${this.kioskDeviceId}`);
+    //             this.resetLights('healthcheck');
+    //             this.logger.log('STEP 1 Checking device health...');
+    //             this.checkHealthTimer = setInterval(() => this.checkDevices(), 5000);
+    //         } else {
+    //             // this.sc2ObjectCache.clearCache();
+    //             this.resetLights('default');
+    //         }
+    //         return true;
+    //     });
 
-        return mainFlow;
-    }
+    //     return mainFlow;
+    // }
 
     private retrieveDeviceCommonName(deviceKey: string) {
         return {

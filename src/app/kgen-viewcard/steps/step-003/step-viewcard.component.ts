@@ -65,6 +65,7 @@ export class StepViewcardComponent  implements OnInit {
     date_of_first_registration_view = '';
     los = '';
     cos = '';
+    symbol = '';
     operateType = '1';
     PAGE_VIEW_ABORT_QUIT_ITEMOUT = 5000;
     PAGE_VIEW_RETURN_CARD_ITEMOUT = 5000;
@@ -176,10 +177,17 @@ export class StepViewcardComponent  implements OnInit {
         }
     }
 
+    checkIsNull(fpObj: any) {
+        return fpObj === 'null' || !fpObj || typeof fpObj === 'undefined';
+    }
+
     /**
      * init param data.
      */
     startProcess() {
+        const residential_status = this.checkIsNull(this.carddata.residential_status) ? '' : this.carddata.residential_status.trim();
+        const indicators = this.checkIsNull(this.carddata.indicators) ? '' : this.carddata.indicators.trim();
+        this.symbol = residential_status + indicators;
         this.los = this.carddata.los;
         this.cos = this.carddata.cos;
         if (this.los) {

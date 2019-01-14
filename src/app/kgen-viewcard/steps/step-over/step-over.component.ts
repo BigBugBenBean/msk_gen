@@ -26,8 +26,8 @@ export class StepOverComponent implements OnInit {
     PAGE_COLLECT__RETURN_CARD_ITEMOUT = 2000;
     PAGE_COLLECT_TIME_EXPIRE_ITEMOUT = 5000;
     APP_LANG = '';
-    DEVICE_LIGHT_CODE_OCR_READER = '08';
-    DEVICE_LIGHT_CODE_IC_READER = '07';
+    DEVICE_LIGHT_CODE_OCR_READER = '03';
+    DEVICE_LIGHT_CODE_IC_READER = '02';
     DEVICE_LIGHT_CODE_PRINTER = '06';
     DEVICE_LIGHT_CODE_FINGERPRINT = '06';
     DEVICE_LIGHT_ALERT_BAR_BLUE_CODE = '11';
@@ -102,11 +102,11 @@ export class StepOverComponent implements OnInit {
 
     offAll() {
         return Observable.merge(
-            this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
+            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE),
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
+            this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER)
             // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
             // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE),
-            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         );
     }
 
@@ -132,9 +132,8 @@ export class StepOverComponent implements OnInit {
             }
         });
 
-        this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).mergeMap(val =>
-            this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER)).subscribe(data => console.log(data));
-
+        Observable.merge(this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
+                        this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER)).subscribe();
         const all = this.commonService.doFlash(this.readType === 1 ? this.DEVICE_LIGHT_CODE_IC_READER : this.DEVICE_LIGHT_CODE_OCR_READER).mergeMap(data => {
             return this.service.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').mergeMap(data1 => {
                 if (this.readType === 1) {
