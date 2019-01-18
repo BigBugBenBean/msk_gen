@@ -130,7 +130,6 @@ storeConfigParam() {
 }
 
     checkDevices() {
-        debugger;
         this.logger.log('Function checkDevices..........')
         if (this.isAllDeviceFine) {
             this.offRedLight();
@@ -179,7 +178,6 @@ storeConfigParam() {
     }
 
     doCheckHealthStatusFor(targetDeviceName) {
-        debugger;
         const targetDevice = this.checkHealthStatus[targetDeviceName];
         const channelId = this.checkHealthStatus[targetDeviceName].channelId;
         const functionId = this.checkHealthStatus[targetDeviceName].functionId;

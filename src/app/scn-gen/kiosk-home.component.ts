@@ -7,6 +7,7 @@ import { MsksService } from '../shared/msks';
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
 import {CHANNEL_ID_RR_CARDREADER} from '../shared/var-setting';
 import {HttpClient} from '@angular/common/http';
+// import { Http, Response } from '@angular/http';
 import {CommonService} from '../shared/services/common-service/common.service';
 import {TrackLogService} from '../shared/sc2-tracklog';
 import {isNull} from 'util';
@@ -57,6 +58,7 @@ export class KioskHomeComponent implements OnInit {
     checkHealthMaxRetry: number;
     checkHealthCounter = 0;
     APP_LANG = 'zh-HK';
+    maxRetryCount = 36;
 
     checkHealthStatus = {
         // Light device check.
@@ -75,6 +77,7 @@ export class KioskHomeComponent implements OnInit {
                 private translate: TranslateService,
                 private route: ActivatedRoute,
                 private httpClient: HttpClient,
+                // private http:Http,
                 private localStorages: LocalStorageService,
                 private logger: TrackLogService,
                 private msksService: MsksService
@@ -83,53 +86,86 @@ export class KioskHomeComponent implements OnInit {
                 // private sc2IniPropertyService: Sc2IniPropertyService
     ) {
         this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH';
-        // this.programFlow = new Sc2ProgramFlow('kiosk-program-flow', this.createMainFlow());
     }
     ngOnInit() {
         this.initLanguage();
+        console.log(`init`);
+        // const url = "file:///home/virtualboy/work/books.json";
+        // const dd = this.httpClient.get(url).map(val => {
+        //     console.log(`===============${val}`);
+        // });
+        // dd.subscribe(data => console.log(data)
+        // );
+
         // this.checkHealthMaxRetry = 999;
         // this.logger.log('STEP 1 START');
         // if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
-            // this.modalCheckHealth.show();
-        // }
-        // this.programFlow.start();
-        // const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(), this.getFingerprintHealthCheckObservable());
-        // health$.subscribe(val => {
-        //     this.modalCheckHealth.hide();
-        // });
+        const health = this.localStorages.get('BillhealthCheck');
+        if (health !== 'ok') {
+            this.modalCheckHealth.show();
+            const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(), this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
+            health$.subscribe(val => {
+                this.localStorages.set('BillhealthCheck', 'ok');
+                this.modalCheckHealth.hide();
+            },
+            e => {
+                if (e.message === 'ocrnotready') {
+                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
+                }else {
+                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
+                }
+            });
+        }
         const that = this;
         $('#viewPerson').click(
             function(){
+                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
                 that.viewPersonData();
             });
         $('#updateCoslos').click(
             function(){
+                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
                 that.updateCosLos();
             });
 
         $('#otherFun').click(
             function(){
+                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
                 that.otherApp();
             });
+            // this.gc();
     }
 
     getOCRHealthCheckObservable() {
         return this.msksService.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', { 'ocr_reader_name': 'ARH ComboSmart' }).map(resp => {
-            console.log(`=============${resp}`);
-            
-            if ($.isEmptyObject(resp) || resp.error_info.error_code !== '0') {
-                throw new Error('not ready');
+            if ($.isEmptyObject(resp)  || resp.error_info.error_code !== '0') {
+                console.log(`ock check ....`);
+                throw new Error('ocrnotready');
             }else {
-                return 'ok';
+                return 'ready';
             }
-        }).retryWhen(e => {
-            return e.delay(3000);
-        });
+        }).retryWhen(s => s.scan((count, e) => {
+            if (count > this.maxRetryCount) {
+                throw e;
+            }
+            return count + 1;
+        }, 0).delay(5000));
     }
 
     getFingerprintHealthCheckObservable() {
-        // return this.msksService.sendRequestWithLog('RR_fptool', 'cancelscan', {});
-        return Observable.of(1);
+        return this.msksService.sendRequestWithLog('RR_fptool', 'healthcheck', {}).map(resp => {
+            if ($.isEmptyObject(resp) || resp.indicator !== 'healthy') {
+                console.log(`fp check....`);
+                throw new Error('fpnotready');
+            }else {
+                return 'ready';
+            }
+        }).retryWhen(s => s.scan((count, e) => {
+            if (count > this.maxRetryCount) {
+                throw e;
+            }
+            return count + 1;
+        }, 0).delay(5000));
     }
 
     initLanguage() {
@@ -181,155 +217,55 @@ export class KioskHomeComponent implements OnInit {
         this.localStorages.set('operateType', this.operateType);
     }
 
-    checkDevices() {
-        this.logger.log('Function checkDevices..........')
-        if (this.isAllDeviceFine) {
-            this.offRedLight();
-            this.invokeLight(this.greenLight, this.on);
-            sessionStorage.setItem('isCheckedHealth', 'true');
-            clearInterval(this.checkHealthTimer);
-            this.modalCheckHealth.hide();
-        } else {
-            // console.log('7777');
-            this.checkHealthCounter += 1;
-            let devices = '';
-            if (this.checkHealthCounter <= this.checkHealthMaxRetry) {
-                // console.log('#################################### this.checkHealthCounter', this.checkHealthCounter);
-                Object.keys(this.checkHealthStatus).map((key) => {
-                    console.log('key1=' + key);
-                    this.doCheckHealthStatusFor(key);
-                    if (!this.checkHealthStatus[key].isSuccess) {
-                        if (devices) {
-                            devices += ', '
-                        }
-                        devices += this.retrieveDeviceCommonName(this.checkHealthStatus[key].channelId);
-                    }
-                });
-                if ( this.checkHealthCounter > 2) {
-                    this.flashRedLight();
-                    this.infoMessage = this.translate.instant('SCN-GEN-STEPS.CHECK-HEALTH-RETRY');
-                    this.infoMessage = this.infoMessage.replace(':count', this.checkHealthCounter.toString());
-                    this.infoMessage += devices;
-                }
-            } else {
-                Object.keys(this.checkHealthStatus).map((key) => {
-                    console.log('key2=' + key);
-                    if (!this.checkHealthStatus[key].isSuccess) {
-                        if (devices) {
-                            devices += ', '
-                        }
-                        devices += this.retrieveDeviceCommonName(this.checkHealthStatus[key].channelId);
-                    }
-                });
-                this.infoMessage = this.translate.instant('SCN-GEN-STEPS.CHECK-HEALTH-FAIL');
-                this.infoMessage += devices;
-                console.log('devices=' + devices);
-                clearInterval(this.checkHealthTimer);
-            }
-        }
-    }
+    gc() {
+        // const remote = require('electron').remote;
+        // const window = remote.getCurrentWindow();
+        
+        // window.addListener('focus', e => {
+        //     console.log(`focus`);
+        //     this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+        // });
+        // window.on('focus', e => {
+        //     console.log(`on focus`);
+        //     this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+        // });
+        // window.addListener('blur', e=> {
+        //     console.log('blur>>>>>>>>>>>>>>>');
+        // });
+        // window.on('blur', e=> {
+        //     console.log('on blur>>>>>>>>>>>>>>>');
+        // });
+        // window.addListener('minimize', e => {
+        //     console.log(`minimize`);
+        // });
+        // window.on('minimize', e => {
+        //     console.log(`on minimize`);
+        // });
+        // window.addListener('show', e => {
+        //     console.log(`show`);
+        // });
+        // window.on('show', e => {
+        //     console.log(`on  show`);
+        // });
 
-    doCheckHealthStatusFor(targetDeviceName) {
-        const targetDevice = this.checkHealthStatus[targetDeviceName];
-        const channelId = this.checkHealthStatus[targetDeviceName].channelId;
-        const functionId = this.checkHealthStatus[targetDeviceName].functionId;
+        // window.addListener('unmaximize', e => {
+        //     console.log('unmaximize');
+        // });
+        // window.on('unmaximize', e => {
+        //     console.log('on unmaximize');
+        // });
 
-        if (!targetDevice.isSuccess || !targetDevice.isResponded) {
-            this.msksService.sendRequest(channelId, functionId, {}).subscribe((response) => {
-                console.log('STEP 1 ' + targetDeviceName + ' healthcheck RESP: ', response);
-                this.logger.log('STEP 1 ' + targetDeviceName + ' healthcheck RESP: ' + JSON.stringify(response));
-                targetDevice.isResponded = true;
-                this.checkAllResponded();
-                if (typeof response.indicator !== 'undefined' && response.indicator !== null && response.indicator === 'healthy') {
-                    targetDevice.isSuccess = true;
-                    this.checkAllSuccess();
-                }
-            }, (error) => {
-                console.log('%s healthcheck fails', targetDeviceName);
-                this.logger.log('STEP 1' + targetDeviceName + ' healthcheck fails');
-                targetDevice.isResponded = true;
-                this.checkAllResponded();
-            });
-        }
-    }
-    checkAllSuccess() {
-        this.isAllDeviceFine =  this.checkHealthStatus.noticelight.isSuccess &&
-            this.checkHealthStatus.fpscannergen.isSuccess &&
-            this.checkHealthStatus.iccollect.isSuccess;
-        // this.checkHealthStatus.cabapp.isSuccess &&
-        // this.checkHealthStatus.ocr.isSuccess ;
-        // this.checkHealthStatus.ups.isSuccess*/;
-    }
-
-    checkAllResponded() {
-        this.isAllResponded =   this.checkHealthStatus.noticelight.isResponded &&
-            this.checkHealthStatus.fpscannergen.isResponded &&
-            this.checkHealthStatus.iccollect.isResponded;
-        // this.checkHealthStatus.cabapp.isResponded &&
-        // this.checkHealthStatus.ocr.isResponded/*&&
-        //                     this.checkHealthStatus.ups.isResponded*/;
-    }
-
-    resetLights(type: string) {
-        console.log('call resetLights');
-        for ( let i = 0; i <= this.lightDevices.length; i++ ) {
-            if (type === 'default' && this.lightDevices.length === i) {
-                this.invokeLight(this.greenNoticeLight, this.on);
-            } else if (i < this.lightDevices.length) {
-                this.invokeLight(this.lightDevices[i], this.off);
-            }
-        }
-    }
-
-    invokeLight(deviceId: string, funct: string, callback: () => void = () => {}) {
-        setTimeout(() => {
-            this.msksService.sendRequest('RR_NOTICELIGHT', funct, {'device': deviceId}).subscribe((resp) => {
-                this.logger.log('SCK-001 RR_NOTICELIGHT initial ' + deviceId + ': ' + funct + ' response' + JSON.stringify(resp));
-                console.log('lighton', resp);
-                callback();
-            }, (error) => {
-                this.logger.log('SCK-001 RR_NOTICELIGHT initial ' + deviceId + ': ' + funct + ' error' + JSON.stringify(error));
-                console.log('lighton', error);
-            });
-        }, 700);
-    }
-
-    // private createMainFlow() {
-    //     // console.log('start 111');
-    //     const mainFlow = new Sc2ExecutionFlow(this.mainFlowName);
-
-    //     mainFlow.addFunctionStep(() => {
-    //         if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
-    //             // this.logger.log(`###### Current running version is: ${this.sc2PropertyService.get('version')} as of ${new Date()} .`);
-    //             // this.logger.log(`###### Logs created for ${this.office}: ${this.kioskDeviceId}`);
-    //             this.resetLights('healthcheck');
-    //             this.logger.log('STEP 1 Checking device health...');
-    //             this.checkHealthTimer = setInterval(() => this.checkDevices(), 5000);
-    //         } else {
-    //             // this.sc2ObjectCache.clearCache();
-    //             this.resetLights('default');
-    //         }
-    //         return true;
-    //     });
-
-    //     return mainFlow;
-    // }
-
-    private retrieveDeviceCommonName(deviceKey: string) {
-        return {
-            'RR_fptool' : 'RR_fptool',
-            'RR_NOTICELIGHT' : 'RR_NOTICELIGHT',
-            'RR_ICCOLLECT' : 'RR_ICCOLLECT'
-        }[deviceKey];
-    }
-
-    private flashRedLight() {
-        this.invokeLight(this.greenLight, this.off, () => {
-            this.invokeLight(this.redNoticeLight, this.flash);
-        });
-    }
-
-    private offRedLight() {
-        this.invokeLight(this.redNoticeLight, this.off);
+        // window.addListener('unresponsive', e => {
+        //     console.log(`unresponsive`);
+        // });
+        // window.on('unresponsive', e => {
+        //     console.log(`on unresponsive`);
+        // });
+        // window.addListener('hide', e => {
+        //     console.log('hide');
+        // });
+        // window.on('hide', e => {
+        //     console.log('on hide');
+        // });
     }
 }

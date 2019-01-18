@@ -477,7 +477,8 @@
         "START": "Start",
         "CHECK-HEALTH" : "System self-test...",
         "CHECK-HEALTH-RETRY": "System self-test(:count): ",
-        "CHECK-HEALTH-FAIL": "System self-test fail: ",
+        "CHECK-HEALTH-FAIL-OCR": "System self-test fail: OCR",
+        "CHECK-HEALTH-FAIL-FP": "System self-test fail: Fingerprint",
         "UPDATE_CSOS": "Update Condition of Stay and Limit of Stay in chip of identity card"
     }
 }
