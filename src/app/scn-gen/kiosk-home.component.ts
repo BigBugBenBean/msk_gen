@@ -82,7 +82,9 @@ export class KioskHomeComponent implements OnInit {
         const health = this.localStorages.get('BillhealthCheck');
         if (health !== 'ok') {
             this.modalCheckHealth.show();
-            const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(), this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
+            const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
+                                                this.getSlipPrinterHealthCheckObservable(),
+                                                this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
             health$.subscribe(val => {
                 this.localStorages.set('BillhealthCheck', 'ok');
                 this.modalCheckHealth.hide();
@@ -90,6 +92,8 @@ export class KioskHomeComponent implements OnInit {
             e => {
                 if (e.message === 'ocrnotready') {
                     this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
+                }else if (e.message === 'spnotready') {
+                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-SP';
                 }else {
                     this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
                 }
@@ -107,11 +111,11 @@ export class KioskHomeComponent implements OnInit {
                 that.updateCosLos();
             });
 
-            const macao = document.querySelector('#macaoEchannel');
-            fromEvent(macao, 'click').throttleTime(5000).subscribe(val => {
-                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-                this.macaoApp();
-            });
+        const macao = document.querySelector('#macaoEchannel');
+        fromEvent(macao, 'click').throttleTime(5000).subscribe(val => {
+            this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+            this.macaoApp();
+        });
 
         // $('#macaoEchannel').click(
         //     function(){

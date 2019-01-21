@@ -479,6 +479,7 @@
         "CHECK-HEALTH-RETRY": "System self-test(:count): ",
         "CHECK-HEALTH-FAIL-OCR": "System self-test fail: OCR",
         "CHECK-HEALTH-FAIL-FP": "System self-test fail: Fingerprint",
+        "CHECK-HEALTH-FAIL-SP": "System self-test fail: Slipprinter",
         "UPDATE_CSOS": "Update Condition of Stay and Limit of Stay in chip of identity card"
     }
 }

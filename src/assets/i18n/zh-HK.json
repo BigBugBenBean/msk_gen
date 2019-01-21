@@ -480,6 +480,7 @@
         "CHECK-HEALTH-RETRY": "系統正在自我檢查(:count): ",
         "CHECK-HEALTH-FAIL-OCR": "系統自我檢查失敗：OCR",
         "CHECK-HEALTH-FAIL-FP": "系統自我檢查失敗：Fingerprint",
+        "CHECK-HEALTH-FAIL-SP": "系統自我檢查失敗：Slipprinter",
         "UPDATE_CSOS": "更新身份證晶片內的逗留條件及逗留期限"
     }
 }
