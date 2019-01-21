@@ -28,7 +28,6 @@ import {CommonService} from '../shared/services/common-service/common.service';
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
 import {KioskHomeComponent} from './kiosk-home.component';
 import {TrackLogService} from '../shared/sc2-tracklog';
-import {KioskHomeNewComponent} from './kiosk-home-new.component';
 
 const routes: Routes = [
 
@@ -36,7 +35,6 @@ const routes: Routes = [
     { path: '', redirectTo: 'kioskHome', pathMatch: 'full' },
     // { path: '', redirectTo: 'kioskHomeNew', pathMatch: 'full' },
     { path: 'kioskHome', component: KioskHomeComponent },
-    { path: 'kioskHomeNew', component: KioskHomeNewComponent },
     { path: 'insertcard', component: StepInsertcardComponent },
     { path: 'processing', component: StepProcessingComponent },
     { path: 'fingerprint', component: StepFingerprintComponent },
@@ -50,7 +48,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         KioskHomeComponent,
-        KioskHomeNewComponent,
         StepInsertcardComponent,
         StepProcessingComponent,
         StepFingerprintComponent,

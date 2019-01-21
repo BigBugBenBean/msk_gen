@@ -640,12 +640,12 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                 }
             }}).mergeMap(val => {
                 if (val === 'list') {
-                    return this.getListCardReadersWithHkic().map(val => {
-                        if (val.error_info.error_code === '0' && val.card_infos.length > 0) {
+                    return this.getListCardReadersWithHkic().map(val2 => {
+                        if (val2.error_info.error_code === '0' && val2.card_infos.length > 0) {
                             let hasCard = false;
-                            val.card_infos.map(val => {
+                            val2.card_infos.map(val1 => {
                                 // console.log(`2...card_info.....${val2.card_version}   ${val2.is_contact}`);
-                                if (val.is_contact) {
+                                if (val1.is_contact) {
                                     hasCard = true;
                                 }
                             });
@@ -814,8 +814,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
                         this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER).merge(
                             this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER)).subscribe();
                     } else {
-                        return this.getListCardReadersWithHkic().map(val => {
-                            if (val.error_info.error_code === '7' || val.card_infos == null || val.card_infos.length === 0) {
+                        return this.getListCardReadersWithHkic().map(val1 => {
+                            if (val1.error_info.error_code === '7' || val1.card_infos == null || val1.card_infos.length === 0) {
                                 throw new Error('OLD_CARD');
                             } else {
                                 this.thereiscard = true;

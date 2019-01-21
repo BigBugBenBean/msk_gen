@@ -1,6 +1,5 @@
 import {Component, AfterContentInit, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import {AppType, MenuService} from '../../shared/menu';
 import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../shared/msks';
 
@@ -10,12 +9,10 @@ import {HttpClient} from '@angular/common/http';
 // import { Http, Response } from '@angular/http';
 import {CommonService} from '../shared/services/common-service/common.service';
 import {TrackLogService} from '../shared/sc2-tracklog';
-import {isNull} from 'util';
 
 import {ConfirmComponent} from '../shared/sc2-confirm';
-// import {Sc2ProgramFlow} from '../shared/sc2-execution-flow/sc2-program-flow';
-// import {Sc2ExecutionFlow} from '../shared/sc2-execution-flow/sc2-execution-flow';
 import { Observable } from 'rxjs/Observable';
+import { fromEvent } from 'rxjs/observable/fromEvent';
 @Component({
     templateUrl: './kiosk-home.component.html',
     styleUrls: ['./kiosk-home.component.scss']
@@ -60,18 +57,6 @@ export class KioskHomeComponent implements OnInit {
     APP_LANG = 'zh-HK';
     maxRetryCount = 36;
 
-    checkHealthStatus = {
-        // Light device check.
-        noticelight: {channelId: 'RR_NOTICELIGHT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 0},
-        // fingerprint device check.
-        fpscannergen: {channelId: 'RR_fptool', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 1},
-        // collect check.
-        iccollect: {channelId: 'RR_ICCOLLECT', functionId: 'healthcheck', isSuccess: false, isResponded: false, seq: 2}
-        // cardreader: {channelId: 'RR_cardreader', functionId: 'healthcheck', isSuccess: false, isResponded: false}
-        // alarmbox: {channelId: 'RR_ALARMBOX', functionId: 'healthcheck', isSuccess: false, isResponded: false},
-    };
-    // private programFlow: Sc2ProgramFlow;
-    // private mainFlowName = 'kiosk-main-flow';
     constructor(private router: Router,
                 private commonService: CommonService,
                 private translate: TranslateService,
@@ -81,9 +66,6 @@ export class KioskHomeComponent implements OnInit {
                 private localStorages: LocalStorageService,
                 private logger: TrackLogService,
                 private msksService: MsksService
-                // private sc2PropertyService: Sc2PropertyService,
-                // private sc2ObjectCache: Sc2ObjectCache,
-                // private sc2IniPropertyService: Sc2IniPropertyService
     ) {
         this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH';
     }
@@ -97,9 +79,6 @@ export class KioskHomeComponent implements OnInit {
         // dd.subscribe(data => console.log(data)
         // );
 
-        // this.checkHealthMaxRetry = 999;
-        // this.logger.log('STEP 1 START');
-        // if (isNull(sessionStorage.getItem('isCheckedHealth'))) {
         const health = this.localStorages.get('BillhealthCheck');
         if (health !== 'ok') {
             this.modalCheckHealth.show();
@@ -128,12 +107,17 @@ export class KioskHomeComponent implements OnInit {
                 that.updateCosLos();
             });
 
-        $('#otherFun').click(
-            function(){
+            const macao = document.querySelector('#macaoEchannel');
+            fromEvent(macao, 'click').throttleTime(5000).subscribe(val => {
                 that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-                that.otherApp();
+                this.macaoApp();
             });
-            // this.gc();
+
+        // $('#macaoEchannel').click(
+        //     function(){
+        //         that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+        //         that.otherApp();
+        //     });
     }
 
     getOCRHealthCheckObservable() {
@@ -168,6 +152,23 @@ export class KioskHomeComponent implements OnInit {
         }, 0).delay(5000));
     }
 
+    getSlipPrinterHealthCheckObservable() {
+        const payload = {'data': []};
+        return this.msksService.sendRequestWithLog('RR_SLIPPRINTER', 'printslip', payload).map(val => {
+            if ($.isEmptyObject(val) || val.errorcode !== '0') {
+                console.log(`sp check...`);
+                throw new Error('spnotready');
+            }else {
+                return 'ready';
+            }
+        }).retryWhen(s => s.scan((count, e) => {
+            if (count > this.maxRetryCount) {
+                throw e;
+            }
+            return count + 1;
+        }, 0).delay(5000));
+    }
+
     initLanguage() {
         if ('en-US' === this.APP_LANG) {
             this.translate.use('en-US');
@@ -177,7 +178,6 @@ export class KioskHomeComponent implements OnInit {
         this.translate.currentLang = this.APP_LANG;
     }
     viewPersonData() {
-        // this.programFlow.abort();
         this.operateType = '1';
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/insertcard']);
@@ -185,13 +185,12 @@ export class KioskHomeComponent implements OnInit {
     }
 
     updateCosLos() {
-        // this.programFlow.abort();
         this.operateType = '2';
         this.storeConfigParam();
         this.router.navigate(['/scn-gen/insertcard']);
         return;
     }
-    otherApp() {
+    macaoApp() {
         // this.pathOtherApp = 'C:/Program Files/Smartics2 MSKS GEN UPDCSLS/Smartics2 MSKS GEN UPDCSLS.exe';
         // this.cwdOtherApp = 'C:/Program Files/Smartics2 MSKS GEN UPDCSLS/';
         this.pathOtherApp = 'C:/icons/bin/mcEnrollment.cmd';
@@ -220,7 +219,7 @@ export class KioskHomeComponent implements OnInit {
     gc() {
         // const remote = require('electron').remote;
         // const window = remote.getCurrentWindow();
-        
+
         // window.addListener('focus', e => {
         //     console.log(`focus`);
         //     this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
