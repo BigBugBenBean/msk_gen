@@ -13,6 +13,7 @@ import {TrackLogService} from '../shared/sc2-tracklog';
 import {ConfirmComponent} from '../shared/sc2-confirm';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
+import { interval } from 'rxjs/observable/interval';
 @Component({
     templateUrl: './kiosk-home.component.html',
     styleUrls: ['./kiosk-home.component.scss']
@@ -112,9 +113,26 @@ export class KioskHomeComponent implements OnInit {
             });
 
         const macao = document.querySelector('#macaoEchannel');
-        fromEvent(macao, 'click').throttleTime(5000).subscribe(val => {
+        fromEvent(macao, 'click').throttleTime(5000).mergeMap(e => {
             this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+            return this.getSlipPrinterObservable();
+        }).subscribe(val => {
+            if (val === 'ok') {
             this.macaoApp();
+            } else {
+                this.infoMessage = val;
+                this.modalCheckHealth.show();
+                const paper$ = interval(3000).mergeMap(data => {
+                    console.log(`no paper  ${data}`);
+                    return this.getSlipPrinterObservable();
+                }).subscribe(resp => {
+                    if (resp === 'ok') {
+                        this.modalCheckHealth.hide();
+                        paper$.unsubscribe();
+                    }
+                });
+                this.commonService.doAlarm('SlipPrinter No Paper');
+            }
         });
 
         // $('#macaoEchannel').click(
@@ -159,6 +177,7 @@ export class KioskHomeComponent implements OnInit {
     getSlipPrinterHealthCheckObservable() {
         const payload = {'data': []};
         return this.msksService.sendRequestWithLog('RR_SLIPPRINTER', 'printslip', payload).map(val => {
+            console.log(val);
             if ($.isEmptyObject(val) || val.errorcode !== '0') {
                 console.log(`sp check...`);
                 throw new Error('spnotready');
@@ -171,6 +190,19 @@ export class KioskHomeComponent implements OnInit {
             }
             return count + 1;
         }, 0).delay(5000));
+    }
+
+    getSlipPrinterObservable() {
+        const payload = {'data': []};
+        return this.msksService.sendRequestWithLog('RR_SLIPPRINTER', 'printslip', payload).map(resp => {
+            if ($.isEmptyObject(resp) || resp.errorcode === '40002') {
+                return 'SCN-GEN-STEPS.PRINTER_NOT_AVAILABLE';
+            } else if (resp.errorcode === '40003') {
+                return 'SCN-GEN-STEPS.PRINTER_NO_PAPER';
+            }else {
+                return 'ok';
+            }
+        });
     }
 
     initLanguage() {
