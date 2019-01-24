@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../shared/msks';
 
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
-import {CHANNEL_ID_RR_CARDREADER} from '../shared/var-setting';
+import {CHANNEL_ID_RR_CARDREADER, INI_URL} from '../shared/var-setting';
 import {HttpClient} from '@angular/common/http';
 // import { Http, Response } from '@angular/http';
 import {CommonService} from '../shared/services/common-service/common.service';
@@ -14,6 +14,7 @@ import {ConfirmComponent} from '../shared/sc2-confirm';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { interval } from 'rxjs/observable/interval';
+import { timer } from 'rxjs/observable/timer';
 @Component({
     templateUrl: './kiosk-home.component.html',
     styleUrls: ['./kiosk-home.component.scss']
@@ -57,6 +58,7 @@ export class KioskHomeComponent implements OnInit {
     checkHealthCounter = 0;
     APP_LANG = 'zh-HK';
     maxRetryCount = 36;
+    macaoFlag = 'display';
 
     constructor(private router: Router,
                 private commonService: CommonService,
@@ -72,14 +74,21 @@ export class KioskHomeComponent implements OnInit {
     }
     ngOnInit() {
         this.initLanguage();
-        console.log(`init`);
-        // const url = "file:///home/virtualboy/work/books.json";
-        // const dd = this.httpClient.get(url).map(val => {
-        //     console.log(`===============${val}`);
-        // });
-        // dd.subscribe(data => console.log(data)
-        // );
-
+        console.log(`init......`);
+        const macaoTemp : any = this.localStorages.get('MACAO_ECHANNEL');
+        if (macaoTemp === false) {
+            this.httpClient.get(INI_URL).subscribe(data => {
+                console.log(`MACAO_ECHANNEL=${data['MACAO_ECHANNEL']}`);
+                if (data['MACAO_ECHANNEL'] === 'none') {
+                    this.macaoFlag = 'none';
+                } else {
+                    this.macaoFlag = 'display';
+                }
+                this.localStorages.set('MACAO_ECHANNEL', this.macaoFlag);
+            });
+        }else {
+            this.macaoFlag = macaoTemp;
+        }
         const health = this.localStorages.get('BillhealthCheck');
         if (health !== 'ok') {
             this.modalCheckHealth.show();
@@ -122,15 +131,16 @@ export class KioskHomeComponent implements OnInit {
             } else {
                 this.infoMessage = val;
                 this.modalCheckHealth.show();
-                const paper$ = interval(3000).mergeMap(data => {
-                    console.log(`no paper  ${data}`);
-                    return this.getSlipPrinterObservable();
-                }).subscribe(resp => {
-                    if (resp === 'ok') {
-                        this.modalCheckHealth.hide();
-                        paper$.unsubscribe();
-                    }
-                });
+                timer(5000).subscribe(data => this.modalCheckHealth.hide());
+                // const paper$ = interval(3000).mergeMap(data => {
+                //     console.log(`no paper  ${data}`);
+                //     return this.getSlipPrinterObservable();
+                // }).subscribe(resp => {
+                //     if (resp === 'ok') {
+                //         this.modalCheckHealth.hide();
+                //         paper$.unsubscribe();
+                //     }
+                // });
                 this.commonService.doAlarm('SlipPrinter No Paper');
             }
         });
@@ -250,57 +260,5 @@ export class KioskHomeComponent implements OnInit {
     storeConfigParam() {
         this.localStorages.set('APP_LANG', this.translate.currentLang);
         this.localStorages.set('operateType', this.operateType);
-    }
-
-    gc() {
-        // const remote = require('electron').remote;
-        // const window = remote.getCurrentWindow();
-
-        // window.addListener('focus', e => {
-        //     console.log(`focus`);
-        //     this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-        // });
-        // window.on('focus', e => {
-        //     console.log(`on focus`);
-        //     this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-        // });
-        // window.addListener('blur', e=> {
-        //     console.log('blur>>>>>>>>>>>>>>>');
-        // });
-        // window.on('blur', e=> {
-        //     console.log('on blur>>>>>>>>>>>>>>>');
-        // });
-        // window.addListener('minimize', e => {
-        //     console.log(`minimize`);
-        // });
-        // window.on('minimize', e => {
-        //     console.log(`on minimize`);
-        // });
-        // window.addListener('show', e => {
-        //     console.log(`show`);
-        // });
-        // window.on('show', e => {
-        //     console.log(`on  show`);
-        // });
-
-        // window.addListener('unmaximize', e => {
-        //     console.log('unmaximize');
-        // });
-        // window.on('unmaximize', e => {
-        //     console.log('on unmaximize');
-        // });
-
-        // window.addListener('unresponsive', e => {
-        //     console.log(`unresponsive`);
-        // });
-        // window.on('unresponsive', e => {
-        //     console.log(`on unresponsive`);
-        // });
-        // window.addListener('hide', e => {
-        //     console.log('hide');
-        // });
-        // window.on('hide', e => {
-        //     console.log('on hide');
-        // });
     }
 }
