@@ -128,6 +128,10 @@ export class KioskHomeComponent implements OnInit {
 
     }
 
+    bannerClick(val) {
+        alert(val);
+    }
+
     getOCRHealthCheckObservable() {
         return this.msksService.sendRequestWithLog(CHANNEL_ID_RR_CARDREADER, 'readhkicv2ocrdata', { 'ocr_reader_name': 'ARH ComboSmart' }).map(resp => {
             if ($.isEmptyObject(resp)  || resp.error_info.error_code !== '0') {
