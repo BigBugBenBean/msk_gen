@@ -28,7 +28,11 @@ import {CommonService} from '../shared/services/common-service/common.service';
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
 import {KioskHomeComponent} from './kiosk-home.component';
 import {TrackLogService} from '../shared/sc2-tracklog';
-
+import {MenuBannerService} from '../shared/menuBanner/menu-banner.service';
+import {MenuBannnerComponent} from '../shared/menuBanner/menu-banner.component';
+import { MenuBannerDirective } from '../shared/menuBanner/menu-banner.directive';
+import { IntegrateComponent } from '../shared/menuBanner/integrate.omponent';
+import { ExecuteCmdComponent } from '../shared/menuBanner/execute-cmd.component';
 const routes: Routes = [
 
     // { path: '', redirectTo: 'viewcard', pathMatch: 'full' },
@@ -53,7 +57,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         StepFingerprintComponent,
         StepViewcardComponent,
         StepUpdatecardComponent,
-        StepOverComponent
+        StepOverComponent,
+        MenuBannnerComponent,
+        MenuBannerDirective,
+        IntegrateComponent,
+        ExecuteCmdComponent
     ],
     imports: [
         CommonModule,
@@ -82,9 +90,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         ValidatorFingerprintService,
         FingerprintService,
         SlipprintService,
+        MenuBannerService,
         ReadcardService],
     schemas: [
         NO_ERRORS_SCHEMA
-    ]
+    ],
+    entryComponents: [ IntegrateComponent, ExecuteCmdComponent ]
 })
 export class ScreenModule {}

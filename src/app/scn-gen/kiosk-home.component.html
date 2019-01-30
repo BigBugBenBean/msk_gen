@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="contentDiv">
-        <div id="viewPerson" class="contentMenuBtn" [disabled]="!allDeviceHealthFlag">
+        <!-- <div id="viewPerson" class="contentMenuBtn" [disabled]="!allDeviceHealthFlag">
             <div class="viewBtnImage"></div>
             <div class="textButtonChinese"> 讀取身份證晶片內的個人資料</div>
             <div class="textButtonEnglish"> View personal data in chip of identity card</div>
@@ -17,12 +17,15 @@
             <div class="updateBtnImage"></div>
             <div class="textButtonChinese">更新身份證晶片內的逗留條件及逗留期限</div>
             <div class="textButtonEnglish">Update Condition of Stay and Limit of Stay in chip of identity card</div>
-        </div>
+        </div> 
         <div id="macaoEchannel" class="contentMenuBtn" [disabled]="!allDeviceHealthFlag" [hidden]="macaoFlag === 'none'">
             <div class="otherAppBtnImage"></div>
             <div class="textButtonChinese">香港居民登記使用澳門特別行政區旅客自助過關系統</div>
             <div class="textButtonEnglish">Hong Kong residents Enrolment for the Automated Passenger Clearance System of The Government of The Macao SAR</div>
-        </div>
+        </div>  -->
+
+        <sc2-menu-banner [bannerItems]="items"></sc2-menu-banner>
+
     </div>
     <sc2-confirm #modalCheckHealth>
         <div class="app-modal-body">

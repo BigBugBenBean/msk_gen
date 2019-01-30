@@ -2,18 +2,16 @@ import {Component, AfterContentInit, OnInit, ViewChild, ViewChildren} from '@ang
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MsksService } from '../shared/msks';
-
+import {MenuBannerItem} from '../shared/menuBanner/menu-banneritem';
 import {LocalStorageService} from '../shared/services/common-service/Local-storage.service';
-import {CHANNEL_ID_RR_CARDREADER, INI_URL} from '../shared/var-setting';
-import {HttpClient} from '@angular/common/http';
+import {CHANNEL_ID_RR_CARDREADER} from '../shared/var-setting';
 // import { Http, Response } from '@angular/http';
 import {CommonService} from '../shared/services/common-service/common.service';
 import {TrackLogService} from '../shared/sc2-tracklog';
-
+import {MenuBannerService} from '../shared/menuBanner/menu-banner.service';
 import {ConfirmComponent} from '../shared/sc2-confirm';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { interval } from 'rxjs/observable/interval';
 import { timer } from 'rxjs/observable/timer';
 @Component({
     templateUrl: './kiosk-home.component.html',
@@ -58,98 +56,70 @@ export class KioskHomeComponent implements OnInit {
     checkHealthCounter = 0;
     APP_LANG = 'zh-HK';
     maxRetryCount = 36;
-    macaoFlag = 'display';
+    items: MenuBannerItem[];
 
     constructor(private router: Router,
                 private commonService: CommonService,
                 private translate: TranslateService,
-                private route: ActivatedRoute,
-                private httpClient: HttpClient,
-                // private http:Http,
+                // private http: Http,
                 private localStorages: LocalStorageService,
                 private logger: TrackLogService,
-                private msksService: MsksService
+                private msksService: MsksService,
+                private menuBannerService: MenuBannerService
     ) {
         this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH';
     }
     ngOnInit() {
+        this.items = this.menuBannerService.getItems();
         this.initLanguage();
         console.log(`init......`);
-        const macaoTemp : any = this.localStorages.get('MACAO_ECHANNEL');
-        if (macaoTemp === false) {
-            this.httpClient.get(INI_URL).subscribe(data => {
-                console.log(`MACAO_ECHANNEL=${data['MACAO_ECHANNEL']}`);
-                if (data['MACAO_ECHANNEL'] === 'none') {
-                    this.macaoFlag = 'none';
-                } else {
-                    this.macaoFlag = 'display';
-                }
-                this.localStorages.set('MACAO_ECHANNEL', this.macaoFlag);
-            });
-        }else {
-            this.macaoFlag = macaoTemp;
-        }
-        const health = this.localStorages.get('BillhealthCheck');
-        if (health !== 'ok') {
-            this.modalCheckHealth.show();
-            const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
-                                                this.getSlipPrinterHealthCheckObservable(),
-                                                this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
-            health$.subscribe(val => {
-                this.localStorages.set('BillhealthCheck', 'ok');
-                this.modalCheckHealth.hide();
-            },
-            e => {
-                if (e.message === 'ocrnotready') {
-                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
-                }else if (e.message === 'spnotready') {
-                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-SP';
-                }else {
-                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
-                }
-            });
-        }
-        const that = this;
-        $('#viewPerson').click(
-            function(){
-                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-                that.viewPersonData();
-            });
-        $('#updateCoslos').click(
-            function(){
-                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-                that.updateCosLos();
-            });
-
-        const macao = document.querySelector('#macaoEchannel');
-        fromEvent(macao, 'click').throttleTime(5000).mergeMap(e => {
-            this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-            return this.getSlipPrinterObservable();
-        }).subscribe(val => {
-            if (val === 'ok') {
-            this.macaoApp();
-            } else {
-                this.infoMessage = val;
-                this.modalCheckHealth.show();
-                timer(5000).subscribe(data => this.modalCheckHealth.hide());
-                // const paper$ = interval(3000).mergeMap(data => {
-                //     console.log(`no paper  ${data}`);
-                //     return this.getSlipPrinterObservable();
-                // }).subscribe(resp => {
-                //     if (resp === 'ok') {
-                //         this.modalCheckHealth.hide();
-                //         paper$.unsubscribe();
-                //     }
-                // });
-                this.commonService.doAlarm('SlipPrinter No Paper');
-            }
-        });
-
-        // $('#macaoEchannel').click(
+        // const health = this.localStorages.get('BillhealthCheck');
+        // if (health !== 'ok') {
+        //     this.modalCheckHealth.show();
+        //     const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
+        //                                         this.getSlipPrinterHealthCheckObservable(),
+        //                                         this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
+        //     health$.subscribe(val => {
+        //         this.localStorages.set('BillhealthCheck', 'ok');
+        //         this.modalCheckHealth.hide();
+        //     },
+        //     e => {
+        //         if (e.message === 'ocrnotready') {
+        //             this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
+        //         }else if (e.message === 'spnotready') {
+        //             this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-SP';
+        //         }else {
+        //             this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
+        //         }
+        //     });
+        // }
+        // const that = this;
+        // $('#viewPerson').click(
         //     function(){
         //         that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-        //         that.otherApp();
+        //         that.viewPersonData();
         //     });
+        // $('#updateCoslos').click(
+        //     function(){
+        //         that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+        //         that.updateCosLos();
+        //     });
+
+        // const macao = document.querySelector('#macaoEchannel');
+        // fromEvent(macao, 'click').throttleTime(5000).mergeMap(e => {
+        //     this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+        //     return this.getSlipPrinterObservable();
+        // }).subscribe(val => {
+        //     if (val === 'ok') {
+        //     this.macaoApp();
+        //     } else {
+        //         this.infoMessage = val;
+        //         this.modalCheckHealth.show();
+        //         timer(5000).subscribe(data => this.modalCheckHealth.hide());
+        //         this.commonService.doAlarm('SlipPrinter No Paper');
+        //     }
+        // });
+
     }
 
     getOCRHealthCheckObservable() {
