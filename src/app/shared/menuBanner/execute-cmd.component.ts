@@ -4,7 +4,7 @@ import { BannerComponent } from './banner.component';
 @Component({
     template: `
     <div id="viewPerson" class="contentMenuBtn">
-        <div class="viewBtnImage"></div>
+        <div class="{{data.image}}"></div>
         <div class="textButtonChinese"> 讀取身份證晶片內的個人資料</div>
         <div class="textButtonEnglish"> View personal data in chip of identity card</div>
     </div>

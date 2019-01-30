@@ -7,9 +7,20 @@ import {IntegrateComponent} from './integrate.omponent';
 export class MenuBannerService {
     getItems() {
         return [
-            new MenuBannerItem(ExecuteCmdComponent, {headline: 'Hiring for several positions',
-            body: 'Submit your resume today!'}),
-            new MenuBannerItem(IntegrateComponent, {name: 'inquiry', bio: 'Brave as they come'}),
+            new MenuBannerItem(IntegrateComponent, 
+                {
+                    id: 'viewPerson',
+                    image: 'viewBtnImage',
+                    chinese: '讀取身份證晶片內的個人資料',
+                    english: 'View personal data in chip of identity card'
+                }),
+            new MenuBannerItem(IntegrateComponent, 
+                {
+                    id: 'updateCoslos', 
+                    image: 'updateBtnImage',
+                    chinese: '更新身份證晶片內的逗留條件及逗留期限',
+                    english: 'Update Condition of Stay and Limit of Stay in chip of identity card'
+                }),
         ];
     }
 }

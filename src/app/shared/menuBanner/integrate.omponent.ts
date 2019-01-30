@@ -3,10 +3,10 @@ import { BannerComponent } from './banner.component';
 
 @Component({
     template: `
-    <div id="updateCoslos" class="contentMenuBtn">
-            <div class="updateBtnImage"></div>
-            <div class="textButtonChinese">更新身份證晶片內的逗留條件及逗留期限</div>
-            <div class="textButtonEnglish">Update Condition of Stay and Limit of Stay in chip of identity card</div>
+    <div id="{{data.id}}" class="contentMenuBtn">
+            <div class="{{data.image}}"></div>
+            <div class="textButtonChinese">{{data.chinese}}</div>
+            <div class="textButtonEnglish">{{data.english}}</div>
         </div>
   `,
   styleUrls: ['./banner.component.scss']
