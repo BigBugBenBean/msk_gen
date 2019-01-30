@@ -3,10 +3,10 @@ import { BannerComponent } from './banner.component';
 
 @Component({
     template: `
-    <div id="{{data.id}}" class="contentMenuBtn">
+    <div id="{{data.id}}" class="{{data.divclass}}">
             <div class="{{data.image}}"></div>
-            <div class="textButtonChinese">{{data.chinese}}</div>
-            <div class="textButtonEnglish">{{data.english}}</div>
+            <div class="{{data.chntxt}}">{{data.chinese}}</div>
+            <div class="{{data.engtxt}}">{{data.english}}</div>
         </div>
   `,
   styleUrls: ['./banner.component.scss']

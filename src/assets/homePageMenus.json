@@ -1,3 +1,18 @@
 {
-    "count" : 3
+   "banners" : [
+    {
+        "id": "viewPerson",
+        "divclass": "viewPersonDataInChipBtn",
+        "image": "viewBtnImage2",
+        "chinese": "讀取身份證晶片內的個人資料",
+        "english": "View personal data in chip of identity card"
+    },
+    {
+        "id": "updateCoslos", 
+        "divclass": "updateCosLosInChipBtn",
+        "image": "updateBtnImage2",
+        "chinese": "更新身份證晶片內的逗留條件及逗留期限",
+        "english": "Update Condition of Stay and Limit of Stay in chip of identity card"
+    }
+   ]
 }

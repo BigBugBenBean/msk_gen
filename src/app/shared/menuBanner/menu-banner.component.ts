@@ -20,10 +20,10 @@ import { forEach } from '@angular/router/src/utils/collection';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuBannnerComponent implements OnInit {
-    @Input() 
+    @Input()
     bannerItems: MenuBannerItem[];
-    
-    @ViewChild(MenuBannerDirective) 
+
+    @ViewChild(MenuBannerDirective)
     bannerHost: MenuBannerDirective;
 
     // interval: any;
@@ -34,10 +34,6 @@ export class MenuBannnerComponent implements OnInit {
     ngOnInit() {
         this.loadComponent();
         // this.getItems();
-    }
-
-    ngOnDestroy() {
-        // clearInterval(this.interval);
     }
 
     loadComponent() {

@@ -1,4 +1,86 @@
+// two
+.viewBtnImage2 {
+  margin-left:200px;
+  margin-right:204px;
+  background-image: url(../../../assets/images/home/icon_view_chip.png);
+  width: 180px;
+  height: 180px;
+}
 
+.updateBtnImage2 {
+  margin-left:200px;
+  margin-right:204px;
+  background-image: url(../../../assets/images/home/icon_update_chip.png);
+  width: 180px;
+  height: 180px;
+}
+.viewPersonDataInChipBtn {
+  margin-left: 50px;
+  padding-top: 66px;
+  background-image: url(../../../assets/images/home/image_button.png);
+  width: 584px;
+  height: 474px;
+  float: left;
+  text-align: center;
+}
+
+.updateCosLosInChipBtn {
+  padding-top: 66px;
+  background-image: url(../../../assets/images/home/image_button.png);
+  float: left;
+  margin-left: 16px;
+  margin-right: 46px;
+  width: 584px;
+  height: 474px;
+}
+
+.textButtonChineseLeft {
+  color: #FFFFFF;
+  width: 100%;
+  font-face: 'MicrosoftJhengHeiRegular';
+  font-size: 30px;
+  line-height: 40px;
+  max-width: 500px;
+  text-align: center;
+  margin-left: 60px;
+}
+
+.textButtonChineseRight {
+  color: #FFFFFF;
+  width: 100%;
+  font-face: 'MicrosoftJhengHeiRegular';
+  font-size: 30px;
+  line-height: 40px;
+  max-width: 400px;
+  text-align: center;
+  margin-left: 90px;
+}
+
+.textButtonEnglishLeft {
+  color: #FFFFFF;
+  width: 100%;
+  font-face: 'Arial-Regular';
+  text-align: center;
+  font-size: 28px;
+  line-height: 40px;
+  max-width: 330px;
+  margin-left: 125px;
+  margin-top: 10px;
+}
+
+.textButtonEnglishRight {
+  color: #FFFFFF;
+  width: 100%;
+  font-face: 'Arial-Regular';
+  text-align: center;
+  font-size: 28px;
+  line-height: 40px;
+  max-width: 450px;
+  margin-left: 60px;
+  margin-top: 10px;
+}
+
+// three
 .contentMenuBtn {
   float: left;
   margin-left: 60px;
@@ -10,17 +92,16 @@
   text-align: left;
 }
 
-.viewBtnImage {
+.viewBtnImage3 {
   float: left;
   margin-left:50px;
   margin-top:38px;
   width: 125px;
   height: 125px;
   background-image: url(../../../assets/images/home_new/icon_view_chip_2.png);
-
 }
 
-.updateBtnImage {
+.updateBtnImage3 {
   float: left;
   margin-left:50px;
   margin-top:38px;
@@ -29,17 +110,17 @@
   background-image: url(../../../assets/images/home_new/icon_update_chip_2.png);
 }
 
-.otherAppBtnImage {
+.otherAppBtnImage3 {
   float: left;
   margin-left:50px;
   margin-top:38px;
   width: 125px;
   height: 125px;
   background-image: url(../../../assets/images/home_new/icon_macao.png);
-
 }
 
-.textButtonChinese {
+
+.textButtonChinese3 {
   float: left;
   color: #FFFFFF;
   width: 850px;
@@ -54,7 +135,7 @@
   padding-left: 30px;
 }
 
-.textButtonEnglish {
+.textButtonEnglish3 {
   float: left;
   color: #FFFFFF;
   width: 850px;
@@ -69,3 +150,4 @@
   padding-top: 10px;
   padding-left: 30px;
 }
+
