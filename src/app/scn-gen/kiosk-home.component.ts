@@ -9,6 +9,7 @@ import {CHANNEL_ID_RR_CARDREADER} from '../shared/var-setting';
 import {CommonService} from '../shared/services/common-service/common.service';
 import {TrackLogService} from '../shared/sc2-tracklog';
 import {MenuBannerService} from '../shared/menuBanner/menu-banner.service';
+import { MenuBannnerComponent } from '../shared/menuBanner/menu-banner.component';
 import {ConfirmComponent} from '../shared/sc2-confirm';
 import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
@@ -22,6 +23,9 @@ export class KioskHomeComponent implements OnInit {
 
     @ViewChild('modalCheckHealth')
     public modalCheckHealth: ConfirmComponent;
+
+    @ViewChild('bannerItems')
+    public bannerItems: MenuBannnerComponent;
 
     pathOtherApp: string;
     cwdOtherApp?: string;
@@ -93,17 +97,19 @@ export class KioskHomeComponent implements OnInit {
         //         }
         //     });
         // }
-        // const that = this;
-        // $('#viewPerson').click(
-        //     function(){
-        //         that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-        //         that.viewPersonData();
-        //     });
-        // $('#updateCoslos').click(
-        //     function(){
-        //         that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-        //         that.updateCosLos();
-        //     });
+        const that = this;
+        $('#viewPerson').click(
+            function(){
+                alert(111);
+                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+                that.viewPersonData();
+            });
+        $('#updateCoslos').click(
+            function(){
+                alert(222);
+                that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
+                that.updateCosLos();
+            });
 
         // const macao = document.querySelector('#macaoEchannel');
         // fromEvent(macao, 'click').throttleTime(5000).mergeMap(e => {

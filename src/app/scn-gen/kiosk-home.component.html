@@ -24,7 +24,7 @@
             <div class="textButtonEnglish">Hong Kong residents Enrolment for the Automated Passenger Clearance System of The Government of The Macao SAR</div>
         </div>  -->
 
-        <sc2-menu-banner [bannerItems]="items"></sc2-menu-banner>
+        <sc2-menu-banner (eventClick)="bannerClick()" [bannerItems]="items" #bannerItems></sc2-menu-banner>
 
     </div>
     <sc2-confirm #modalCheckHealth>

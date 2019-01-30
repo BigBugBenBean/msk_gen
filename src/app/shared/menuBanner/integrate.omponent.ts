@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { BannerComponent } from './banner.component';
 
 @Component({
@@ -12,9 +12,16 @@ import { BannerComponent } from './banner.component';
   styleUrls: ['./banner.component.scss']
 }
 )
-export class IntegrateComponent implements BannerComponent {
+export class IntegrateComponent implements BannerComponent, OnInit {
     @Input()
     data: any;
+
+    @Output()
+    initEvent = new EventEmitter();
+
+    ngOnInit() {
+        this.initEvent.emit(this.data.id);
+    }
 }
 // <div class="hero-profile">
 //       <h3>Featured Hero Profile</h3>
