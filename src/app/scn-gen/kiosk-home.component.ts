@@ -100,13 +100,11 @@ export class KioskHomeComponent implements OnInit {
         const that = this;
         $('#viewPerson').click(
             function(){
-                alert(111);
                 that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
                 that.viewPersonData();
             });
         $('#updateCoslos').click(
             function(){
-                alert(222);
                 that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
                 that.updateCosLos();
             });
@@ -129,7 +127,7 @@ export class KioskHomeComponent implements OnInit {
     }
 
     bannerClick(val) {
-        alert(val);
+        // alert(val);
     }
 
     getOCRHealthCheckObservable() {
