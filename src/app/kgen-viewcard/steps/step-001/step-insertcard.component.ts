@@ -303,8 +303,8 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
 
     startBusiness() {
         this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER).merge(
-            this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER),
-            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
+            this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER)
+            // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE)
         ).subscribe(data => console.log(data));
 
         this.startDetectCardListener();
@@ -356,7 +356,7 @@ export class StepInsertcardComponent implements OnInit, OnDestroy {
         this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
         this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE);
         this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE);
-        this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
+        // this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
         this.timer.ngOnDestroy();
         this.commonService.doCloseWindow();
     }

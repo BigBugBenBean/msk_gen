@@ -277,7 +277,7 @@ export class StepFingerprintComponent implements OnInit {
         this.commonService.doLightOff(this.DEVICE_LIGHT_CODE_IC_READER);
         this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE);
         this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_GREEN_CODE);
-        this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
+        // this.commonService.doLightOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE);
         this.timer.ngOnDestroy();
         this.commonService.doCloseWindow();
     }

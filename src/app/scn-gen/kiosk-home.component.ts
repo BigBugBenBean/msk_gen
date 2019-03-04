@@ -25,6 +25,12 @@ export class KioskHomeComponent implements OnInit {
     @ViewChild('modalCheckHealth')
     public modalCheckHealth: ConfirmComponent;
 
+    @ViewChild('modalNonePaper')
+    public modalNonePaper: ConfirmComponent;
+
+    @ViewChild('modalNotAvailable')
+    public modalNotAvailable: ConfirmComponent;
+
     pathOtherApp: string;
     cwdOtherApp?: string;
 
@@ -75,7 +81,7 @@ export class KioskHomeComponent implements OnInit {
     ngOnInit() {
         this.initLanguage();
         console.log(`init......`);
-        const macaoTemp : any = this.localStorages.get('MACAO_ECHANNEL');
+        const macaoTemp: any = this.localStorages.get('MACAO_ECHANNEL');
         if (macaoTemp === false) {
             this.httpClient.get(INI_URL).subscribe(data => {
                 console.log(`MACAO_ECHANNEL=${data['MACAO_ECHANNEL']}`);
@@ -85,30 +91,13 @@ export class KioskHomeComponent implements OnInit {
                     this.macaoFlag = 'display';
                 }
                 this.localStorages.set('MACAO_ECHANNEL', this.macaoFlag);
+                this.healthCheck(this.macaoFlag);
             });
         }else {
             this.macaoFlag = macaoTemp;
+            this.healthCheck(this.macaoFlag);
         }
-        const health = this.localStorages.get('BillhealthCheck');
-        if (health !== 'ok') {
-            this.modalCheckHealth.show();
-            const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
-                                                this.getSlipPrinterHealthCheckObservable(),
-                                                this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
-            health$.subscribe(val => {
-                this.localStorages.set('BillhealthCheck', 'ok');
-                this.modalCheckHealth.hide();
-            },
-            e => {
-                if (e.message === 'ocrnotready') {
-                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
-                }else if (e.message === 'spnotready') {
-                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-SP';
-                }else {
-                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
-                }
-            });
-        }
+
         const that = this;
         $('#viewPerson').click(
             function(){
@@ -124,14 +113,26 @@ export class KioskHomeComponent implements OnInit {
         const macao = document.querySelector('#macaoEchannel');
         fromEvent(macao, 'click').throttleTime(5000).mergeMap(e => {
             this.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
-            return this.getSlipPrinterObservable();
+            // return this.getSlipPrinterObservable();
+            return ['ok'];
         }).subscribe(val => {
             if (val === 'ok') {
-            this.macaoApp();
+                this.macaoApp();
             } else {
-                this.infoMessage = val;
-                this.modalCheckHealth.show();
-                timer(5000).subscribe(data => this.modalCheckHealth.hide());
+                this.commonService.doAlarm('SlipPrinter No Paper');
+                if (val === 'notavailable') {
+                    // this.infoMessage = val;
+                    this.modalNotAvailable.show();
+                    timer(5000).subscribe(data => this.modalNotAvailable.hide());
+                } else if (val === 'nopaper') {
+                    // this.infoMessage = val;
+                    this.modalNonePaper.show();
+                    timer(5000).subscribe(data => this.modalNonePaper.hide());
+                } else if (val === 'alarm') {
+                    this.macaoApp();
+                }
+            }
+
                 // const paper$ = interval(3000).mergeMap(data => {
                 //     console.log(`no paper  ${data}`);
                 //     return this.getSlipPrinterObservable();
@@ -141,8 +142,6 @@ export class KioskHomeComponent implements OnInit {
                 //         paper$.unsubscribe();
                 //     }
                 // });
-                this.commonService.doAlarm('SlipPrinter No Paper');
-            }
         });
 
         // $('#macaoEchannel').click(
@@ -150,6 +149,56 @@ export class KioskHomeComponent implements OnInit {
         //         that.msksService.sendRequest(CHANNEL_ID_RR_CARDREADER, 'closecard').subscribe();
         //         that.otherApp();
         //     });
+    }
+
+    healthCheck(macaoflag) {
+        const health = this.localStorages.get('BillhealthCheck');
+        if (health !== 'ok') {
+            this.modalCheckHealth.show();
+            let health$;
+            if (macaoflag === 'none') {
+                health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
+                                            //   this.getSlipPrinterHealthCheckObservable(),
+                                              this.getFingerprintHealthCheckObservable()).delay(1000 * 1);
+            } else {
+                health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
+                                              this.getSlipPrinterHealthCheckObservable(),
+                                              this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
+            }
+            health$.subscribe(val => {
+                this.localStorages.set('BillhealthCheck', 'ok');
+                this.modalCheckHealth.hide();
+            },
+            e => {
+                if (e.message === 'ocrnotready') {
+                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
+                }else if (e.message === 'spnotready') {
+                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-SP';
+                }else {
+                    this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
+                }
+            });
+        }
+        // const health = this.localStorages.get('BillhealthCheck');
+        // if (health !== 'ok') {
+        //     this.modalCheckHealth.show();
+        //     const health$ = Observable.forkJoin(this.getOCRHealthCheckObservable(),
+        //                                         this.getSlipPrinterHealthCheckObservable(),
+        //                                         this.getFingerprintHealthCheckObservable()).delay(1000 * 180);
+        //     health$.subscribe(val => {
+        //         this.localStorages.set('BillhealthCheck', 'ok');
+        //         this.modalCheckHealth.hide();
+        //     },
+        //     e => {
+        //         if (e.message === 'ocrnotready') {
+        //             this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-OCR';
+        //         }else if (e.message === 'spnotready') {
+        //             this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-SP';
+        //         }else {
+        //             this.infoMessage = 'SCN-GEN-STEPS.CHECK-HEALTH-FAIL-FP';
+        //         }
+        //     });
+        // }
     }
 
     getOCRHealthCheckObservable() {
@@ -205,13 +254,29 @@ export class KioskHomeComponent implements OnInit {
     getSlipPrinterObservable() {
         const payload = {'data': []};
         return this.msksService.sendRequestWithLog('RR_SLIPPRINTER', 'printslip', payload).map(resp => {
-            if ($.isEmptyObject(resp) || resp.errorcode === '40002') {
-                return 'SCN-GEN-STEPS.PRINTER_NOT_AVAILABLE';
-            } else if (resp.errorcode === '40003') {
-                return 'SCN-GEN-STEPS.PRINTER_NO_PAPER';
-            }else {
+            console.log(resp);
+            if ($.isEmptyObject(resp)) {
+                // return 'SCN-GEN-STEPS.PRINTER_NOT_AVAILABLE';
+                return 'notavailable';
+            } else if (resp.errorcode === '0') {
                 return 'ok';
+            }else if (resp.errorcode === '40005') {
+                return 'alarm';
+            }else if (resp.errorcode === '40003') {
+                // return 'SCN-GEN-STEPS.PRINTER_NO_PAPER';
+                return 'nopaper';
+            }else {
+                // return 'SCN-GEN-STEPS.PRINTER_NOT_AVAILABLE';
+                return 'notavailable';
             }
+
+            // if ($.isEmptyObject(resp) || resp.errorcode === '40002') {
+            //     return 'SCN-GEN-STEPS.PRINTER_NOT_AVAILABLE';
+            // } else if (resp.errorcode === '40003' || resp.errorcode === '40005') {
+            //     return 'SCN-GEN-STEPS.PRINTER_NO_PAPER';
+            // }else {
+            //     return 'ok';
+            // }
         });
     }
 

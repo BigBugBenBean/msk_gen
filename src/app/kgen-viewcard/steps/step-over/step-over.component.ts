@@ -102,7 +102,7 @@ export class StepOverComponent implements OnInit {
 
     offAll() {
         return Observable.merge(
-            this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE),
+            // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_RED_CODE),
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_IC_READER),
             this.commonService.doOff(this.DEVICE_LIGHT_CODE_OCR_READER)
             // this.commonService.doOff(this.DEVICE_LIGHT_ALERT_BAR_BLUE_CODE),
