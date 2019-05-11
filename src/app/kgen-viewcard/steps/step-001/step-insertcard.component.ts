@@ -14,6 +14,11 @@ import { Observable } from 'rxjs/Observable';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { of } from 'rxjs/observable/of';
 
+
+
+
+
+
 @Component({
     templateUrl: './step-insertcard.component.html',
     styleUrls: ['./step-insertcard.component.scss']
